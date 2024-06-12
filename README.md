@@ -14,6 +14,9 @@ Datasets can be downloaded from:
    PAWS - https://github.com/google-research-datasets/paws  
 
 
+For viewing the the documentation open the "index.html" file within the "documentation" folder on the browser.
+
+
 Within the folders Entity_classification, NLI and Paraphrase_idetification:
 
    Steps to execute the code:
