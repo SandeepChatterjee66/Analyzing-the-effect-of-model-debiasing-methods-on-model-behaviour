@@ -1,0 +1,21 @@
+NLI.generate\_embeddings package
+================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   NLI.generate_embeddings.Disentangled_feature_augmentation
+   NLI.generate_embeddings.Feature_sieve
+   NLI.generate_embeddings.LfF
+   NLI.generate_embeddings.Vanilla
+
+Module contents
+---------------
+
+.. automodule:: NLI.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:

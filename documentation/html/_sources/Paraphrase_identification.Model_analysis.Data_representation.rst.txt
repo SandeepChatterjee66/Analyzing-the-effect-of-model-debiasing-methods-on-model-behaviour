@@ -1,0 +1,21 @@
+Paraphrase\_identification.Model\_analysis.Data\_representation package
+=======================================================================
+
+Submodules
+----------
+
+Paraphrase\_identification.Model\_analysis.Data\_representation.jaccard module
+------------------------------------------------------------------------------
+
+.. automodule:: Paraphrase_identification.Model_analysis.Data_representation.jaccard
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Paraphrase_identification.Model_analysis.Data_representation
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,53 @@
+NLI.generate\_embeddings.Disentangled\_feature\_augmentation package
+====================================================================
+
+Submodules
+----------
+
+NLI.generate\_embeddings.Disentangled\_feature\_augmentation.data\_loader module
+--------------------------------------------------------------------------------
+
+.. automodule:: NLI.generate_embeddings.Disentangled_feature_augmentation.data_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+NLI.generate\_embeddings.Disentangled\_feature\_augmentation.generate\_embeddings module
+----------------------------------------------------------------------------------------
+
+.. automodule:: NLI.generate_embeddings.Disentangled_feature_augmentation.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+NLI.generate\_embeddings.Disentangled\_feature\_augmentation.test module
+------------------------------------------------------------------------
+
+.. automodule:: NLI.generate_embeddings.Disentangled_feature_augmentation.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+NLI.generate\_embeddings.Disentangled\_feature\_augmentation.train module
+-------------------------------------------------------------------------
+
+.. automodule:: NLI.generate_embeddings.Disentangled_feature_augmentation.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+NLI.generate\_embeddings.Disentangled\_feature\_augmentation.util module
+------------------------------------------------------------------------
+
+.. automodule:: NLI.generate_embeddings.Disentangled_feature_augmentation.util
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: NLI.generate_embeddings.Disentangled_feature_augmentation
+   :members:
+   :undoc-members:
+   :show-inheritance:

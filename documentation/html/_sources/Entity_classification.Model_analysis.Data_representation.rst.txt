@@ -1,0 +1,21 @@
+Entity\_classification.Model\_analysis.Data\_representation package
+===================================================================
+
+Submodules
+----------
+
+Entity\_classification.Model\_analysis.Data\_representation.jaccard module
+--------------------------------------------------------------------------
+
+.. automodule:: Entity_classification.Model_analysis.Data_representation.jaccard
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Entity_classification.Model_analysis.Data_representation
+   :members:
+   :undoc-members:
+   :show-inheritance:

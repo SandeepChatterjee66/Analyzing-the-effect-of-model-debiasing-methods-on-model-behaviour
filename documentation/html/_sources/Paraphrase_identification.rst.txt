@@ -1,0 +1,19 @@
+Paraphrase\_identification package
+==================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   Paraphrase_identification.generate_embeddings
+   Paraphrase_identification.Model_analysis
+
+Module contents
+---------------
+
+.. automodule:: Paraphrase_identification
+   :members:
+   :undoc-members:
+   :show-inheritance:

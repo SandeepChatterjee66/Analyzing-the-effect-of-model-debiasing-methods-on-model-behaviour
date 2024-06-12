@@ -1,0 +1,45 @@
+Paraphrase\_identification.generate\_embeddings.Feature\_sieve package
+======================================================================
+
+Submodules
+----------
+
+Paraphrase\_identification.generate\_embeddings.Feature\_sieve.data\_loader module
+----------------------------------------------------------------------------------
+
+.. automodule:: Paraphrase_identification.generate_embeddings.Feature_sieve.data_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Paraphrase\_identification.generate\_embeddings.Feature\_sieve.generate\_embeddings module
+------------------------------------------------------------------------------------------
+
+.. automodule:: Paraphrase_identification.generate_embeddings.Feature_sieve.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Paraphrase\_identification.generate\_embeddings.Feature\_sieve.test module
+--------------------------------------------------------------------------
+
+.. automodule:: Paraphrase_identification.generate_embeddings.Feature_sieve.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Paraphrase\_identification.generate\_embeddings.Feature\_sieve.train module
+---------------------------------------------------------------------------
+
+.. automodule:: Paraphrase_identification.generate_embeddings.Feature_sieve.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Paraphrase_identification.generate_embeddings.Feature_sieve
+   :members:
+   :undoc-members:
+   :show-inheritance:

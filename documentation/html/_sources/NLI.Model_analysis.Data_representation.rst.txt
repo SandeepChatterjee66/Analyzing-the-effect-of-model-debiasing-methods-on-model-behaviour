@@ -1,0 +1,21 @@
+NLI.Model\_analysis.Data\_representation package
+================================================
+
+Submodules
+----------
+
+NLI.Model\_analysis.Data\_representation.jaccard module
+-------------------------------------------------------
+
+.. automodule:: NLI.Model_analysis.Data_representation.jaccard
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: NLI.Model_analysis.Data_representation
+   :members:
+   :undoc-members:
+   :show-inheritance:

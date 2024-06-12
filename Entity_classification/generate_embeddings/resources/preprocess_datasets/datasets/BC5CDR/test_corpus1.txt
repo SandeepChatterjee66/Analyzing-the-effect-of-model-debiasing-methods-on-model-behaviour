@@ -1,0 +1,95 @@
+27460729|t|Bioinformatic analysis of RNA-seq data unveiled critical genes in rectal adenocarcinoma
+27460729|a|RNA-seq data of rectal adenocarcinoma (READ) were analyzed with bioinformatics tools to unveil potential biomarkers in the disease. RNA-seq data of READ were downloaded from The Cancer Genome Atlas (TCGA) database. Differential analysis was performed with package edgeR. False discovery rate (FDR) < 0.05 and |log2 (fold change)|>1 were set as cut-off values to screen out differentially expressed genes (DEGs). Gene coexpression network was constructed with package Ebcoexpress. Gene Ontology enrichment analysis was performed for the DEGs in the gene coexpression network with DAVID online tool. Kyoto Encyclopedia of Genes and Genomes pathway enrichment analysis was also performed for the genes with KOBASS 2.0. A total of 620 DEGs, 3ated genes, and 231 down-regulated genes, were identified from 163 READ samples and 9 normal controls. A gene coexpression network consisting of 71 DEGs and 253 edges were constructed. Genes were associated with ribosome and focal adhesion functions. Three modules were identified, in which genes were involved in muscle contraction, negative regulation of glial cell proliferation and extracellular matrix organization functions, respectively. Several critical hub genes were disclosed, such as RPS2, MMP1, MMP11 and FAM83H. Thirteen relevant small molecule drugs were identified, such as scriptaid and spaglumic acid. A total of 8 TFs and 5 miRNAs were acquired, such as MYC, NFY, STAT5A, miR-29, miR-200 and miR-19. Several critical genes and relevant drugs, TFs and miRNAs were revealed in READ. These findings could advance the understanding about the disease and benefit therapy development.
+27460729	0	13	Bioinformatic	T091	C1140694
+27460729	14	22	analysis	T062	C0936012
+27460729	26	33	RNA-seq	T086	C0162327
+27460729	34	38	data	T078	C1511726
+27460729	48	62	critical genes	T028	C0017337
+27460729	66	87	rectal adenocarcinoma	T191	C0149978
+27460729	88	95	RNA-seq	T086	C0162327
+27460729	96	100	data	T078	C1511726
+27460729	104	125	rectal adenocarcinoma	T191	C0149978
+27460729	127	131	READ	T191	C0149978
+27460729	138	146	analyzed	T062	C0936012
+27460729	152	172	bioinformatics tools	T091	C1140694
+27460729	176	203	unveil potential biomarkers	T201	C0005516
+27460729	211	218	disease	T047	C0012634
+27460729	220	227	RNA-seq	T086	C0162327
+27460729	228	232	data	T078	C1511726
+27460729	236	240	READ	T191	C0149978
+27460729	262	285	The Cancer Genome Atlas	T062	C3273927
+27460729	287	291	TCGA	T062	C3273927
+27460729	293	301	database	T170	C0242356
+27460729	316	324	analysis	T062	C0936012
+27460729	329	338	performed	T169	C0884358
+27460729	344	357	package edgeR	T170	C0282574
+27460729	359	379	False discovery rate	T081	C1880720
+27460729	381	384	FDR	T081	C1880720
+27460729	461	491	differentially expressed genes	T028	C0017337
+27460729	493	497	DEGs	T028	C0017337
+27460729	500	517	Gene coexpression	T045	C0017262
+27460729	518	525	network	T044	C1720950
+27460729	547	566	package Ebcoexpress	T170	C0282574
+27460729	568	581	Gene Ontology	T170	C1138831
+27460729	593	601	analysis	T062	C0936012
+27460729	606	615	performed	T169	C0884358
+27460729	624	628	DEGs	T028	C0017337
+27460729	636	653	gene coexpression	T045	C0017262
+27460729	654	661	network	T169	C1882071
+27460729	667	684	DAVID online tool	T073,T170	C0029038
+27460729	686	704	Kyoto Encyclopedia	T170	C0014095
+27460729	708	713	Genes	T028	C0017337
+27460729	718	725	Genomes	T028	C0017428
+27460729	745	753	analysis	T062	C0936012
+27460729	763	772	performed	T169	C0884358
+27460729	781	786	genes	T028	C0017337
+27460729	792	798	KOBASS	T073,T170	C0029038
+27460729	819	823	DEGs	T028	C0017337
+27460729	831	836	genes	T028	C0017337
+27460729	846	860	down-regulated	T044	C0013081
+27460729	861	866	genes	T028	C0017337
+27460729	873	883	identified	T080	C0205396
+27460729	893	897	READ	T191	C0149978
+27460729	912	927	normal controls	T080	C2705716
+27460729	931	948	gene coexpression	T045	C0017262
+27460729	949	956	network	T169	C1882071
+27460729	974	978	DEGs	T028	C0017337
+27460729	1011	1016	Genes	T028	C0017337
+27460729	1022	1037	associated with	T080	C0332281
+27460729	1038	1046	ribosome	T026	C0035553
+27460729	1051	1065	focal adhesion	T026	C0887870
+27460729	1066	1075	functions	T169	C0542341
+27460729	1083	1090	modules	T044	C1959595
+27460729	1096	1106	identified	T080	C0205396
+27460729	1117	1122	genes	T028	C0017337
+27460729	1140	1158	muscle contraction	T039	C0026820
+27460729	1160	1207	negative regulation of glial cell proliferation	T043	C2610375
+27460729	1212	1245	extracellular matrix organization	T043	C1160609
+27460729	1246	1255	functions	T169	C0542341
+27460729	1288	1297	hub genes	T028	C0017337
+27460729	1322	1326	RPS2	T028	C1419718
+27460729	1328	1332	MMP1	T028	C1417199
+27460729	1334	1339	MMP11	T028	C1366519
+27460729	1344	1350	FAM83H	T028	C1825168
+27460729	1361	1369	relevant	T080	C2347946
+27460729	1370	1390	small molecule drugs	T121	C1254351
+27460729	1396	1406	identified	T080	C0205396
+27460729	1416	1425	scriptaid	T109,T121	C0917681
+27460729	1430	1444	spaglumic acid	T109,T121	C2348231
+27460729	1459	1462	TFs	T116,T123	C0040648
+27460729	1467	1475	5 miRNAs	T114,T123	C1101610
+27460729	1499	1502	MYC	T028	C0086661
+27460729	1504	1507	NFY	T116,T123	C0910920
+27460729	1509	1515	STAT5A	T028	C1335875
+27460729	1517	1523	miR-29	T114	C2605694
+27460729	1525	1532	miR-200	T114	C2713655
+27460729	1537	1543	miR-19	T114	C2933761
+27460729	1562	1567	genes	T028	C0017337
+27460729	1572	1580	relevant	T080	C2347946
+27460729	1581	1586	drugs	T061	C3687832
+27460729	1588	1591	TFs	T116,T123	C0040648
+27460729	1596	1602	miRNAs	T114,T123	C1101610
+27460729	1620	1624	READ	T191	C0149978
+27460729	1683	1690	disease	T047	C0012634
+27460729	1703	1722	therapy development	T170	C1328820
+

@@ -1,0 +1,20 @@
+Paraphrase\_identification.Model\_analysis package
+==================================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   Paraphrase_identification.Model_analysis.Data_distribution
+   Paraphrase_identification.Model_analysis.Data_representation
+   Paraphrase_identification.Model_analysis.Error_analysis
+
+Module contents
+---------------
+
+.. automodule:: Paraphrase_identification.Model_analysis
+   :members:
+   :undoc-members:
+   :show-inheritance:

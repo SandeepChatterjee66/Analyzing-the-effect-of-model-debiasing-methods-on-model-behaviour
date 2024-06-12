@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entity_classification.generate_embeddings.Feature_sieve.generate_embeddings &mdash; Analyzing the effects of debiasing on model behaviour  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Analyzing the effects of debiasing on model behaviour
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">Model Analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Analyzing the effects of debiasing on model behaviour</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Entity_classification.generate_embeddings.Feature_sieve.generate_embeddings</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Entity_classification.generate_embeddings.Feature_sieve.generate_embeddings</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">reduction</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoConfig</span><span class="p">,</span> <span class="n">AutoModelForTokenClassification</span><span class="p">,</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">BertPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">cuda</span>
+<span class="kn">from</span> <span class="nn">seqeval.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span> <span class="k">as</span> <span class="n">config</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torchcrf</span> <span class="kn">import</span> <span class="n">CRF</span>
+<span class="kn">from</span> <span class="nn">transformers.modeling_outputs</span> <span class="kn">import</span> <span class="n">TokenClassifierOutput</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
+<span class="kn">from</span> <span class="nn">Entity_classification.generate_embeddings.Feature_sieve.data_loader</span> <span class="kn">import</span> <span class="n">load_data</span>
+<span class="kn">from</span> <span class="nn">Entity_classification.generate_embeddings.Feature_sieve.data_loader</span> <span class="kn">import</span> <span class="n">load_mapping</span>
+
+<span class="c1"># Ignore all warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+
+<span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+<span class="n">log_soft</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">log_softmax</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">cuda</span><span class="p">)</span>
+<span class="n">MAX_LEN</span> <span class="o">=</span> <span class="mi">512</span><span class="c1"># suitable for all datasets</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">36</span>
+<span class="n">LEARNING_RATE</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">num_labels</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="BiasModel"><a class="viewcode-back" href="../../../../Entity_classification.generate_embeddings.Feature_sieve.html#Entity_classification.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel">[docs]</a><span class="k">class</span> <span class="nc">BiasModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Biased attention model for generating attention-based embeddings.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        num_labels (int): Number of labels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attention_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_labels</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the BiasModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            attention_size (int): Size of the attention.</span>
+<span class="sd">            hidden_size (int): Size of the hidden layer.</span>
+<span class="sd">            num_labels (int): Number of labels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BiasModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span> <span class="o">=</span> <span class="n">num_labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span><span class="n">attention_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="BiasModel.forward"><a class="viewcode-back" href="../../../../Entity_classification.generate_embeddings.Feature_sieve.html#Entity_classification.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bert_hidden_layer_input</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forward pass through the model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            bert_hidden_layer_input (torch.Tensor): Input tensor.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: Logits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bert_hidden_layer_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">bert_hidden_layer_input</span><span class="p">)</span>
+        <span class="c1"># print(bert_hidden_layer_input.shape)</span>
+        <span class="n">attention1_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention1</span><span class="p">(</span><span class="n">bert_hidden_layer_input</span><span class="p">)</span>
+        <span class="c1"># print(attention1_out.shape)</span>
+        <span class="n">attention1_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">attention1_out</span><span class="p">)</span>
+        <span class="c1"># print(attention1_out.shape)</span>
+        <span class="n">attention2_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention2</span><span class="p">(</span><span class="n">attention1_out</span><span class="p">)</span>
+        <span class="c1"># print(attention2_out.shape)</span>
+        <span class="c1"># print(attention2_out)</span>
+        <span class="n">attention2_out</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">attention2_out</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># print(attention2_out.shape)</span>
+        <span class="c1"># print(attention2_out)</span>
+        <span class="c1"># print(torch.sum(attention2_out, dim = 1))</span>
+        <span class="c1"># print(attention2_out.unsqueeze(-1).shape)</span>
+        <span class="n">weighted_sum</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">attention2_out</span> <span class="o">*</span> <span class="n">bert_hidden_layer_input</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># print(weighted_sum.shape)</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">weighted_sum</span><span class="p">)</span>
+        <span class="c1"># print(logits)</span>
+        <span class="k">return</span> <span class="n">logits</span></div></div>
+        
+
+
+
+<div class="viewcode-block" id="MainModel"><a class="viewcode-back" href="../../../../Entity_classification.generate_embeddings.Feature_sieve.html#Entity_classification.generate_embeddings.Feature_sieve.generate_embeddings.MainModel">[docs]</a><span class="k">class</span> <span class="nc">MainModel</span><span class="p">(</span><span class="n">BertPreTrainedModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main model for generating embeddings using BERT.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        num_labels (int): Number of labels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">loss_fn</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the MainModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config (AutoConfig): Configuration object.</span>
+<span class="sd">            loss_fn (function): Loss function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MainModel</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">num_labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">loss_fn</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">output_hidden_states</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bert</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;dmis-lab/biobert-v1.1&quot;</span><span class="p">,</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_model</span> <span class="o">=</span> <span class="n">BiasModel</span><span class="p">(</span><span class="n">attention_size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">768</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MainModel.forward"><a class="viewcode-back" href="../../../../Entity_classification.generate_embeddings.Feature_sieve.html#Entity_classification.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span><span class="n">device</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forward pass through the model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input_ids (torch.Tensor): Input tensor.</span>
+<span class="sd">            attention_mask (torch.Tensor): Attention mask.</span>
+<span class="sd">            labels (torch.Tensor): Labels.</span>
+<span class="sd">            device (str): Device to run the model on.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: Output tensor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+              
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bert</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="p">)</span>
+        <span class="n">hidden_state</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">hidden_states</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">hidden_state_detached</span> <span class="o">=</span> <span class="n">hidden_state</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+        <span class="n">bias_prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias_model</span><span class="p">(</span><span class="n">hidden_state_detached</span><span class="p">)</span>
+        <span class="n">bias_loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">bias_prob</span><span class="p">,</span> <span class="n">labels</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">forget_prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias_model</span><span class="p">(</span><span class="n">hidden_state</span><span class="p">)</span>
+        <span class="n">pseudo_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">forget_prob</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span>
+        <span class="n">forget_loss</span> <span class="o">=</span>  <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">forget_prob</span><span class="p">,</span> <span class="n">pseudo_labels</span><span class="p">)</span>
+        <span class="c1"># print(hidden_state.shape)</span>
+        <span class="c1"># output = self.bert(input_ids, attention_mask = attention_mask, token_type_ids = token_type_ids)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">last_hidden_state</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span>
+        
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+<div class="viewcode-block" id="save_embeddings_to_text_file"><a class="viewcode-back" href="../../../../Entity_classification.generate_embeddings.Feature_sieve.html#Entity_classification.generate_embeddings.Feature_sieve.generate_embeddings.save_embeddings_to_text_file">[docs]</a><span class="k">def</span> <span class="nf">save_embeddings_to_text_file</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">output_file_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Saves embeddings to a text file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        embeddings (list): List of embeddings.</span>
+<span class="sd">        output_file_path (str): Output file path.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file_path</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">embedding</span> <span class="ow">in</span> <span class="n">embeddings</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">emb</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">embedding</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">emb</span><span class="si">}</span><span class="s1"> &#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">emb</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="generate_embeddings"><a class="viewcode-back" href="../../../../Entity_classification.generate_embeddings.Feature_sieve.html#Entity_classification.generate_embeddings.Feature_sieve.generate_embeddings.generate_embeddings">[docs]</a><span class="k">def</span> <span class="nf">generate_embeddings</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">output_file_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates embeddings using the provided model and saves them to a text file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (MainModel): Main model for generating embeddings.</span>
+<span class="sd">        dataloader (DataLoader): DataLoader for loading data.</span>
+<span class="sd">        device (str): Device to run the model on.</span>
+<span class="sd">        output_file_path (str): Output file path.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of embeddings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">embeddings</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">total_embeddings</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">100</span><span class="p">)):</span>
+        <span class="n">indexes</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">targets</span><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">save_embeddings_to_text_file</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">output_file_path</span><span class="p">)</span>
+        <span class="n">total_embeddings</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total embeddings saved in </span><span class="si">{</span><span class="n">output_file_path</span><span class="si">}</span><span class="s1"> : </span><span class="si">{</span><span class="n">total_embeddings</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">embeddings</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../../Entity_classification.generate_embeddings.Feature_sieve.html#Entity_classification.generate_embeddings.Feature_sieve.generate_embeddings.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main function to run the embedding generation process.</span>
+
+<span class="sd">    This function performs the following steps:</span>
+<span class="sd">    1. Parses command line arguments to get dataset names, model and tokenizer directories, mapping file, output file, and train file flag.</span>
+<span class="sd">    2. Initializes the main model, tokenizer, and device.</span>
+<span class="sd">    3. Loads the data and creates DataLoaders.</span>
+<span class="sd">    4. Generates embeddings and saves them to a text file.</span>
+<span class="sd">    5. Logs total training time.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        --train_dataset_name (str): Name of the training dataset.</span>
+<span class="sd">        --test_dataset_name (str): Name of the test dataset.</span>
+<span class="sd">        --model_directory (str): Directory containing the model.</span>
+<span class="sd">        --tokenizer_directory (str): Directory containing the tokenizer.</span>
+<span class="sd">        --mapping_file (str): File path for the mapping file (optional).</span>
+<span class="sd">        --output_file (str): Output file path.</span>
+<span class="sd">        --train_file (str): Flag indicating whether to use the train file (optional).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--train_dataset_name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--test_dataset_name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--model_directory&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--tokenizer_directory&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--mapping_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--output_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--train_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">global</span> <span class="n">num_labels</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">train_dataset_name</span> <span class="o">==</span> <span class="s2">&quot;BC5CDR&quot;</span><span class="p">:</span>
+        <span class="n">num_labels</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">train_dataset_name</span> <span class="o">==</span> <span class="s2">&quot;MedMentions&quot;</span><span class="p">:</span>
+        <span class="n">num_labels</span> <span class="o">=</span> <span class="mi">128</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dataset : </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">train_dataset_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of labels : </span><span class="si">{</span><span class="n">num_labels</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="n">input_model_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">model_directory</span><span class="p">)</span>
+    <span class="n">input_tokenizer_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">tokenizer_directory</span><span class="p">)</span>
+    <span class="n">output_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_file</span><span class="p">)</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">input_tokenizer_path</span><span class="p">)</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">input_model_path</span> <span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="n">num_labels</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">MainModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">input_model_path</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="n">config</span><span class="p">,</span> <span class="n">loss_fn</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">train_dataset_name</span> <span class="o">==</span> <span class="s1">&#39;BC5CDR&#39;</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">test_dataset_name</span> <span class="o">==</span> <span class="s1">&#39;MedMentions&#39;</span><span class="p">):</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">load_mapping</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">mapping_file</span><span class="p">)</span>
+        <span class="n">id2label_test</span><span class="p">,</span><span class="n">_</span><span class="p">,</span> <span class="n">test_data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">test_dataset_name</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">cross_eval</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mapping</span> <span class="o">=</span> <span class="n">mapping</span><span class="p">)</span>
+        <span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">train_file</span> <span class="o">==</span> <span class="s1">&#39;True&#39;</span><span class="p">):</span>
+            <span class="n">id2label</span><span class="p">,</span> <span class="n">label2id</span><span class="p">,</span> <span class="n">train_data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">train_dataset_name</span><span class="p">,</span> <span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span> <span class="n">devel_data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">train_dataset_name</span><span class="p">,</span> <span class="s1">&#39;devel&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+            <span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+            <span class="n">devel_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">devel_data</span><span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">id2label</span><span class="p">,</span> <span class="n">label2id</span><span class="p">,</span> <span class="n">test_data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">test_dataset_name</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+            <span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">train_file</span> <span class="o">==</span> <span class="s1">&#39;True&#39;</span><span class="p">):</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">test_dataset_name</span> <span class="o">+</span> <span class="s1">&#39;_train.txt&#39;</span>
+        <span class="n">file_name_devel</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">test_dataset_name</span> <span class="o">+</span> <span class="s1">&#39;_devel.txt&#39;</span>
+        <span class="n">output_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_file</span> <span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+        <span class="n">generate_embeddings</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloader</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">output_file_path</span><span class="p">)</span>
+        <span class="n">output_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_file</span> <span class="p">,</span> <span class="n">file_name_devel</span><span class="p">)</span>
+        <span class="n">generate_embeddings</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">devel_dataloader</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">output_file_path</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">test_dataset_name</span> <span class="o">+</span> <span class="s1">&#39;_test.txt&#39;</span>
+        <span class="n">output_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_file</span> <span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+        <span class="n">generate_embeddings</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_dataloader</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">output_file_path</span><span class="p">)</span>
+
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">total_time</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;live.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total training time : </span><span class="si">{</span><span class="n">total_time</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total training time : </span><span class="si">{</span><span class="n">total_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aviral Singh and Sandeep Chatterjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

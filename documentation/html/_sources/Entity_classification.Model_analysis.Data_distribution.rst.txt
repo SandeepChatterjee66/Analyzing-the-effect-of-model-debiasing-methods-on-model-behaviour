@@ -1,0 +1,29 @@
+Entity\_classification.Model\_analysis.Data\_distribution package
+=================================================================
+
+Submodules
+----------
+
+Entity\_classification.Model\_analysis.Data\_distribution.evaluate module
+-------------------------------------------------------------------------
+
+.. automodule:: Entity_classification.Model_analysis.Data_distribution.evaluate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Entity\_classification.Model\_analysis.Data\_distribution.ood module
+--------------------------------------------------------------------
+
+.. automodule:: Entity_classification.Model_analysis.Data_distribution.ood
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Entity_classification.Model_analysis.Data_distribution
+   :members:
+   :undoc-members:
+   :show-inheritance:

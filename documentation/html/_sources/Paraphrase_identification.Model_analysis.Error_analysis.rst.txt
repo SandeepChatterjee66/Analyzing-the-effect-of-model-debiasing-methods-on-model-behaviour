@@ -1,0 +1,21 @@
+Paraphrase\_identification.Model\_analysis.Error\_analysis package
+==================================================================
+
+Submodules
+----------
+
+Paraphrase\_identification.Model\_analysis.Error\_analysis.jaccard\_coefficients module
+---------------------------------------------------------------------------------------
+
+.. automodule:: Paraphrase_identification.Model_analysis.Error_analysis.jaccard_coefficients
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Paraphrase_identification.Model_analysis.Error_analysis
+   :members:
+   :undoc-members:
+   :show-inheritance:

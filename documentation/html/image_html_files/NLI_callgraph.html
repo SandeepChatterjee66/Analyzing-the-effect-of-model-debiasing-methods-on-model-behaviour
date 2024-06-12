@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entity Classification Process Flow</title>
+    <style>
+        body, html {
+            margin-left: 20px;
+            padding: 0;
+            width: 99%;
+            justify-content: center;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+        img {
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .methods {
+            width:50%;
+        }
+
+        .error {
+            width: 50%;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Entity Classification : Function call graphs</h1>
+    <h2><u>Generate Embeddings(Feature Sieve and Vanilla Models) : </u></h2>
+    <img style="width: 90%;" src="./images/NLI/generate_embeddings.svg" alt="Entity Classification Process Flow">
+
+    
+    <h2><u>Generate Embeddings(Disentangled Feature Augmentation and Learning from Failure Models) : </u></h2>
+    <img style="width: 90%;" src="./images/NLI/disent_callgraph.svg" alt="Entity Classification Process Flow">
+
+
+    <h1><u>Model Analysis : </u></h1>
+
+    <h2><u>Data distribution</u></h2>
+    <img class="methods" src="./images/Data_distribution_callgraph.svg" alt="Entity Classification Process Flow">
+
+    <h2><u>Data representation</u></h2>
+    <img class="methods" src="./images/Data_representation_callgraph.svg" alt="Entity Classification Process Flow">
+    
+    <h2><u>Error analysis</u></h2>
+    <img class="methods" src="./images/Error_analysis_callgraph.svg" alt="Entity Classification Process Flow">
+</body>
+</html>

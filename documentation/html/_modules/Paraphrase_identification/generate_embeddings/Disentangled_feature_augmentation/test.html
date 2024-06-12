@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test &mdash; Analyzing the effects of debiasing on model behaviour  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Analyzing the effects of debiasing on model behaviour
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">Model Analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Analyzing the effects of debiasing on model behaviour</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script test the model trained for Natural Language Inference(NLI) task. It saves the prediction file and the softmax score file</span>
+
+<span class="sd">Usage::</span>
+
+<span class="sd">    python test.py --input_model_path &lt;path_to_pretrained_model&gt; --paws_test_path &lt;path_to_paws_test_file&gt;</span>
+
+<span class="sd">Arguments::</span>
+
+<span class="sd">    --input_model_path (str): Path to the pretrained model directory.</span>
+<span class="sd">    --paws_test_path (str) : Path to the paws test dataset</span>
+<span class="sd"> &quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">ToTensor</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">gc</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoConfig</span><span class="p">,</span> <span class="n">AutoModelForTokenClassification</span><span class="p">,</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">BertPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">cuda</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">ConcatDataset</span>
+<span class="kn">from</span> <span class="nn">.data_loader</span> <span class="kn">import</span> <span class="n">load_paws</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+<span class="n">input_model_path</span> <span class="o">=</span> <span class="s1">&#39;./best_model&#39;</span>
+<span class="n">paws_file_path</span> <span class="o">=</span> <span class="s2">&quot;../resources/PAWS/test.tsv&quot;</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
+
+
+
+<div class="viewcode-block" id="GeneralizedCELoss"><a class="viewcode-back" href="../../../../Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.html#Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test.GeneralizedCELoss">[docs]</a><span class="k">class</span> <span class="nc">GeneralizedCELoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generalized Cross Entropy Loss.</span>
+
+<span class="sd">    This loss function computes the generalized cross entropy loss given the logits</span>
+<span class="sd">    and the target labels. It is defined as follows:</span>
+<span class="sd">    </span>
+<span class="sd">    Loss = -∑(pk^q * log(pk)) / q</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        q (float): The power parameter for the Generalized Cross Entropy Loss. </span>
+<span class="sd">            Default is 0.7.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tensor: The computed loss value.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        NameError: If the computed probabilities or targets contain NaN values.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GeneralizedCELoss</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">q</span>
+             
+<div class="viewcode-block" id="GeneralizedCELoss.forward"><a class="viewcode-back" href="../../../../Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.html#Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test.GeneralizedCELoss.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logits</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forward pass of the Generalized Cross Entropy Loss.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            logits (tensor): The logits tensor from the model.</span>
+<span class="sd">            targets (tensor): The target labels tensor.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tensor: The computed loss tensor.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NameError: If the computed probabilities or targets contain NaN values.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">&#39;GCE_p&#39;</span><span class="p">)</span>
+        <span class="n">Yg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="c1"># modify gradient of cross entropy</span>
+        <span class="n">loss_weight</span> <span class="o">=</span> <span class="p">(</span><span class="n">Yg</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">Yg</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">&#39;GCE_Yg&#39;</span><span class="p">)</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">loss_weight</span>
+        <span class="k">return</span> <span class="n">loss</span></div></div>
+
+<div class="viewcode-block" id="MainModel"><a class="viewcode-back" href="../../../../Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.html#Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test.MainModel">[docs]</a><span class="k">class</span> <span class="nc">MainModel</span><span class="p">(</span><span class="n">BertPreTrainedModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main Model incorporating two BERT models.</span>
+
+<span class="sd">    This model combines two BERT models, one for conflict detection and the other for alignment detection.</span>
+<span class="sd">    It generates features using each BERT model and then passes them through linear layers for classification.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config (BertConfig): The configuration object.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        num_labels (int): The number of labels.</span>
+<span class="sd">        model_l (BertModel): BERT model for conflict detection.</span>
+<span class="sd">        model_b (BertModel): BERT model for alignment detection.</span>
+<span class="sd">        fc_l_1 (nn.Linear): Linear layer for conflict detection.</span>
+<span class="sd">        fc_l_2 (nn.Linear): Linear layer for conflict detection.</span>
+<span class="sd">        fc_b_1 (nn.Linear): Linear layer for alignment detection.</span>
+<span class="sd">        fc_b_2 (nn.Linear): Linear layer for alignment detection.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MainModel</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span> <span class="o">=</span> <span class="mi">2</span><span class="c1">#config.num_labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_l</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_b</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc_l_1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1536</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc_l_2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc_b_1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1536</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc_b_2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MainModel.features"><a class="viewcode-back" href="../../../../Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.html#Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test.MainModel.features">[docs]</a>    <span class="k">def</span> <span class="nf">features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate features using BERT models.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input_ids (torch.Tensor): The input token IDs tensor.</span>
+<span class="sd">            attention_mask (torch.Tensor): The attention mask tensor.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: Tuple containing the features from the conflict BERT model and the alignment BERT model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">z_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_l</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="p">)</span>
+        <span class="n">z_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_b</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">z_l</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:],</span> <span class="n">z_b</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span></div>
+    
+<div class="viewcode-block" id="MainModel.linear"><a class="viewcode-back" href="../../../../Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.html#Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test.MainModel.linear">[docs]</a>    <span class="k">def</span> <span class="nf">linear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z_conflict</span><span class="p">,</span> <span class="n">z_align</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pass features through linear layers for classification.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            z_conflict (torch.Tensor): Features from the conflict BERT model.</span>
+<span class="sd">            z_align (torch.Tensor): Features from the alignment BERT model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: Tuple containing the output tensors from the conflict linear layers and the alignment linear layers.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hidden_output1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc_l_1</span><span class="p">(</span><span class="n">z_conflict</span><span class="p">)</span>
+        <span class="n">output1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc_l_2</span><span class="p">(</span><span class="n">hidden_output1</span><span class="p">)</span>
+        <span class="n">hidden_output2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc_b_1</span><span class="p">(</span><span class="n">z_align</span><span class="p">)</span>
+        <span class="n">output2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc_b_2</span><span class="p">(</span><span class="n">hidden_output2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output1</span><span class="p">,</span><span class="n">output2</span></div></div>
+
+
+<div class="viewcode-block" id="inference"><a class="viewcode-back" href="../../../../Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.html#Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test.inference">[docs]</a><span class="k">def</span> <span class="nf">inference</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;mnli&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform inference on the provided data using the model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (MainModel): The trained model for inference.</span>
+<span class="sd">        dataloader (DataLoader): The DataLoader containing the data for inference.</span>
+<span class="sd">        tokenizer: The tokenizer used for tokenizing the input data.</span>
+<span class="sd">        device (str): The device to perform inference on (e.g., &#39;cpu&#39; or &#39;cuda&#39;).</span>
+<span class="sd">        data (str, optional): Specifies the type of data (&#39;mnli&#39; or &#39;hans&#39;). Defaults to &#39;mnli&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing the accuracy, predicted labels, and probabilities.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">pred_lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">prob_lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">test_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">nb_test_steps</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">test_accuracy</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">mnli_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span> <span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="mi">1</span> <span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">100</span><span class="p">)):</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;token_type_ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+        <span class="n">nb_test_steps</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">z_l</span><span class="p">,</span> <span class="n">z_b</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">features</span><span class="p">(</span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span> <span class="o">=</span>  <span class="n">mask</span><span class="p">)</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">z_l</span><span class="p">,</span><span class="n">z_b</span><span class="p">),</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">pred_conflict</span> <span class="p">,</span><span class="n">pred_align</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">z_conflict</span> <span class="o">=</span> <span class="n">z</span><span class="p">,</span> <span class="n">z_align</span> <span class="o">=</span> <span class="n">z</span><span class="p">)</span>
+            <span class="n">pred_prob</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">pred_conflict</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">prob_lst</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pred_prob</span><span class="p">)</span>
+            <span class="n">prob_lst</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pred_prob</span><span class="p">)</span>
+            <span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pred_prob</span><span class="p">,</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">loss_dis_conflict</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred_conflict</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+            <span class="n">loss_dis_align</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred_align</span><span class="p">,</span><span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">reduction</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span>
+            <span class="n">loss_weight</span> <span class="o">=</span> <span class="n">loss_dis_align</span> <span class="o">/</span> <span class="p">(</span><span class="n">loss_dis_align</span> <span class="o">+</span> <span class="n">loss_dis_conflict</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred_conflict</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">test_loss</span> <span class="o">+=</span> <span class="n">loss</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="p">[</span><span class="n">label</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">predicted_labels</span><span class="p">]</span>
+            <span class="n">pred_lst</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+            <span class="n">tmp_test_accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">targets</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">predicted_labels</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+            <span class="n">test_accuracy</span> <span class="o">+=</span> <span class="n">tmp_test_accuracy</span>
+        <span class="n">weights</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">loss_weight</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="s1">&#39;print loss weight&#39;</span><span class="p">,</span><span class="n">loss_weight</span><span class="p">)</span>
+    <span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">test_accuracy</span> <span class="o">/</span> <span class="n">nb_test_steps</span>
+    <span class="k">return</span> <span class="n">test_accuracy</span><span class="p">,</span> <span class="n">pred_lst</span><span class="p">,</span> <span class="n">prob_lst</span></div>
+
+<div class="viewcode-block" id="generate_prediction_file"><a class="viewcode-back" href="../../../../Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.html#Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test.generate_prediction_file">[docs]</a><span class="k">def</span> <span class="nf">generate_prediction_file</span><span class="p">(</span><span class="n">pred_lst</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a prediction file from a list of predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pred_lst (list): List of predicted labels.</span>
+<span class="sd">        output_file (str): Path to the output file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">pred_lst</span><span class="p">:</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pred</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="generate_prob_file"><a class="viewcode-back" href="../../../../Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.html#Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test.generate_prob_file">[docs]</a><span class="k">def</span> <span class="nf">generate_prob_file</span><span class="p">(</span><span class="n">prob_lst</span><span class="p">,</span> <span class="n">prob_output_file_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a probability file from a list of probability lists.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        prob_lst (list): List of probability lists.</span>
+<span class="sd">        prob_output_file_path (str): Path to the output probability file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prob_output_file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">probs</span> <span class="ow">in</span> <span class="n">prob_lst</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">prob</span> <span class="ow">in</span> <span class="n">probs</span><span class="p">:</span>
+                <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prob</span><span class="si">}</span><span class="s1"> &#39;</span><span class="p">)</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../../Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.html#Paraphrase_identification.generate_embeddings.Disentangled_feature_augmentation.test.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main function to run evaluation on MNLI and HANS datasets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--input_model_path&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--paws_test_path&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_model_path</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">load_paws</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">paws_test_path</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">MainModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_model_path</span><span class="p">,</span> <span class="n">ignore_mismatched_sizes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">len</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Testing started&quot;</span><span class="p">)</span>
+    <span class="n">test_accuracy</span><span class="p">,</span> <span class="n">paws_m_pred_lst</span><span class="p">,</span> <span class="n">paws_m_prob_lst</span> <span class="o">=</span> <span class="n">inference</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_dataloader</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;\paws test accuracy: </span><span class="si">{</span><span class="n">test_accuracy</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="n">output_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span><span class="s1">&#39;Predictions&#39;</span><span class="p">,</span> <span class="s1">&#39;PAWS&#39;</span><span class="p">,</span> <span class="s1">&#39;pred&#39;</span><span class="p">)</span>
+    
+    <span class="n">generate_prediction_file</span><span class="p">(</span><span class="n">paws_m_pred_lst</span><span class="p">,</span> <span class="n">output_file_path</span> <span class="o">+</span> <span class="s1">&#39;_paws_test.txt&#39;</span><span class="p">)</span>
+    
+    <span class="n">generate_prob_file</span><span class="p">(</span><span class="n">paws_m_prob_lst</span><span class="p">,</span> <span class="s1">&#39;./Predictions/PAWS/prob_paws_test.txt&#39;</span><span class="p">)</span>
+
+
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">total_time</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;live-paws-testing.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total testing time : </span><span class="si">{</span><span class="n">total_time</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total testing time : </span><span class="si">{</span><span class="n">total_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aviral Singh and Sandeep Chatterjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

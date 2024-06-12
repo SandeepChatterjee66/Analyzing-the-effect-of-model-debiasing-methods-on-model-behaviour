@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NLI.generate_embeddings.Feature_sieve package &mdash; Analyzing the effects of debiasing on model behaviour  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="NLI.generate_embeddings.LfF package" href="NLI.generate_embeddings.LfF.html" />
+    <link rel="prev" title="NLI.generate_embeddings.Disentangled_feature_augmentation package" href="NLI.generate_embeddings.Disentangled_feature_augmentation.html" />
+    <link href="_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Analyzing the effects of debiasing on model behaviour
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Model Analysis</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Entity_classification.html">Entity_classification package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="NLI.html">NLI package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="NLI.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="NLI.generate_embeddings.html">NLI.generate_embeddings package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NLI.Model_analysis.html">NLI.Model_analysis package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="NLI.html#module-NLI">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Paraphrase_identification.html">Paraphrase_identification package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Analyzing the effects of debiasing on model behaviour</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Model Analysis</a></li>
+          <li class="breadcrumb-item"><a href="NLI.html">NLI package</a></li>
+          <li class="breadcrumb-item"><a href="NLI.generate_embeddings.html">NLI.generate_embeddings package</a></li>
+      <li class="breadcrumb-item active">NLI.generate_embeddings.Feature_sieve package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/NLI.generate_embeddings.Feature_sieve.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nli-generate-embeddings-feature-sieve-package">
+<h1>NLI.generate_embeddings.Feature_sieve package<a class="headerlink" href="#nli-generate-embeddings-feature-sieve-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-NLI.generate_embeddings.Feature_sieve.data_loader">
+<span id="nli-generate-embeddings-feature-sieve-data-loader-module"></span><h2>NLI.generate_embeddings.Feature_sieve.data_loader module<a class="headerlink" href="#module-NLI.generate_embeddings.Feature_sieve.data_loader" title="Permalink to this heading"></a></h2>
+<p>This script contains classes and functions for loading and processing datasets
+for question pair classification tasks.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.data_loader.hans_dataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.data_loader.</span></span><span class="sig-name descname"><span class="pre">hans_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_len</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/data_loader.html#hans_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.data_loader.hans_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<p>Dataset class for the HANS dataset.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.data_loader.load_hans">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_hans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/data_loader.html#load_hans"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.data_loader.load_hans" title="Permalink to this definition"></a></dt>
+<dd><p>Loads the HANS dataset from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – Path to the HANS dataset file.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – The tokenizer to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded HANS dataset object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.data_loader.load_mnli">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_mnli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/data_loader.html#load_mnli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.data_loader.load_mnli" title="Permalink to this definition"></a></dt>
+<dd><p>Loads the MNLI dataset from a file and return the dataset object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – Path to the MNLI dataset file.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – The tokenizer to use.</p></li>
+<li><p><strong>type</strong> (<em>bool</em>) – Boolean indicating the type of MNLI data(train or dev) (type = True for train).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded MNLI dataset object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.data_loader.load_snli">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_snli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/data_loader.html#load_snli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.data_loader.load_snli" title="Permalink to this definition"></a></dt>
+<dd><p>Loads the SNLI dataset from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – Path to the SNLI dataset file.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – The tokenizer to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded SNLI dataset object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.data_loader.mnli_dataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.data_loader.</span></span><span class="sig-name descname"><span class="pre">mnli_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_len</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/data_loader.html#mnli_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.data_loader.mnli_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<p>Dataset class for the Multi-Genre Natural Language Inference (MNLI) dataset.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.data_loader.tokenize_sent">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.data_loader.</span></span><span class="sig-name descname"><span class="pre">tokenize_sent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/data_loader.html#tokenize_sent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.data_loader.tokenize_sent" title="Permalink to this definition"></a></dt>
+<dd><p>Tokenizes a given sentence using the provided tokenizer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sentence</strong> (<em>str</em>) – The sentence to tokenize.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – The tokenizer to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tokenized words.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-NLI.generate_embeddings.Feature_sieve.generate_embeddings">
+<span id="nli-generate-embeddings-feature-sieve-generate-embeddings-module"></span><h2>NLI.generate_embeddings.Feature_sieve.generate_embeddings module<a class="headerlink" href="#module-NLI.generate_embeddings.Feature_sieve.generate_embeddings" title="Permalink to this heading"></a></h2>
+<p>This script is designed to generate embeddings
+from the model, and save these embeddings to text files.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">generate_embeddings</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">input_model_path</span> <span class="o">&lt;</span><span class="n">path_to_pretrained_model</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mnli_path</span> <span class="o">&lt;</span><span class="n">path_to_mnli_train_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mnli_val_path</span> <span class="o">&lt;</span><span class="n">path_to_mnli_val</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">hans_test_path</span> <span class="o">&lt;</span><span class="n">hans_dataset_path</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Arguments</span><span class="p">::</span>
+
+<span class="o">--</span><span class="n">input_model_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">pretrained</span> <span class="n">model</span> <span class="n">directory</span><span class="o">.</span>
+<span class="o">--</span><span class="n">mnli_train_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">MNLI</span> <span class="n">train</span> <span class="n">dataset</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">mnli_val_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">MNLI</span> <span class="n">validation</span> <span class="n">dataset</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">hans_test_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">HANS</span> <span class="n">test</span> <span class="n">file</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">BiasModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attention_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/generate_embeddings.html#BiasModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Implements a bias model with attention mechanism for classification tasks.</p>
+<p>This model incorporates attention to compute a weighted sum of the input embeddings
+before making predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attention_size</strong> (<em>int</em>) – The size of the attention layer.</p></li>
+<li><p><strong>hidden_size</strong> (<em>int</em>) – The size of the hidden layer.</p></li>
+<li><p><strong>num_labels</strong> (<em>int</em>) – The number of output labels.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.dropout">
+<span class="sig-name descname"><span class="pre">dropout</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.dropout" title="Permalink to this definition"></a></dt>
+<dd><p>Dropout layer to regularize the input embeddings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.Dropout</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.attention1">
+<span class="sig-name descname"><span class="pre">attention1</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.attention1" title="Permalink to this definition"></a></dt>
+<dd><p>Linear layer to transform input embeddings to attention space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.attention2">
+<span class="sig-name descname"><span class="pre">attention2</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.attention2" title="Permalink to this definition"></a></dt>
+<dd><p>Linear layer to compute attention scores.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.classifier">
+<span class="sig-name descname"><span class="pre">classifier</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.classifier" title="Permalink to this definition"></a></dt>
+<dd><p>Linear layer to produce logits for classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bert_hidden_layer_input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/generate_embeddings.html#BiasModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the forward pass of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bert_hidden_layer_input</strong> (<em>torch.Tensor</em>) – The input hidden layer from a pre-trained BERT model.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Logits for classification.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">MainModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/generate_embeddings.html#MainModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BertPreTrainedModel</span></code></p>
+<p>Implements a main model for a natural language inference task.</p>
+<p>This model integrates a BERT model with an additional bias model for classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>BertConfig</em>) – The configuration object specifying the model architecture.</p></li>
+<li><p><strong>loss_fn</strong> (<em>optional</em>) – The loss function used for training. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.num_labels">
+<span class="sig-name descname"><span class="pre">num_labels</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.num_labels" title="Permalink to this definition"></a></dt>
+<dd><p>The number of output labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.loss_fn">
+<span class="sig-name descname"><span class="pre">loss_fn</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.loss_fn" title="Permalink to this definition"></a></dt>
+<dd><p>The loss function used for training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.bert">
+<span class="sig-name descname"><span class="pre">bert</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.bert" title="Permalink to this definition"></a></dt>
+<dd><p>The pre-trained BERT model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>AutoModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.bias_model">
+<span class="sig-name descname"><span class="pre">bias_model</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.bias_model" title="Permalink to this definition"></a></dt>
+<dd><p>The bias model for incorporating additional information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel" title="NLI.generate_embeddings.Feature_sieve.generate_embeddings.BiasModel">BiasModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.hidden_layer">
+<span class="sig-name descname"><span class="pre">hidden_layer</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.hidden_layer" title="Permalink to this definition"></a></dt>
+<dd><p>The linear layer for the hidden states.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.classifier">
+<span class="sig-name descname"><span class="pre">classifier</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.classifier" title="Permalink to this definition"></a></dt>
+<dd><p>The linear layer for classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_type_ids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/generate_embeddings.html#MainModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the forward pass of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ids</strong> (<em>torch.Tensor</em>) – The input token IDs.</p></li>
+<li><p><strong>attention_mask</strong> (<em>torch.Tensor</em>) – The attention mask.</p></li>
+<li><p><strong>token_type_ids</strong> (<em>torch.Tensor</em>) – The token type IDs.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output representation of the input sequences.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.MainModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.custom_collate_fn">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">custom_collate_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/generate_embeddings.html#custom_collate_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.custom_collate_fn" title="Permalink to this definition"></a></dt>
+<dd><p>Custom collate function for DataLoader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>batch</strong> (<em>List</em><em>[</em><em>Dict</em><em>]</em>) – A list of dictionaries containing batched data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing batched tensors for ‘ids’, ‘mask’, ‘token_type_ids’, and ‘target’.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.generate_embeddings">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">generate_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/generate_embeddings.html#generate_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.generate_embeddings" title="Permalink to this definition"></a></dt>
+<dd><p>Generates embeddings using the provided model and saves them to a text file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> – The model used for generating embeddings.</p></li>
+<li><p><strong>dataloader</strong> (<em>DataLoader</em>) – The DataLoader containing the input data.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – The device on which the model will be evaluated.</p></li>
+<li><p><strong>output_file_path</strong> (<em>str</em>) – The path to the output text file for saving embeddings.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The total number of embeddings generated.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.main">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/generate_embeddings.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.main" title="Permalink to this definition"></a></dt>
+<dd><p>Main function to generate embeddings for MNLI and SNLI datasets using a pre-trained model.</p>
+<p>This function loads a pre-trained model, generates embeddings for MNLI and SNLI datasets,
+and saves the embeddings to text files.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.read_dataset">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">read_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/generate_embeddings.html#read_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.read_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a dataset from a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_path</strong> (<em>str</em>) – The path to the pickle file containing the dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded dataset.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.generate_embeddings.save_embeddings_to_text_file">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">save_embeddings_to_text_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embeddings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/generate_embeddings.html#save_embeddings_to_text_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.generate_embeddings.save_embeddings_to_text_file" title="Permalink to this definition"></a></dt>
+<dd><p>Saves embeddings to a text file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>embeddings</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>float</em><em>]</em><em>]</em>) – The embeddings to be saved.</p></li>
+<li><p><strong>output_file_path</strong> (<em>str</em>) – The path to the output text file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-NLI.generate_embeddings.Feature_sieve.test">
+<span id="nli-generate-embeddings-feature-sieve-test-module"></span><h2>NLI.generate_embeddings.Feature_sieve.test module<a class="headerlink" href="#module-NLI.generate_embeddings.Feature_sieve.test" title="Permalink to this heading"></a></h2>
+<p>This script test the model trained for Natural Language Inference(NLI) task. It saves the prediction file and the softmax score file</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">input_model_path</span> <span class="o">&lt;</span><span class="n">path_to_pretrained_model</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mnli_path</span> <span class="o">&lt;</span><span class="n">path_to_mnli_train_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mnli_val_path</span> <span class="o">&lt;</span><span class="n">path_to_mnli_val</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">hans_test_path</span> <span class="o">&lt;</span><span class="n">hans_dataset_path</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">input_model_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">pretrained</span> <span class="n">model</span> <span class="n">directory</span><span class="o">.</span>
+<span class="o">--</span><span class="n">mnli_train_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">MNLI</span> <span class="n">train</span> <span class="n">dataset</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">mnli_val_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">MNLI</span> <span class="n">validation</span> <span class="n">dataset</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">hans_test_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">HANS</span> <span class="n">test</span> <span class="n">file</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.BiasModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.test.</span></span><span class="sig-name descname"><span class="pre">BiasModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attention_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/test.html#BiasModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.BiasModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Bias Model class.</p>
+<p>This class defines the Bias Model architecture.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attention_size</strong> (<em>int</em>) – Size of the attention.</p></li>
+<li><p><strong>hidden_size</strong> (<em>int</em>) – Size of the hidden layer.</p></li>
+<li><p><strong>num_labels</strong> (<em>int</em>) – Number of labels.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.BiasModel.num_labels">
+<span class="sig-name descname"><span class="pre">num_labels</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.BiasModel.num_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Number of labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.BiasModel.dropout">
+<span class="sig-name descname"><span class="pre">dropout</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.BiasModel.dropout" title="Permalink to this definition"></a></dt>
+<dd><p>Dropout layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.nn.Dropout</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.BiasModel.attention1">
+<span class="sig-name descname"><span class="pre">attention1</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.BiasModel.attention1" title="Permalink to this definition"></a></dt>
+<dd><p>Linear layer for attention computation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.BiasModel.attention2">
+<span class="sig-name descname"><span class="pre">attention2</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.BiasModel.attention2" title="Permalink to this definition"></a></dt>
+<dd><p>Linear layer for attention computation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.BiasModel.classifier">
+<span class="sig-name descname"><span class="pre">classifier</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.BiasModel.classifier" title="Permalink to this definition"></a></dt>
+<dd><p>Linear layer for classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.BiasModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bert_hidden_layer_input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/test.html#BiasModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.BiasModel.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Forward pass of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bert_hidden_layer_input</strong> (<em>torch.Tensor</em>) – Input tensor.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Logits tensor.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.BiasModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.BiasModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.MainModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.test.</span></span><span class="sig-name descname"><span class="pre">MainModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/test.html#MainModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BertPreTrainedModel</span></code></p>
+<p>Main Model class.</p>
+<p>This class defines the Main Model architecture.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>BertConfig</em>) – Configuration object.</p></li>
+<li><p><strong>loss_fn</strong> (<em>callable</em><em>, </em><em>optional</em>) – Loss function.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.MainModel.num_labels">
+<span class="sig-name descname"><span class="pre">num_labels</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel.num_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Number of labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.MainModel.loss_fn">
+<span class="sig-name descname"><span class="pre">loss_fn</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel.loss_fn" title="Permalink to this definition"></a></dt>
+<dd><p>Loss function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.MainModel.bert">
+<span class="sig-name descname"><span class="pre">bert</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel.bert" title="Permalink to this definition"></a></dt>
+<dd><p>BERT model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>AutoModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.MainModel.bias_model">
+<span class="sig-name descname"><span class="pre">bias_model</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel.bias_model" title="Permalink to this definition"></a></dt>
+<dd><p>Bias model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#NLI.generate_embeddings.Feature_sieve.test.BiasModel" title="NLI.generate_embeddings.Feature_sieve.test.BiasModel">BiasModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.MainModel.hidden_layer">
+<span class="sig-name descname"><span class="pre">hidden_layer</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel.hidden_layer" title="Permalink to this definition"></a></dt>
+<dd><p>Hidden layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.MainModel.classifier">
+<span class="sig-name descname"><span class="pre">classifier</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel.classifier" title="Permalink to this definition"></a></dt>
+<dd><p>Classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.MainModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_type_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/test.html#MainModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Forward pass of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ids</strong> (<em>torch.Tensor</em>) – Input tensor.</p></li>
+<li><p><strong>attention_mask</strong> (<em>torch.Tensor</em>) – Attention mask tensor.</p></li>
+<li><p><strong>token_type_ids</strong> (<em>torch.Tensor</em>) – Token type IDs tensor.</p></li>
+<li><p><strong>labels</strong> (<em>torch.Tensor</em>) – Labels tensor.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device type (‘cpu’ or ‘cuda’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Tuple containing</dt><dd><p>main loss, main predictions, bias loss, bias predictions, and forget loss.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.MainModel.set_bias_grad">
+<span class="sig-name descname"><span class="pre">set_bias_grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">requires_grad</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/test.html#MainModel.set_bias_grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel.set_bias_grad" title="Permalink to this definition"></a></dt>
+<dd><p>Set bias model gradients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>requires_grad</strong> (<em>bool</em>) – Whether to require gradients or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.MainModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.generate_prediction_file">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.test.</span></span><span class="sig-name descname"><span class="pre">generate_prediction_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_lst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/test.html#generate_prediction_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.generate_prediction_file" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a file containing the predicted labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pred_lst</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of predicted labels.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – Path to the output file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.generate_prob_file">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.test.</span></span><span class="sig-name descname"><span class="pre">generate_prob_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob_lst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob_output_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/test.html#generate_prob_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.generate_prob_file" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a file containing the predicted probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prob_lst</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>torch.Tensor</em><em>]</em><em>]</em>) – List of predicted probabilities.</p></li>
+<li><p><strong>prob_output_file_path</strong> (<em>str</em>) – Path to the output file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.inference">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.test.</span></span><span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mnli'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/test.html#inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.inference" title="Permalink to this definition"></a></dt>
+<dd><p>Perform inference on the provided dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="#NLI.generate_embeddings.Feature_sieve.test.MainModel" title="NLI.generate_embeddings.Feature_sieve.test.MainModel"><em>MainModel</em></a>) – Model to perform inference with.</p></li>
+<li><p><strong>dataloader</strong> (<em>DataLoader</em>) – DataLoader for the dataset.</p></li>
+<li><p><strong>tokenizer</strong> (<em>AutoTokenizer</em>) – Tokenizer for the dataset.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device type (‘cpu’ or ‘cuda’).</p></li>
+<li><p><strong>data</strong> (<em>str</em><em>, </em><em>optional</em>) – Dataset type (‘mnli’ or ‘hans’). Defaults to ‘mnli’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Tuple containing accuracy, list of predicted labels,</dt><dd><p>and list of predicted probabilities.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[float, List[str], List[torch.Tensor]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.main">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.test.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/test.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.main" title="Permalink to this definition"></a></dt>
+<dd><p>Main function to perform testing on different datasets.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.test.read_dataset">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.test.</span></span><span class="sig-name descname"><span class="pre">read_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/test.html#read_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.test.read_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a dataset object from a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_path</strong> (<em>str</em>) – Path to the pickle file containing the dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dataset loaded from the pickle file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-NLI.generate_embeddings.Feature_sieve.train">
+<span id="nli-generate-embeddings-feature-sieve-train-module"></span><h2>NLI.generate_embeddings.Feature_sieve.train module<a class="headerlink" href="#module-NLI.generate_embeddings.Feature_sieve.train" title="Permalink to this heading"></a></h2>
+<p>This script trains a BERT-based model for Natural Language Inference(NLI) task using the Huggingface library.
+It defines custom loss functions, data loaders, training, and validation functions, and supports model saving
+and early stopping.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">train</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">dataset_name</span> <span class="o">&lt;</span><span class="n">DATASET_NAME</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output_model_directory</span> <span class="o">&lt;</span><span class="n">OUTPUT_MODEL_DIR</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output_tokenizer_directory</span> <span class="o">&lt;</span><span class="n">OUTPUT_TOKENIZER_DIR</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">dataset_name</span><span class="p">:</span> <span class="n">Name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">dataset</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">the</span> <span class="s1">&#39;questions.csv&#39;</span> <span class="n">file</span> <span class="k">for</span> <span class="n">training</span><span class="o">.</span>
+<span class="o">--</span><span class="n">output_model_directory</span><span class="p">:</span> <span class="n">Directory</span> <span class="n">where</span> <span class="n">the</span> <span class="n">trained</span> <span class="n">model</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span><span class="o">.</span>
+<span class="o">--</span><span class="n">output_tokenizer_directory</span><span class="p">:</span> <span class="n">Directory</span> <span class="n">where</span> <span class="n">the</span> <span class="n">tokenizer</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.BiasModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.train.</span></span><span class="sig-name descname"><span class="pre">BiasModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attention_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/train.html#BiasModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.BiasModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>A bias model for generating logits based on attention mechanisms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attention_size</strong> (<em>int</em>) – The size of the attention layer.</p></li>
+<li><p><strong>hidden_size</strong> (<em>int</em>) – The size of the hidden layer.</p></li>
+<li><p><strong>num_labels</strong> (<em>int</em>) – The number of output labels.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.BiasModel.num_labels">
+<span class="sig-name descname"><span class="pre">num_labels</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.BiasModel.num_labels" title="Permalink to this definition"></a></dt>
+<dd><p>The number of output labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.BiasModel.dropout">
+<span class="sig-name descname"><span class="pre">dropout</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.BiasModel.dropout" title="Permalink to this definition"></a></dt>
+<dd><p>Dropout layer to prevent overfitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.Dropout</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.BiasModel.attention1">
+<span class="sig-name descname"><span class="pre">attention1</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.BiasModel.attention1" title="Permalink to this definition"></a></dt>
+<dd><p>First attention layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.BiasModel.attention2">
+<span class="sig-name descname"><span class="pre">attention2</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.BiasModel.attention2" title="Permalink to this definition"></a></dt>
+<dd><p>Second attention layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.BiasModel.classifier">
+<span class="sig-name descname"><span class="pre">classifier</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.BiasModel.classifier" title="Permalink to this definition"></a></dt>
+<dd><p>Classifier for generating logits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.BiasModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bert_hidden_layer_input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/train.html#BiasModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.BiasModel.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Forward pass of the bias model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bert_hidden_layer_input</strong> (<em>torch.Tensor</em>) – Input tensor representing hidden layers from BERT.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Logits generated by the bias model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.BiasModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.BiasModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.MainModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.train.</span></span><span class="sig-name descname"><span class="pre">MainModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/train.html#MainModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BertPreTrainedModel</span></code></p>
+<p>Custom model based on BERT for multi-task learning.</p>
+<p>This model incorporates a BERT-based architecture along with a bias model
+for an attention mechanism and additional layers for final classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>PretrainedConfig</em>) – Configuration for the BERT model.</p></li>
+<li><p><strong>loss_fn</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>]</em>) – Loss function for the main task (default: None).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.MainModel.num_labels">
+<span class="sig-name descname"><span class="pre">num_labels</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel.num_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Number of output labels for the classification tasks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.MainModel.loss_fn">
+<span class="sig-name descname"><span class="pre">loss_fn</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel.loss_fn" title="Permalink to this definition"></a></dt>
+<dd><p>Loss function for the main task.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.MainModel.bert">
+<span class="sig-name descname"><span class="pre">bert</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel.bert" title="Permalink to this definition"></a></dt>
+<dd><p>Pre-trained BERT model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>BertModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.MainModel.bias_model">
+<span class="sig-name descname"><span class="pre">bias_model</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel.bias_model" title="Permalink to this definition"></a></dt>
+<dd><p>Model for the attention mechanism.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#NLI.generate_embeddings.Feature_sieve.train.BiasModel" title="NLI.generate_embeddings.Feature_sieve.train.BiasModel">BiasModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.MainModel.hidden_layer">
+<span class="sig-name descname"><span class="pre">hidden_layer</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel.hidden_layer" title="Permalink to this definition"></a></dt>
+<dd><p>Linear layer for transformation before classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.MainModel.classifier">
+<span class="sig-name descname"><span class="pre">classifier</span></span><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel.classifier" title="Permalink to this definition"></a></dt>
+<dd><p>Final linear layer for classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Linear</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.MainModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_type_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/train.html#MainModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Perform a forward pass through the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ids</strong> (<em>Tensor</em>) – Input token IDs.</p></li>
+<li><p><strong>attention_mask</strong> (<em>Tensor</em>) – Attention mask to avoid performing attention on padding tokens.</p></li>
+<li><p><strong>token_type_ids</strong> (<em>Tensor</em>) – Segment token indices to indicate first and second portions of the inputs.</p></li>
+<li><p><strong>labels</strong> (<em>Tensor</em>) – True labels for the main task.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to run the computation (‘cpu’ or ‘cuda’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple containing main loss, main predictions,
+bias loss, bias predictions, and forget loss.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[Tensor, Tensor, Tensor, Tensor, Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.MainModel.set_bias_grad">
+<span class="sig-name descname"><span class="pre">set_bias_grad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">requires_grad</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/train.html#MainModel.set_bias_grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel.set_bias_grad" title="Permalink to this definition"></a></dt>
+<dd><p>Set whether bias model parameters require gradients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>requires_grad</strong> (<em>bool</em>) – Whether gradients should be computed for bias model parameters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.MainModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.main">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.train.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/train.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.main" title="Permalink to this definition"></a></dt>
+<dd><p>Main function for training the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.train">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.train.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/train.html#train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.train" title="Permalink to this definition"></a></dt>
+<dd><p>Function to train the model on a given dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel" title="NLI.generate_embeddings.Feature_sieve.train.MainModel"><em>MainModel</em></a>) – The main model to be trained.</p></li>
+<li><p><strong>dataloader</strong> (<em>DataLoader</em>) – DataLoader object containing the training dataset.</p></li>
+<li><p><strong>optimizer</strong> (<em>torch.optim.Optimizer</em>) – Optimizer for updating the model parameters.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to run the computation (‘cpu’ or ‘cuda’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.generate_embeddings.Feature_sieve.train.valid">
+<span class="sig-prename descclassname"><span class="pre">NLI.generate_embeddings.Feature_sieve.train.</span></span><span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/generate_embeddings/Feature_sieve/train.html#valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.generate_embeddings.Feature_sieve.train.valid" title="Permalink to this definition"></a></dt>
+<dd><p>Function to evaluate the model on a validation dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="#NLI.generate_embeddings.Feature_sieve.train.MainModel" title="NLI.generate_embeddings.Feature_sieve.train.MainModel"><em>MainModel</em></a>) – The model to be evaluated.</p></li>
+<li><p><strong>dataloader</strong> (<em>DataLoader</em>) – DataLoader object containing the validation dataset.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to run the computation (‘cpu’ or ‘cuda’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the evaluation loss and accuracy.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-NLI.generate_embeddings.Feature_sieve">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-NLI.generate_embeddings.Feature_sieve" title="Permalink to this heading"></a></h2>
+<p>Module to train the model for Natural Language Inference(NLI) task and generate the embeddings.</p>
+<dl>
+<dt>Dirs:</dt><dd><p><strong>multinli_1.0</strong> : Directory containing MNLI dataset.</p>
+<p><strong>HANS</strong> : Directory containing HANS dataset.</p>
+<p><strong>snli_1.0</strong> : Directory containing SNLI dataset.</p>
+</dd>
+<dt>Files:</dt><dd><p><strong>train.py</strong> : File containing code to train the model.</p>
+<p><strong>test.py</strong> : File containing code to test the model on test dataset and save the predictions and softmax scores.</p>
+<p><strong>generate_embeddings.py</strong>: File containing code to generate the embeddings.</p>
+<p><strong>run.sh</strong> : Bash script to run training and testing files.</p>
+<p><strong>embeddings.sh</strong> : Bash script to generate the embeddings.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="NLI.generate_embeddings.Disentangled_feature_augmentation.html" class="btn btn-neutral float-left" title="NLI.generate_embeddings.Disentangled_feature_augmentation package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="NLI.generate_embeddings.LfF.html" class="btn btn-neutral float-right" title="NLI.generate_embeddings.LfF package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aviral Singh and Sandeep Chatterjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

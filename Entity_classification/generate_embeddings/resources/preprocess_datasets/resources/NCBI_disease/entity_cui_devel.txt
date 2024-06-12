@@ -1,0 +1,782 @@
+enzyme deficiency	Disease	D008661
+glucose-6-phosphate dehydrogenase (G6PD) deficiency	Disease	D005955
+chronic nonspherocytic hemolytic anemia	Disease	D000746
+G6PD deficiency	Disease	D005955
+G6PD deficiency	Disease	D005955
+ataxia-telangiectasia	Disease	D001260
+ataxia-telangiectasia	Disease	D001260
+ataxia-telangiectasia	Disease	D001260
+Duarte and Los Angeles variant galactosemia	Disease	D005693
+Duarte enzyme variant of galactosemia	Disease	D005693
+LA variant of galactosemia	Disease	D005693
+inherited human disorder	Disease	D030342
+fish-eye disease	Disease	D007863
+fish-eye disease	Disease	D007863
+FED	Disease	D007863
+FED	Disease	D007863
+FED	Disease	D007863
+hereditary breast cancer	Disease	D061325
+breast cancer	Disease	D001943
+hereditary breast cancer	Disease	D061325
+hereditary breast cancer	Disease	D061325
+hereditary breast cancers	Disease	D061325
+hereditary breast or ovarian cancer	Disease	D061325
+breast cancer	Disease	D001943
+breast or ovarian cancer	Disease	D001943|D010051
+hereditary cancer	Disease	D009386
+hereditary breast cancer	Disease	D061325
+hereditary breast cancer	Disease	D061325
+tumor	Disease	D009369
+breast and ovarian cancers	Disease	D001943|D010051
+tumors	Disease	D009369
+alveolar rhabdomyosarcoma	Disease	D018232
+hematopoietic and solid tumors	Disease	D019337
+solid tumor	Disease	D009369
+alveolar rhabdomyosarcoma	Disease	D018232
+alveolar rhabdomyosarcoma	Disease	D018232
+ataxia-telangiectasia	Disease	D001260
+ataxia-telangiectasia	Disease	D001260
+thymomas	Disease	D013945
+ataxia-telangiectasia	Disease	D001260
+glucose-6-phosphate dehydrogenase deficiency	Disease	D005955
+G6PD deficiency	Disease	D005955
+brain, breast, and prostate cancer	Disease	D001932|D001943|D011471
+tumor	Disease	D009369
+cancers	Disease	D009369
+glioblastoma	Disease	D005909
+prostate cancer	Disease	D011471
+breast cancer	Disease	D001943
+primary glioblastomas	Disease	D005909
+tumor	Disease	D009369
+tumor	Disease	D009369
+metastasis	Disease	D009362
+colorectal cancers	Disease	D015179
+colorectal cancers	Disease	D015179
+pancreatic cancers	Disease	D010190
+colorectal cancers	Disease	D015179
+colorectal cancer	Disease	D015179
+cancers	Disease	D009369
+colorectal cancers	Disease	D015179
+colorectal cancers	Disease	D015179
+breast-ovarian cancer	Disease	D061325
+tumors	Disease	D009369
+tumor	Disease	D009369
+tumors	Disease	D009369
+Type II human complement C2 deficiency	Disease	OMIM:217000
+Type II complement protein C2 deficiency	Disease	OMIM:217000
+Type I C2 deficiency	Disease	OMIM:217000
+Type II deficiency	Disease	OMIM:217000
+Type II C2 deficiency	Disease	OMIM:217000
+growth retardation	Disease	D006130
+chromosomal fragmentation during meiosis	Disease	D048629
+immune defects	Disease	D007154
+thymic lymphoma	Disease	D013953
+inherited human disease	Disease	D030342
+ataxia-telangiectasia	Disease	D001260
+ataxia-telangiectasia	Disease	D001260
+infertility	Disease	D007246
+Immune defects	Disease	D007154
+behavioral abnormalities	Disease	D001523
+thymic lymphomas	Disease	D008223
+tumor	Disease	D009369
+breast/ovarian cancer	Disease	D061325
+acute radiation toxicity	Disease	D054508
+cancer-associated diseases	Disease	D009369
+ataxia-telangiectasia	Disease	D001260
+Li-Fraumeni syndrome	Disease	D016864
+T-cell lymphomas	Disease	D016399
+tumour	Disease	D009369
+acute radiation toxicity	Disease	D054508
+tumours	Disease	D009369
+C7 deficiency	Disease	OMIM:610102
+C7 deficiency	Disease	OMIM:610102
+C7-deficient	Disease	OMIM:610102
+Wiskott-Aldrich syndrome	Disease	D014923
+Wiskott-Aldrich syndrome	Disease	D014923
+WAS	Disease	D014923
+X-linked immunodeficiency disease	Disease	D007153+D040181
+WAS	Disease	D014923
+WAS	Disease	D014923
+WAS	Disease	D014923
+WAS	Disease	D014923
+isolated thrombocytopenia	Disease	D013921
+WAS	Disease	D014923
+WAS	Disease	D014923
+ataxia-telangiectasia	Disease	D001260
+ataxia-telangiectasia	Disease	D001260
+A-T	Disease	D001260
+endometrial cancer	Disease	D016889
+tumours	Disease	D009369
+microsatellite instability	Disease	D053842
+hereditary nonpolyposis colorectal cancer	Disease	D003123
+HNPCC	Disease	D003123
+sporadic tumours	Disease	D009369
+endometrial carcinomas	Disease	D016889
+endometrial carcinoma	Disease	D016889
+endometrial carcinoma	Disease	D016889
+tumours	Disease	D009369
+Kniest dysplasia	Disease	C537207
+Kniest dysplasia	Disease	C537207
+chondrodysplasia	Disease	D010009
+defective formation of type II collagen	Disease	D003095
+severely handicapped	Disease	D008607
+short stature	Disease	D006130
+restricted joint mobility	Disease	D007592
+blindness	Disease	D001766
+Kniest dysplasia	Disease	C537207
+inherited breast cancer	Disease	D001943
+breast cancer	Disease	D001943
+familial breast cancer	Disease	D001943
+inherited breast/ovarian cancer	Disease	D061325
+inherited breast cancer	Disease	D001943
+breast cancer	Disease	D001943
+male breast cancer	Disease	D018567
+breast cancer	Disease	D001943
+hereditary breast cancer	Disease	D001943
+retinoblastoma	Disease	D012175
+C9 deficiency	Disease	OMIM:613825
+C9-deficient	Disease	OMIM:613825
+C9 deficiency	Disease	OMIM:613825
+complete deficiency of C9	Disease	OMIM:613825
+C9 deficiency	Disease	OMIM:613825
+Myotonic dystrophy	Disease	D009223
+DM	Disease	D009223
+DM	Disease	D009223
+DM	Disease	D009223
+pancreatic cancer	Disease	D010190
+solid tumors	Disease	D009369
+pancreatic cancer	Disease	D010190
+tumor types	Disease	D009369
+pancreatic tumors	Disease	D010190
+pancreatic tumors	Disease	D010190
+tumors	Disease	D009369
+pancreatic tumors	Disease	D010190
+pancreatic cancer	Disease	D010190
+cancers	Disease	D009369
+Schwartz-Jampel chondrodystrophic myotonia	Disease	OMIM:255800
+Schwartz-Jampel syndrome	Disease	OMIM:255800
+SJS	Disease	OMIM:255800
+chondrodystrophic myotonia	Disease	OMIM:255800
+recessively inherited condition	Disease	D030342
+myotonia	Disease	D009222
+short stature	Disease	D006130
+bone dysplasia	Disease	D001848
+SJS	Disease	OMIM:255800
+SJS	Disease	OMIM:255800
+myotonia	Disease	D009222
+bone dysplasia	Disease	D001848
+myotonia	Disease	D009222
+SJS  type 1A	Disease	OMIM:255800
+bone dysplasia	Disease	D001848
+bone dysplasia	Disease	D001848
+Kniest dysplasia	Disease	C537207
+bone dysplasia	Disease	D001848
+Pyle disease	Disease	C536252
+SJS type 2	Disease	C537502
+SJS	Disease	OMIM:255800
+SJS	Disease	OMIM:255800
+SJS	Disease	OMIM:255800
+X-linked adrenoleukodystrophy	Disease	D000326
+Addison's disease	Disease	D000224
+X-Linked adrenoleukodystrophy	Disease	D000326
+ALD	Disease	D000326
+genetic disease	Disease	D030342
+demyelination of the central nervous system	Disease	D020279
+adrenal insufficiency	Disease	D000309
+ALD	Disease	D000326
+ALD	Disease	D000326
+Adrenomyeloneuropathy	Disease	D000326
+AMN	Disease	D000326
+Adrenal insufficiency	Disease	D000309
+Addisons disease	Disease	D000224
+AMN	Disease	D000326
+cerebral ALD	Disease	D000326
+ALD	Disease	D000326
+ALD	Disease	D000326
+Addisons disease	Disease	D000224
+adrenocortical insufficiency	Disease	D000224
+cerebral ALD	Disease	D000326
+adrenomyeloneuropathy	Disease	D000326
+AMN	Disease	D000326
+ALD	Disease	D000326
+Addisons disease	Disease	D000224
+breast carcinoma	Disease	D001943
+cancers	Disease	D009369
+tumour	Disease	D009369
+cancer	Disease	D009369
+cancer	Disease	D009369
+tumour	Disease	D009369
+sporadic cancers	Disease	D009369
+familial breast and ovarian cancer	Disease	D061325
+sporadic breast and ovarian cancers	Disease	D001943|D010051
+breast carcinoma	Disease	D001943
+familial breast cancer	Disease	D001943
+breast cancer	Disease	D001943
+tumour	Disease	D009369
+breast cancer	Disease	D001943
+tumours	Disease	D009369
+sporadic breast cancers	Disease	D001943
+tumour	Disease	D009369
+cancers	Disease	D009369
+breast carcinoma	Disease	D001943
+pancreatic tumour	Disease	D010190
+pancreatic cancer	Disease	D010190
+type IV Ehlers-Danlos syndrome	Disease	D004535
+aortic rupture	Disease	D001019
+type IV Ehlers-Danlos syndrome	Disease	D004535
+aniridia	Disease	D015783
+aniridia	Disease	D015783
+aniridia	Disease	D015783
+APC	Disease	D011125
+adenomatous polyposis coli	Disease	D011125
+Familial adenomatous polyposis	Disease	D011125
+FAP	Disease	D011125
+colorectal cancer	Disease	D015179
+adenomatous polyps	Disease	D018256
+adenomatous polyposis coli	Disease	D011125
+APC	Disease	D011125
+FAP	Disease	D011125
+APC	Disease	D011125
+attenuated adenomatous polyposis coli	Disease	C538265
+AAPC	Disease	C538265
+AAPC	Disease	C538265
+APC	Disease	D011125
+APC	Disease	D011125
+AAPC	Disease	C538265
+Huntington disease	Disease	D006816
+Huntington disease	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+behavioral abnormalities	Disease	D001523
+HD	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+hereditary breast and ovarian cancer	Disease	D061325
+familial Mediterranean fever	Disease	D010505
+familial Mediterranean fever	Disease	D010505
+FMF	Disease	D010505
+FMF	Disease	D010505
+FMF	Disease	D010505
+Deficiency of terminal complement components	Disease	D007153
+neisseria infections	Disease	D016870
+inherited C9 deficiency	Disease	OMIM:613825
+C9 deficiency	Disease	OMIM:613825
+C9 deficiency	Disease	OMIM:613825
+C9 deficiency	Disease	OMIM:613825
+classical and Duarte galactosemia	Disease	D005693
+Classical galactosemia	Disease	D005693
+classical and Duarte galactosemia	Disease	D005693
+classical galactosemia	Disease	D005693
+galactosemia	Disease	D005693
+galactosemia	Disease	D005693
+galactosemia	Disease	D005693
+galactosemia	Disease	D005693
+Pelizaeus-Merzbacher disease	Disease	OMIM:312080
+Pelizaeus-Merzbacher disease	Disease	OMIM:312080
+PMD	Disease	OMIM:312080
+X-linked spastic paraplegia	Disease	OMIM:312920
+SPG	Disease	OMIM:312920
+PMD	Disease	OMIM:312080
+nystagmus	Disease	D020417
+tremors	Disease	D014202
+mental retardation	Disease	D008607
+dementia	Disease	D003704
+personality disorders	Disease	D010554
+PLP-associated disease	Disease	OMIM:312080+OMIM:312920
+alveolar rhabdomyosarcoma	Disease	D018232
+Pediatric alveolar rhabdomyosarcoma	Disease	D018232
+kidney cancer	Disease	D007680
+Wilms tumour	Disease	D009396
+WT	Disease	D009396
+sporadic Wilms tumours	Disease	D009396
+Denys-Drash syndrome	Disease	D030321
+renal nephropathy	Disease	D007674
+gonadal anomaly	Disease	D006059
+predisposition to WT	Disease	D020022
+juvenile granulosa cell tumour	Disease	D006106
+non-asbestos related mesothelioma	Disease	D008654
+desmoplastic small round cell tumour	Disease	D058405
+acute myeloid leukemia	Disease	D015470
+ataxia-telangiectasia	Disease	D001260
+AT	Disease	D001260
+AT	Disease	D001260
+cancer	Disease	D009369
+AT	Disease	D001260
+Canavan disease	Disease	D017825
+Canavan disease	Disease	D017825
+deficiency of aspartoacylase	Disease	D017825
+Canavan disease	Disease	D017825
+Canavan disease	Disease	D017825
+Canavan disease	Disease	D017825
+deficiency of ASPA	Disease	D017825
+Canavan disease	Disease	D017825
+breast cancer	Disease	D001943
+breast cancer	Disease	D001943
+breast cancer	Disease	D001943
+breast cancer	Disease	D001943
+breast cancer	Disease	D001943
+ovarian cancer	Disease	D010051
+breast and ovarian cancer	Disease	D001943|D010051
+breast cancer	Disease	D001943
+ovarian cancer	Disease	D010051
+breast and ovarian cancer	Disease	D001943|D010051
+breast cancer	Disease	D001943
+breast cancers	Disease	D001943
+ovarian cancer	Disease	D010051
+breast cancer	Disease	D001943
+von Hippel-Lindau tumor	Disease	D006623
+von Hippel-Lindau tumor	Disease	D006623
+clear-cell renal cell carcinoma	Disease	C538445
+RCC	Disease	D002292
+von Hippel-Lindau disease-associated and sporadic RCCs	Disease	D006623
+RCC- and von Hippel-Lindau disease-associated tumors	Disease	D006623
+RCC	Disease	D002292
+RCC	Disease	D002292
+von Hippel-Lindau disease	Disease	D006623
+RCC	Disease	D002292
+hereditary retinoblastoma	Disease	D012175
+familial or sporadic bilateral retinoblastoma	Disease	D012175
+Prader-Willi syndrome	Disease	D011218
+Prader-Willi syndrome	Disease	D011218
+PWS	Disease	D011218
+PWS	Disease	D011218
+PWS	Disease	D011218
+PWS	Disease	D011218
+Wiskott-Aldrich syndrome	Disease	D014923
+Wiskott-Aldrich syndrome	Disease	D014923
+fatal lymphoreticular disease	Disease	D008206
+Wiskott-Aldrich syndrome	Disease	D014923
+Norrie disease	Disease	C537849
+ND	Disease	C537849
+ND	Disease	C537849
+Norrie disease	Disease	C537849
+ND	Disease	C537849
+ND	Disease	C537849
+ND	Disease	C537849
+ND	Disease	C537849
+ND	Disease	C537849
+X-linked recessive neurological disorder	Disease	D020271
+Huntington disease	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+Huntington disease	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+HD	Disease	D006816
+HPRT-APRT-deficient	Disease	OMIM:300322+OMIM:102600
+lesch-nyhan syndrome	Disease	D007926
+Complete hypoxanthine-guanine phosphoribosyl-transferase (HPRT) deficiency	Disease	D007926
+Lesch-Nyhan syndrome	Disease	D007926
+HPRT-deficient	Disease	D007926
+Lesch-Nyhan syndrome	Disease	D007926
+HPRT-deficient	Disease	D007926
+deficiency of APRT	Disease	OMIM:102600
+HPRT-deficiency	Disease	D007926
+HPRT-APRT-deficient	Disease	OMIM:300322+OMIM:102600
+APRT deficiency	Disease	OMIM:102600
+APRT-HPRT-deficient	Disease	OMIM:300322+OMIM:102600
+behavioral abnormalities	Disease	D001523
+Lesch-Nyhan syndrome	Disease	D007926
+myotonic dystrophy	Disease	D009223
+myopathy	Disease	D009135
+Myotonic dystrophy	Disease	D009223
+DM	Disease	D009223
+autosomal dominant disorder	Disease	D030342
+DM	Disease	D009223
+Dmpk deficient	Disease	OMIM:160900
+progressive skeletal myopathy	Disease	D009135
+DM	Disease	D009223
+fibre degeneration	Disease	D020966
+fibrosis	Disease	D005355
+DM	Disease	D009223
+Ovarian Cancer	Disease	D010051
+breast and/or ovarian cancer	Disease	OMIM:604370
+breast/ovarian cancer	Disease	OMIM:604370
+breast and/or ovarian cancer	Disease	OMIM:604370
+lipomas	Disease	D008067
+lipomas	Disease	D008067
+lipoma	Disease	D008067
+lipoma	Disease	D008067
+lipoma	Disease	D008067
+primary lipomas	Disease	D008067
+benign familial neonatal convulsions	Disease	D020936
+autosomal dominant nocturnal frontal lobe epilepsy	Disease	D017034
+autosomal dominant nocturnal frontal lobe epilepsy	Disease	D017034
+idiopathic epilepsies	Disease	D004827
+myotonic dystrophy	Disease	D009223
+Myotonic dystrophy	Disease	D009223
+DM	Disease	D009223
+DM	Disease	D009223
+DM	Disease	D009223
+autoimmune lymphoproliferative syndrome	Disease	D056735
+autoimmune lymphoproliferative syndrome	Disease	D056735
+ALPS	Disease	D056735
+ALPS	Disease	D056735
+splenomegaly	Disease	D013163
+lymphadenopathy	Disease	D008206
+autoimmune manifestations	Disease	D001327
+breast and ovarian cancer	Disease	D001943|D010051
+breast cancer	Disease	D001943
+ovarian cancer	Disease	D010051
+breast cancer	Disease	D001943
+breast cancer	Disease	D001943
+breast and ovarian cancer	Disease	D001943|D010051
+breast or ovarian cancer	Disease	D001943|D010051
+breast cancer	Disease	D001943
+breast cancer	Disease	D001943
+non-papillary renal cell carcinomas	Disease	D002292
+VHL	Disease	D006623
+sporadic renal cell carcinomas	Disease	D002292
+parenchymal tumours of the kidney	Disease	D007674
+VHL	Disease	D006623
+non-papillary renal cell carcinomas	Disease	D002292
+renal cell carcinomas	Disease	D002292
+non-papillary renal cell carcinomas	Disease	D002292
+renal cell carcinomas	Disease	D002292
+papillary renal cell tumours	Disease	D002292
+renal oncocytomas	Disease	C537750
+VHL	Disease	D006623
+tumours	Disease	D009369
+VHL	Disease	D006623
+non-papillary renal cell carcinoma	Disease	D002292
+ataxia-telangiectasia	Disease	D001260
+ataxia-telangiectasia	Disease	D001260
+AT	Disease	D001260
+AT	Disease	D001260
+Tumor	Disease	D009369
+prostate carcinoma	Disease	D011471
+Prostate cancer	Disease	D011471
+cancer	Disease	D009369
+prostate carcinomas	Disease	D011471
+prostate carcinomas	Disease	D011471
+prostatic adenocarcinoma	Disease	D011471
+prostate adenocarcinoma	Disease	D011471
+prostate carcinoma	Disease	D011471
+prostatic adenocarcinoma	Disease	D011471
+atelosteogenesis type 2	Disease	C535395
+diastrophic dysplasia	Disease	C536170
+diastrophic dysplasia	Disease	C536170
+chondrodysplasias	Disease	D010009
+diastrophic dysplasia	Disease	C536170
+DTD	Disease	C536170
+atelosteogenesis type 2	Disease	C535395
+AO2	Disease	C535395
+achondrogenesis type 1B	Disease	C536016
+ACG1B	Disease	C536016
+DTDST chondrodysplasias	Disease	OMIM:222600
+AO-2	Disease	C535395
+DTD	Disease	C536170
+AO2	Disease	C535395
+DTD	Disease	C536170
+DTD	Disease	C536170
+AO2	Disease	C535395
+DTD	Disease	C536170
+AO2	Disease	C535395
+AO2	Disease	C535395
+DTD	Disease	C536170
+ACG1B	Disease	C536016
+alkaptonuria	Disease	D000474
+alkaptonuria	Disease	D000474
+alkaptonuria	Disease	D000474
+myotonic dystrophy	Disease	D009223
+myopathy	Disease	D009135
+Myotonic dystrophy	Disease	D009223
+DM	Disease	D009223
+hypertrophic cardiomyopathy	Disease	D002312
+DM	Disease	D009223
+atrophy	Disease	D001284
+myotonia	Disease	D009222
+cataract	Disease	D002386
+male-infertility	Disease	D007248
+combined subtotal deficiencies of C6 and C7	Disease	OMIM:612446|OMIM:610102
+C6 and C7 deficiencies	Disease	OMIM:612446|OMIM:610102
+Combined subtotal deficiency of C6 and C7	Disease	OMIM:612446|OMIM:610102
+C6 or C7 deficiency	Disease	OMIM:612446|OMIM:610102
+C6-deficient	Disease	OMIM:612446
+retinoblastoma	Disease	D012175
+retinoblastoma	Disease	D012175
+tumor	Disease	D009369
+breast cancer	Disease	D001943
+metastatic tumors	Disease	D009362
+tumor	Disease	D009369
+breast cancer	Disease	D001943
+breast carcinomas	Disease	D001943
+cancers	Disease	D009369
+breast cancer	Disease	D001943
+breast cancer	Disease	D001943
+Emery-Dreifuss muscular dystrophy	Disease	D020389
+Emery-Dreifuss muscular dystrophy	Disease	D020389
+EMDM	Disease	D020389
+EDMD	Disease	D020389
+eye abnormalities	Disease	D005124
+Aniridia	Disease	D015783
+semidominant developmental disorders	Disease	D002658
+iris hypoplasia	Disease	D007499
+brain abnormalities	Disease	D001927
+developmental abnormalities of the eye	Disease	D005124
+developmental defects	Disease	D002658
+hereditary breast and ovarian cancer	Disease	D061325
+breast and ovarian cancer	Disease	D061325
+breast-ovarian cancer	Disease	D061325
+ovarian cancer	Disease	D010051
+breast-ovarian cancer	Disease	D061325
+tumors	Disease	D009369
+tumor	Disease	D009369
+prostatic, pancreas, skin, and lung cancer	Disease	D011471|D010190|D012878|D008175
+malignant melanoma	Disease	D008545
+oligodendroglioma	Disease	D009837
+carcinosarcoma	Disease	D002296
+ovarian cancer	Disease	D010051
+hereditary breast cancer	Disease	D001943
+ovarian cancers	Disease	D010051
+colorectal cancer	Disease	D015179
+stage II colorectal cancer	Disease	D015179
+colorectal cancer	Disease	D015179
+tumor	Disease	D009369
+colorectal carcinoma	Disease	D015179
+stage II and III colorectal carcinomas	Disease	D015179
+tumor	Disease	D009369
+tumor	Disease	D009369
+stage II and stage III colorectal carcinomas	Disease	D015179
+tumors	Disease	D009369
+DCC-negative tumors	Disease	D009369
+stage III disease	Disease	D009369
+stage II or stage III colorectal cancer	Disease	D015179
+stage II colorectal carcinomas	Disease	D015179
+stage III cancers	Disease	D009369
+phenylketonuria	Disease	D010661
+phenylketonuria	Disease	D010661
+PKU	Disease	D010661
+autosomal recessive disorder	Disease	D030342
+deficiency of hepatic phenylalanine hydroxylase	Disease	OMIM:261600
+PKU	Disease	D010661
+PAH-deficient	Disease	OMIM:261600
+PAH-deficient	Disease	OMIM:261600
+PKU	Disease	D010661
+hereditary breast and ovarian cancer	Disease	D061325
+breast cancer	Disease	D001943
+tumour	Disease	D009369
+Wiskott-Aldrich syndrome	Disease	D014923
+Wiskott-Aldrich syndrome	Disease	D014923
+WAS	Disease	D014923
+X-linked thrombocytopenia	Disease	OMIM:313900
+WAS	Disease	D014923
+hyperparathyroidism and jaw tumor syndrome	Disease	OMIM:145001
+renal hamartomas	Disease	D007674+D006222
+cystic kidney disease	Disease	D052177
+renal hamartomas	Disease	D007674+D006222
+Hereditary hyperparathyroidism-jaw tumor syndrome	Disease	OMIM:145001
+HPT-JT	Disease	OMIM:145001
+autosomal dominant disease	Disease	D030342
+HPT-JT syndrome	Disease	OMIM:145001
+adult renal hamartomas	Disease	C536399
+cystic kidney disease	Disease	D052177
+HPT-JT syndrome	Disease	OMIM:145001
+renal lesions	Disease	D007680
+HPT	Disease	D006961
+JT	Disease	D007573
+JT	Disease	D007573
+polycystic kidney disease	Disease	D007690
+primary HPT	Disease	D049950
+multiple endocrine neoplasia (MEN) types 1 and 2	Disease	D009377
+MEN1	Disease	OMIM:131100
+MEN2	Disease	D018813
+renal hamartomas	Disease	D007674+D006222
+jaw tumor	Disease	D007573
+parathyroid tumor	Disease	D010282
+renal hamartomas	Disease	D007674+D006222
+tumor	Disease	D009369
+inherited metabolic disorder	Disease	D008659
+galactosemia	Disease	D005693
+galactosemia	Disease	D005693
+breast and ovarian cancer	Disease	D001943|D010051
+cancer	Disease	D009369
+breast and ovarian cancer	Disease	D001943|D010051
+breast and 79 ovarian cancer	Disease	D001943|D010051
+breast, ovarian, or other cancers	Disease	D001943|D010051|D009369
+cancer	Disease	D009369
+cancer	Disease	D009369
+breast cancer	Disease	D001943
+cancer	Disease	D009369
+breast and ovarian cancers	Disease	D001943|D010051
+G6PD deficient	Disease	D005955
+favism	Disease	D005236
+enzyme deficiency	Disease	D008661
+sporadic aniridia	Disease	D015783
+bilateral sporadic aniridia	Disease	D015783
+aniridia	Disease	D015783
+aniridia	Disease	D015783
+aniridia	Disease	D015783
+familial aniridia	Disease	D015783
+chromosome abnormalities	Disease	D002869
+Ovarian cancer	Disease	D010051
+breast cancer	Disease	D001943
+ovarian cancer	Disease	D010051
+cancer	Disease	D009369
+cancers	Disease	D009369
+breast cancer	Disease	D001943
+hereditary breast and ovarian cancer	Disease	D061325
+ovarian cancer	Disease	D010051
+hereditary ovarian cancer	Disease	D061325
+breast cancer	Disease	D001943
+inherited cancer syndrome	Disease	D009386
+Li-Fraumeni syndrome	Disease	D016864
+Li-Fraumeni syndrome	Disease	D016864
+tumour	Disease	D009369
+sporadic tumours	Disease	D009369
+tumours	Disease	D009369
+leiomyosarcoma	Disease	D007890
+tumour	Disease	D009369
+myotonic dystrophy	Disease	D009223
+Myotonic dystrophy	Disease	D009223
+dystrophia myotonica	Disease	D009223
+DM	Disease	D009223
+autosomal dominant multisystem disorder	Disease	D030342
+DM	Disease	D009223
+neuromuscular disease	Disease	D009468
+DM	Disease	D009223
+DM	Disease	D009223
+autosomal dominant myotonia congenita	Disease	OMIM:160800
+Autosomal dominant myotonia congenita	Disease	OMIM:160800
+inherited disorder of skeletal muscle	Disease	D009135+D030342
+male breast cancer	Disease	D018567
+male breast cancer	Disease	D018567
+inherited breast/ovarian cancer	Disease	D061325
+breast and/or ovarian cancer	Disease	D061325
+breast/ovarian cancer	Disease	D061325
+male breast cancer	Disease	D018567
+male breast cancer	Disease	D018567
+cancer	Disease	D009369
+ovarian cancer	Disease	D010051
+male breast cancer	Disease	D018567
+breast/ovarian cancer	Disease	D061325
+von Hippel-Lindau disease tumour	Disease	D006623
+von Hippel-Lindau (VHL) disease	Disease	D006623
+VHL	Disease	D006623
+retinal, cerebellar and spinal haemangioblastomas	Disease	D012175|D018325
+renal cell carcinoma	Disease	D002292
+phaeochromocytoma	Disease	D010673
+VHL	Disease	D006623
+sporadic renal cell carcinoma	Disease	D002292
+haemangioblastoma	Disease	D018325
+VHL	Disease	D006623
+VHL	Disease	D006623
+VHL	Disease	D006623
+VHL	Disease	D006623
+VHL	Disease	D006623
+VHL	Disease	D006623
+VHL	Disease	D006623
+VHL	Disease	D006623
+VHL	Disease	D006623
+VHL	Disease	D006623
+VHL	Disease	D006623
+breast and ovarian cancer	Disease	D061325
+breast and/or ovarian cancer	Disease	D061325
+tumour	Disease	D009369
+breast carcinomas	Disease	D001943
+cancer	Disease	D009369
+cancer	Disease	D009369
+breast cancer	Disease	D001943
+tumours	Disease	D009369
+estrogen receptor-positive breast carcinomas	Disease	D001943
+coronary heart disease	Disease	D003327
+coronary heart disease	Disease	D003327
+CHD	Disease	D003327
+CHD	Disease	D003327
+CHD	Disease	D003327
+CHD	Disease	D003327
+CHD	Disease	D003327
+CHD	Disease	D003327
+CETP deficiency	Disease	OMIM:143470
+CHD	Disease	D003327
+CHD	Disease	D003327
+myotonic dystrophy	Disease	D009223
+myotonic dystrophy	Disease	D009223
+DM	Disease	D009223
+DM	Disease	D009223
+DM	Disease	D009223
+DM	Disease	D009223
+myotonic dystrophy	Disease	D009223
+ataxia-telangiectasia	Disease	D001260
+genetic disorder	Disease	D030342
+ataxia-telangiectasia	Disease	D001260
+A-T	Disease	D001260
+A-T	Disease	D001260
+A-T	Disease	D001260
+A-T	Disease	D001260
+hereditary retinoblastoma	Disease	D012175
+hereditary retinoblastoma	Disease	D012175
+tumor	Disease	D009369
+nonocular tumors	Disease	D009369
+Wiskott-Aldrich syndrome	Disease	D014923
+Wiskott-Aldrich syndrome	Disease	D014923
+WAS	Disease	D014923
+WAS	Disease	D014923
+Adult onset globoid cell leukodystrophy	Disease	D007965
+Krabbe disease	Disease	OMIM:245200
+adult onset globoid cell leukodystrophy	Disease	D007965
+Krabbe disease	Disease	OMIM:245200
+AO-GLD	Disease	D007965
+spastic paraplegia	Disease	D010264
+diminished GALC activity	Disease	C538554
+diminished GALC activity	Disease	C538554
+AO-GLD	Disease	D007965
+IF-GLD	Disease	D007965
+GLD	Disease	D007965
+inherited breast and ovarian cancer	Disease	D061325
+tumour	Disease	D009369
+insulin-dependent diabetes mellitus	Disease	OMIM:125852
+insulin-dependent diabetes mellitus	Disease	OMIM:125852
+IDDM	Disease	D003922
+IDDM	Disease	D003922
+IDDM	Disease	D003922
+IDDM	Disease	D003922
+IDDM	Disease	D003922
+IDDM	Disease	D003922
+IDDM	Disease	D003922
+anxiety-related traits	Disease	OMIM:607834
+anxiety	Disease	D001008
+anxiety-related personality traits	Disease	OMIM:607834
+VLCAD deficiency	Disease	C536353
+VLCAD deficiency	Disease	C536353
+complement C7 deficiency	Disease	OMIM:610102
+Complement C7 deficiency	Disease	OMIM:610102
+C7D	Disease	OMIM:610102
+bacterial infections	Disease	D001424
+meningitis	Disease	D008581
+Neisseria meningitidis	Disease	D008589
+C7D	Disease	OMIM:610102
+C7D	Disease	OMIM:610102
+C7D	Disease	OMIM:610102
+deficiencies of complement components	Disease	D007153
+von Willebrand	Disease	D014842
+type IID von Willebrand disease	Disease	D056728
+von Willebrand	Disease	D014842
+type IID von Willebrand disease	Disease	D056728
+type IID von Willebrand disease	Disease	D056728
+Ataxia-telangiectasia	Disease	D001260
+autosomal recessive disorder	Disease	D030342
+ataxia-telangiectasia	Disease	D001260
+A-T	Disease	D001260
+cerebellar degeneration	Disease	D013132
+immunodeficiency	Disease	D007153
+cancer predisposition	Disease	D009369
+A-T	Disease	D001260
+cancer-prone	Disease	D009369
+A-T	Disease	D001260
+A-T	Disease	D001260
+A-T	Disease	D001260
+ataxia-telangiectasia	Disease	D001260
+ataxia-telangiectasia	Disease	D001260
+A-T	Disease	D001260
+A-T	Disease	D001260
+A-T	Disease	D001260
+cerebellar ataxia	Disease	D002524
+A-T	Disease	D001260
+A-T	Disease	D001260

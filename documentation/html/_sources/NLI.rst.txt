@@ -1,0 +1,19 @@
+NLI package
+===========
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   NLI.generate_embeddings
+   NLI.Model_analysis
+
+Module contents
+---------------
+
+.. automodule:: NLI
+   :members:
+   :undoc-members:
+   :show-inheritance:

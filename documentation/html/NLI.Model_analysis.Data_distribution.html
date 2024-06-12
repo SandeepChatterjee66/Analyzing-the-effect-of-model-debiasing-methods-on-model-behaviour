@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NLI.Model_analysis.Data_distribution package &mdash; Analyzing the effects of debiasing on model behaviour  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="NLI.Model_analysis.Data_representation package" href="NLI.Model_analysis.Data_representation.html" />
+    <link rel="prev" title="NLI.Model_analysis package" href="NLI.Model_analysis.html" />
+    <link href="_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Analyzing the effects of debiasing on model behaviour
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Model Analysis</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Entity_classification.html">Entity_classification package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="NLI.html">NLI package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="NLI.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="NLI.generate_embeddings.html">NLI.generate_embeddings package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="NLI.Model_analysis.html">NLI.Model_analysis package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="NLI.html#module-NLI">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Paraphrase_identification.html">Paraphrase_identification package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Analyzing the effects of debiasing on model behaviour</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Model Analysis</a></li>
+          <li class="breadcrumb-item"><a href="NLI.html">NLI package</a></li>
+          <li class="breadcrumb-item"><a href="NLI.Model_analysis.html">NLI.Model_analysis package</a></li>
+      <li class="breadcrumb-item active">NLI.Model_analysis.Data_distribution package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/NLI.Model_analysis.Data_distribution.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nli-model-analysis-data-distribution-package">
+<h1>NLI.Model_analysis.Data_distribution package<a class="headerlink" href="#nli-model-analysis-data-distribution-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-NLI.Model_analysis.Data_distribution.evaluate">
+<span id="nli-model-analysis-data-distribution-evaluate-module"></span><h2>NLI.Model_analysis.Data_distribution.evaluate module<a class="headerlink" href="#module-NLI.Model_analysis.Data_distribution.evaluate" title="Permalink to this heading"></a></h2>
+<p>This Python script compares two sets of data stored in pickle files and calculates the Jaccard similarity coefficient between them.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">compare_sets</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">file1</span> <span class="o">&lt;</span><span class="n">path_to_pickle_file1</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">file2</span> <span class="o">&lt;</span><span class="n">path_to_pickle_file2</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">file1</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">file</span> <span class="n">path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">first</span> <span class="n">pickle</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">data</span><span class="o">.</span>
+<span class="o">--</span><span class="n">file2</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">file</span> <span class="n">path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">second</span> <span class="n">pickle</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">data</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Jaccard</span> <span class="n">similarity</span> <span class="n">coefficient</span> <span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="n">between</span> <span class="n">the</span> <span class="n">two</span> <span class="n">sets</span> <span class="n">of</span> <span class="n">data</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">compare_sets</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">file1</span> <span class="n">data1</span><span class="o">.</span><span class="n">pkl</span> <span class="o">--</span><span class="n">file2</span> <span class="n">data2</span><span class="o">.</span><span class="n">pkl</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_distribution.evaluate.main">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_distribution.evaluate.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_distribution/evaluate.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_distribution.evaluate.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-NLI.Model_analysis.Data_distribution.ood">
+<span id="nli-model-analysis-data-distribution-ood-module"></span><h2>NLI.Model_analysis.Data_distribution.ood module<a class="headerlink" href="#module-NLI.Model_analysis.Data_distribution.ood" title="Permalink to this heading"></a></h2>
+<p>This script calculates the Jaccard similarity coefficient between two sets of embeddings and identifies out-of-distribution (OOD) samples based on cosine similarity thresholds.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">knn_ood_v5</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">input_file_train</span> <span class="o">&lt;</span><span class="n">train_embedding_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">train_model_name</span> <span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">input_file_val</span> <span class="o">&lt;</span><span class="n">validation_embedding_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">input_file2</span> <span class="o">&lt;</span><span class="n">test_embedding_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">pred_dir</span> <span class="o">&lt;</span><span class="n">prediction_directory</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">test_groundtruth</span> <span class="o">&lt;</span><span class="n">test_groundtruth_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">train_groundtruth</span> <span class="o">&lt;</span><span class="n">train_groundtruth_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">percent</span> <span class="o">&lt;</span><span class="n">threshold_percentage</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">input_file_train</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">training</span> <span class="n">embeddings</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">train_model_name</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">Name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">training</span> <span class="n">model</span><span class="o">.</span>
+<span class="o">--</span><span class="n">input_file_val</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">validation</span> <span class="n">embeddings</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">input_file2</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">test</span> <span class="n">embeddings</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">pred_dir</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">Prediction</span> <span class="n">directory</span><span class="o">.</span>
+<span class="o">--</span><span class="n">test_groundtruth</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">test</span> <span class="n">ground</span> <span class="n">truth</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">train_groundtruth</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">train</span> <span class="n">ground</span> <span class="n">truth</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">percent</span> <span class="p">(</span> <span class="nb">float</span> <span class="p">)</span> <span class="p">:</span> <span class="n">Threshold</span> <span class="n">percentage</span> <span class="k">for</span> <span class="n">identifying</span> <span class="n">OOD</span> <span class="n">samples</span> <span class="n">based</span> <span class="n">on</span> <span class="n">cosine</span> <span class="n">similarity</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Array</span> <span class="n">containing</span> <span class="n">the</span> <span class="n">indices</span> <span class="n">of</span> <span class="n">OOD</span> <span class="n">samples</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">knn_ood_v5</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">input_file_train</span> <span class="n">train_embeddings</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">train_model_name</span> <span class="n">Model1</span> <span class="o">--</span><span class="n">input_file_val</span> <span class="n">validation_embeddings</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">input_file2</span> <span class="n">test_embeddings</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">pred_dir</span> <span class="n">predictions</span> <span class="o">--</span><span class="n">test_groundtruth</span> <span class="n">test_groundtruth</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">train_groundtruth</span> <span class="n">train_groundtruth</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">percent</span> <span class="mi">95</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_distribution.ood.main">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_distribution.ood.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_distribution/ood.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_distribution.ood.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_distribution.ood.normalize_embedding_func">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_distribution.ood.</span></span><span class="sig-name descname"><span class="pre">normalize_embedding_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_distribution/ood.html#normalize_embedding_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_distribution.ood.normalize_embedding_func" title="Permalink to this definition"></a></dt>
+<dd><p>Normalize embeddings by dividing each element by its row’s sum.</p>
+<p>Args:
+tensor (numpy.ndarray): Input tensor.</p>
+<p>Returns:
+numpy.ndarray: Normalized tensor.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_distribution.ood.read_data_func">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_distribution.ood.</span></span><span class="sig-name descname"><span class="pre">read_data_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_distribution/ood.html#read_data_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_distribution.ood.read_data_func" title="Permalink to this definition"></a></dt>
+<dd><p>Read data from a file.</p>
+<p>Args:
+dataset_name (str): Path to the dataset file.</p>
+<p>Returns:
+numpy.ndarray: Data read from the file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_distribution.ood.select_threshold_func">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_distribution.ood.</span></span><span class="sig-name descname"><span class="pre">select_threshold_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_distribution/ood.html#select_threshold_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_distribution.ood.select_threshold_func" title="Permalink to this definition"></a></dt>
+<dd><p>Select a threshold value based on a percentage of the sorted tensor.</p>
+<p>Args:
+tensor (numpy.ndarray): Input tensor.
+percent (float): Percentage value.</p>
+<p>Returns:
+float: Threshold value.</p>
+</dd></dl>
+
+</section>
+<section id="module-NLI.Model_analysis.Data_distribution">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-NLI.Model_analysis.Data_distribution" title="Permalink to this heading"></a></h2>
+<p>This module is used to obtain similarity between data distribution of the model from KNN Out-of-Distribution Detection experiments</p>
+<blockquote>
+<div><p>Files:</p>
+<blockquote>
+<div><p><strong>run_all.sh</strong>: Bash script file to generate score file using all the embeddings.</p>
+</div></blockquote>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="NLI.Model_analysis.html" class="btn btn-neutral float-left" title="NLI.Model_analysis package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="NLI.Model_analysis.Data_representation.html" class="btn btn-neutral float-right" title="NLI.Model_analysis.Data_representation package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aviral Singh and Sandeep Chatterjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

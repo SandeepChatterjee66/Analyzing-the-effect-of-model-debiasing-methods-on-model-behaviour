@@ -1,0 +1,29 @@
+Paraphrase\_identification.Model\_analysis.Data\_distribution package
+=====================================================================
+
+Submodules
+----------
+
+Paraphrase\_identification.Model\_analysis.Data\_distribution.evaluate module
+-----------------------------------------------------------------------------
+
+.. automodule:: Paraphrase_identification.Model_analysis.Data_distribution.evaluate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Paraphrase\_identification.Model\_analysis.Data\_distribution.ood module
+------------------------------------------------------------------------
+
+.. automodule:: Paraphrase_identification.Model_analysis.Data_distribution.ood
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Paraphrase_identification.Model_analysis.Data_distribution
+   :members:
+   :undoc-members:
+   :show-inheritance:

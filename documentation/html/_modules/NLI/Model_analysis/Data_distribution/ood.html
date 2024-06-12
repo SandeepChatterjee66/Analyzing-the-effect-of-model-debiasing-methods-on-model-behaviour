@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NLI.Model_analysis.Data_distribution.ood &mdash; Analyzing the effects of debiasing on model behaviour  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Analyzing the effects of debiasing on model behaviour
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">Model Analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Analyzing the effects of debiasing on model behaviour</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">NLI.Model_analysis.Data_distribution.ood</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for NLI.Model_analysis.Data_distribution.ood</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script calculates the Jaccard similarity coefficient between two sets of embeddings and identifies out-of-distribution (OOD) samples based on cosine similarity thresholds.</span>
+
+<span class="sd">Usage::</span>
+
+<span class="sd">    python knn_ood_v5.py --input_file_train &lt;train_embedding_file&gt; --train_model_name &lt;model_name&gt; --input_file_val &lt;validation_embedding_file&gt; --input_file2 &lt;test_embedding_file&gt; --pred_dir &lt;prediction_directory&gt; --test_groundtruth &lt;test_groundtruth_file&gt; --train_groundtruth &lt;train_groundtruth_file&gt; --percent &lt;threshold_percentage&gt;</span>
+
+<span class="sd">Arguments::</span>
+
+<span class="sd">    --input_file_train ( str ) : Path to the training embeddings file.</span>
+<span class="sd">    --train_model_name ( str ) : Name of the training model.</span>
+<span class="sd">    --input_file_val ( str ) : Path to the validation embeddings file.</span>
+<span class="sd">    --input_file2 ( str ) : Path to the test embeddings file.</span>
+<span class="sd">    --pred_dir ( str ) : Prediction directory.</span>
+<span class="sd">    --test_groundtruth ( str ) : Path to the test ground truth file.</span>
+<span class="sd">    --train_groundtruth ( str ) : Path to the train ground truth file.</span>
+<span class="sd">    --percent ( float ) : Threshold percentage for identifying OOD samples based on cosine similarity.</span>
+
+<span class="sd">Returns::</span>
+
+<span class="sd">    Array containing the indices of OOD samples.</span>
+
+<span class="sd">Example::</span>
+
+<span class="sd">    python knn_ood_v5.py --input_file_train train_embeddings.txt --train_model_name Model1 --input_file_val validation_embeddings.txt --input_file2 test_embeddings.txt --pred_dir predictions --test_groundtruth test_groundtruth.txt --train_groundtruth train_groundtruth.txt --percent 95</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">NearestNeighbors</span>
+
+<div class="viewcode-block" id="read_data_func"><a class="viewcode-back" href="../../../../NLI.Model_analysis.Data_distribution.html#NLI.Model_analysis.Data_distribution.ood.read_data_func">[docs]</a><span class="k">def</span> <span class="nf">read_data_func</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read data from a file.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">    dataset_name (str): Path to the dataset file.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    numpy.ndarray: Data read from the file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tensor</span></div>
+
+<div class="viewcode-block" id="normalize_embedding_func"><a class="viewcode-back" href="../../../../NLI.Model_analysis.Data_distribution.html#NLI.Model_analysis.Data_distribution.ood.normalize_embedding_func">[docs]</a><span class="k">def</span> <span class="nf">normalize_embedding_func</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalize embeddings by dividing each element by its row&#39;s sum.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">    tensor (numpy.ndarray): Input tensor.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    numpy.ndarray: Normalized tensor.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">row_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+    <span class="n">row_sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">row_sq</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">row_sums_sqrt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">row_sums</span><span class="p">)</span>
+    <span class="n">result_tensor</span> <span class="o">=</span> <span class="n">tensor</span> <span class="o">/</span> <span class="n">row_sums_sqrt</span>
+    <span class="k">return</span> <span class="n">result_tensor</span></div>
+
+<div class="viewcode-block" id="select_threshold_func"><a class="viewcode-back" href="../../../../NLI.Model_analysis.Data_distribution.html#NLI.Model_analysis.Data_distribution.ood.select_threshold_func">[docs]</a><span class="k">def</span> <span class="nf">select_threshold_func</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">percent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Select a threshold value based on a percentage of the sorted tensor.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">    tensor (numpy.ndarray): Input tensor.</span>
+<span class="sd">    percent (float): Percentage value.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    float: Threshold value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+    <span class="n">percent</span> <span class="o">=</span> <span class="n">percent</span><span class="o">/</span><span class="mi">100</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+    <span class="n">percent</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">percent</span>
+    <span class="n">percent</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">percent</span><span class="p">)</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">[</span><span class="n">percent</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">threshold</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../../NLI.Model_analysis.Data_distribution.html#NLI.Model_analysis.Data_distribution.ood.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--input_file_train&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--train_model_name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--input_file_val&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--input_file2&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--pred_dir&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--test_groundtruth&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--train_groundtruth&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--percent&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">tensor1_train</span> <span class="o">=</span> <span class="n">read_data_func</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_file_train</span><span class="p">)</span>
+    <span class="n">tensor1_val</span> <span class="o">=</span> <span class="n">read_data_func</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_file_val</span><span class="p">)</span>
+    <span class="n">tensor2</span> <span class="o">=</span> <span class="n">read_data_func</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_file2</span><span class="p">)</span>
+    <span class="n">train_groundtruth</span> <span class="o">=</span> <span class="n">read_file</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">train_groundtruth</span><span class="p">)</span>
+    <span class="n">test_groundtruth</span> <span class="o">=</span> <span class="n">read_file</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">test_groundtruth</span><span class="p">)</span>
+    
+    <span class="n">k_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]</span>
+    
+    <span class="n">tensor1_train</span> <span class="o">=</span> <span class="n">normalize_embedding_func</span><span class="p">(</span><span class="n">tensor1_train</span><span class="p">)</span>
+    <span class="n">tensor1_val</span> <span class="o">=</span> <span class="n">normalize_embedding_func</span><span class="p">(</span><span class="n">tensor1_val</span><span class="p">)</span>
+    <span class="n">tensor2</span> <span class="o">=</span> <span class="n">normalize_embedding_func</span><span class="p">(</span><span class="n">tensor2</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Train embeddings shape: </span><span class="si">{</span><span class="n">tensor1_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Validation embeddings shape: </span><span class="si">{</span><span class="n">tensor1_val</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Test embeddings shape: </span><span class="si">{</span><span class="n">tensor2</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;brute&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">)</span>
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tensor1_train</span><span class="p">)</span>
+    <span class="n">distance</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="n">tensor1_val</span><span class="p">)</span>
+    <span class="n">test_distance</span><span class="p">,</span> <span class="n">test_indices</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="n">tensor2</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k_values</span><span class="p">:</span>
+        <span class="n">result_dir</span> <span class="o">=</span> <span class="s1">&#39;./results/&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">train_model_name</span> <span class="o">+</span> <span class="s1">&#39;/k_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">pred_dir</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">result_dir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">result_dir</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;k = </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">kth_values</span> <span class="o">=</span> <span class="n">distance</span><span class="p">[:,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Validation kth values shape: </span><span class="si">{</span><span class="n">kth_values</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">kth_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">kth_values</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Max cosine similarity value: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">kth_values</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Min cosine similarity value: </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">kth_values</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">select_threshold_func</span><span class="p">(</span><span class="n">kth_values</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">percent</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Threshold: </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">kth_values_test</span> <span class="o">=</span> <span class="n">test_distance</span><span class="p">[:,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Test kth values shape: </span><span class="si">{</span><span class="n">kth_values_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">kth_values_test</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">kth_values_test</span><span class="p">)</span>
+        
+        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">true_ind</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_indices</span><span class="p">)):</span>
+            <span class="n">groundtruth_i</span> <span class="o">=</span> <span class="n">test_groundtruth</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_indices</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">if</span> <span class="nb">dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">train_groundtruth</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="nb">dict</span><span class="p">[</span><span class="n">train_groundtruth</span><span class="p">[</span><span class="n">index</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">dict</span><span class="p">[</span><span class="n">train_groundtruth</span><span class="p">[</span><span class="n">index</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">max_val</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">max_val_class</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">max_val</span><span class="p">:</span>
+                    <span class="n">max_val</span> <span class="o">=</span> <span class="n">value</span>
+                    <span class="n">max_val_class</span> <span class="o">=</span> <span class="n">key</span>
+            <span class="k">if</span> <span class="n">max_val_class</span> <span class="o">==</span> <span class="s1">&#39;contradiction&#39;</span> <span class="ow">or</span> <span class="n">max_val_class</span> <span class="o">==</span> <span class="s1">&#39;neutral&#39;</span><span class="p">:</span>
+                <span class="n">max_val_class</span> <span class="o">=</span> <span class="s1">&#39;non-entailment&#39;</span>
+
+            <span class="k">if</span> <span class="n">max_val_class</span> <span class="o">!=</span> <span class="n">groundtruth_i</span><span class="p">:</span>
+                <span class="n">true_ind</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">true_ind</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">true_ind</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of OOD data points: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">true_ind</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+        
+        <span class="c1"># Save the array with Pickle</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">result_dir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">pred_dir</span> <span class="o">+</span> <span class="s1">&#39;.pkl&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">true_ind</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Load the array with Pickle</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">loaded_array</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">loaded_array</span><span class="p">))</span></div>
+    
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aviral Singh and Sandeep Chatterjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

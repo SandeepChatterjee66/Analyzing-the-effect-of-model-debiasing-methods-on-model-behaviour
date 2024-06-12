@@ -1,0 +1,22 @@
+Entity\_classification.generate\_embeddings package
+===================================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   Entity_classification.generate_embeddings.Disentangled_feature_augmentation
+   Entity_classification.generate_embeddings.Feature_sieve
+   Entity_classification.generate_embeddings.LfF
+   Entity_classification.generate_embeddings.Vanilla
+   Entity_classification.generate_embeddings.resources
+
+Module contents
+---------------
+
+.. automodule:: Entity_classification.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:

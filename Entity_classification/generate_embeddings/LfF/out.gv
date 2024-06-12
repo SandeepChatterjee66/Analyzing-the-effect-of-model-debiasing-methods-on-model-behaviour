@@ -1,0 +1,147 @@
+digraph G {
+concentrate=true;
+splines="ortho";
+rankdir="LR";
+subgraph legend{
+    rank = min;
+    label = "legend";
+    Legend [shape=none, margin=0, label = <
+        <table cellspacing="0" cellpadding="0" border="1"><tr><td>Code2flow Legend</td></tr><tr><td>
+        <table cellspacing="0">
+        <tr><td>Regular function</td><td width="50px" bgcolor='#cccccc'></td></tr>
+        <tr><td>Trunk function (nothing calls this)</td><td bgcolor='#966F33'></td></tr>
+        <tr><td>Leaf function (this calls nothing else)</td><td bgcolor='#6db33f'></td></tr>
+        <tr><td>Function call</td><td><font color='black'>&#8594;</font></td></tr>
+        </table></td></tr></table>
+        >];
+}node_f30bfaf9 [label="158: cross_eval()" name="cross_eval::cross_eval" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_0462a7ff [label="46: find_new_labels_MM_BC5()" name="cross_eval::find_new_labels_MM_BC5" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_80ebf2ee [label="77: find_new_target()" name="cross_eval::find_new_target" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_dd5a91a8 [label="101: inference_MM_BC5()" name="cross_eval::inference_MM_BC5" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_2a8f0838 [label="26: read_train_labels()" name="cross_eval::read_train_labels" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_1c74032f [label="102: IdToLabelAndLabeltoId()" name="data_loader::IdToLabelAndLabeltoId" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_7f2bec5e [label="123: __init__()" name="data_loader::dataset.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_7f2becgi [label="123: __getitem__()" name="data_loader::dataset.__getitem__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_a201eddf [label="207: load_data()" name="data_loader::load_data" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_63011c16 [label="189: load_mapping()" name="data_loader::load_mapping" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_b9875fb5 [label="31: read_data()" name="data_loader::read_data" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_a73470d7 [label="71: tokenize_and_preserve_labels()" name="data_loader::tokenize_and_preserve_labels" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_0e10e230 [label="0: (global)()" name="generate_embeddings::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_3a431b14 [label="113: generate_embeddings()" name="generate_embeddings::generate_embeddings" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_1882ca76 [label="141: main()" name="generate_embeddings::main" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_456cedge [label="98: forward()" name="generate_embeddings::MainModel.forward" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_78c04396 [label="93: save_embeddings_to_text_file()" name="generate_embeddings::save_embeddings_to_text_file" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_5e14ab04 [label="0: (global)()" name="test::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_5a6d272c [label="96: generate_prediction_file()" name="test::generate_prediction_file" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_3bdb5476 [label="112: generate_prob_file()" name="test::generate_prob_file" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_d9bf0bc3 [label="52: inference()" name="test::inference" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_ff1eb7bb [label="130: main()" name="test::main" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_4993e438 [label="0: (global)()" name="train::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_456ced50 [label="98: forward()" name="train::MainModel.forward" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_7195cb12 [label="215: main()" name="train::main" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_70a87134 [label="121: train()" name="train::train" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_2fcc9fe7 [label="176: valid()" name="train::valid" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_f30bfaf9 -> node_dd5a91a8 [color="#E69F00" penwidth="2"];
+node_f30bfaf9 -> node_dd5a91a8 [color="#E69F00" penwidth="2"];
+node_f30bfaf9 -> node_2a8f0838 [color="#E69F00" penwidth="2"];
+node_f30bfaf9 -> node_1c74032f [color="#E69F00" penwidth="2"];
+node_f30bfaf9 -> node_1c74032f [color="#E69F00" penwidth="2"];
+node_f30bfaf9 -> node_a201eddf [color="#E69F00" penwidth="2"];
+node_f30bfaf9 -> node_a201eddf [color="#E69F00" penwidth="2"];
+node_f30bfaf9 -> node_63011c16 [color="#E69F00" penwidth="2"];
+node_dd5a91a8 -> node_0462a7ff [color="#000000" penwidth="2"];
+node_dd5a91a8 -> node_80ebf2ee [color="#000000" penwidth="2"];
+node_a201eddf -> node_1c74032f [color="#CC79A7" penwidth="2"];
+node_a201eddf -> node_7f2bec5e [color="#CC79A7" penwidth="2"];
+node_a201eddf -> node_b9875fb5 [color="#CC79A7" penwidth="2"];
+node_a201eddf -> node_a73470d7 [color="#CC79A7" penwidth="2"];
+node_0e10e230 -> node_1882ca76 [color="#000000" penwidth="2"];
+node_3a431b14 -> node_78c04396 [color="#000000" penwidth="2"];
+node_1882ca76 -> node_a201eddf [color="#D55E00" penwidth="2"];
+node_1882ca76 -> node_a201eddf [color="#D55E00" penwidth="2"];
+node_1882ca76 -> node_a201eddf [color="#D55E00" penwidth="2"];
+node_1882ca76 -> node_a201eddf [color="#D55E00" penwidth="2"];
+node_1882ca76 -> node_63011c16 [color="#D55E00" penwidth="2"];
+node_1882ca76 -> node_3a431b14 [color="#D55E00" penwidth="2"];
+node_1882ca76 -> node_3a431b14 [color="#D55E00" penwidth="2"];
+node_1882ca76 -> node_3a431b14 [color="#D55E00" penwidth="2"];
+node_5e14ab04 -> node_ff1eb7bb [color="#F0E442" penwidth="2"];
+node_ff1eb7bb -> node_f30bfaf9 [color="#009E73" penwidth="2"];
+node_ff1eb7bb -> node_a201eddf [color="#009E73" penwidth="2"];
+node_ff1eb7bb -> node_a201eddf [color="#009E73" penwidth="2"];
+node_ff1eb7bb -> node_5a6d272c [color="#009E73" penwidth="2"];
+node_ff1eb7bb -> node_5a6d272c [color="#009E73" penwidth="2"];
+node_ff1eb7bb -> node_3bdb5476 [color="#009E73" penwidth="2"];
+node_ff1eb7bb -> node_3bdb5476 [color="#009E73" penwidth="2"];
+node_ff1eb7bb -> node_d9bf0bc3 [color="#009E73" penwidth="2"];
+node_ff1eb7bb -> node_d9bf0bc3 [color="#009E73" penwidth="2"];
+node_4993e438 -> node_7195cb12 [color="#000000" penwidth="2"];
+node_7195cb12 -> node_a201eddf [color="#56B4E9" penwidth="2"];
+node_7195cb12 -> node_a201eddf [color="#56B4E9" penwidth="2"];
+node_7195cb12 -> node_70a87134 [color="#56B4E9" penwidth="2"];
+node_7195cb12 -> node_2fcc9fe7 [color="#56B4E9" penwidth="2"];
+node_70a87134 -> node_7f2becgi [color="#54B49" penwidth="2"];
+node_2fcc9fe7 -> node_7f2becgi [color="#0000FF" penwidth="2"];
+node_70a87134 -> node_456ced50 [color="#54B49" penwidth="2"];
+node_2fcc9fe7 -> node_456ced50 [color="#0000FF" penwidth="2"];
+node_d9bf0bc3 -> node_7f2becgi [color="#8B8000" penwidth="2"];
+node_d9bf0bc3 -> node_456ced50 [color="#8B8000" penwidth="2"];
+node_3a431b14 -> node_7f2becgi [color="#000000" penwidth="2"];
+node_3a431b14 -> node_456cedge [color="#000000" penwidth="2"];
+subgraph cluster_d5a95f44 {
+    node_2a8f0838 node_0462a7ff node_80ebf2ee node_dd5a91a8 node_f30bfaf9;
+    label="File: cross_eval";
+    name="cross_eval";
+    style="filled";
+    graph[style=dotted];
+};
+subgraph cluster_594fe504 {
+    node_b9875fb5 node_a73470d7 node_1c74032f node_63011c16 node_a201eddf;
+    label="File: data_loader";
+    name="data_loader";
+    style="filled";
+    graph[style=dotted];
+    subgraph cluster_d4a354e7 {
+        node_7f2bec5e node_7f2becgi;
+        label="Class: dataset";
+        name="dataset";
+        style="filled";
+        graph[style=dotted];
+    };
+};
+subgraph cluster_cc742002 {
+    node_78c04396 node_3a431b14 node_1882ca76 node_0e10e230;
+    label="File: generate_embeddings";
+    name="generate_embeddings";
+    style="filled";
+    graph[style=dotted];
+    subgraph cluster_642b89ge {
+        node_456cedge;
+        label="Class: MainModel";
+        name="MainModel";
+        style="filled";
+        graph[style=dotted];
+    };
+};
+subgraph cluster_e2f26d58 {
+    node_d9bf0bc3 node_5a6d272c node_3bdb5476 node_ff1eb7bb node_5e14ab04;
+    label="File: test";
+    name="test";
+    style="filled";
+    graph[style=dotted];
+};
+subgraph cluster_c46f7c72 {
+    node_70a87134 node_2fcc9fe7 node_7195cb12 node_4993e438;
+    label="File: train";
+    name="train";
+    style="filled";
+    graph[style=dotted];
+    subgraph cluster_642b8910 {
+        node_456ced50;
+        label="Class: MainModel";
+        name="MainModel";
+        style="filled";
+        graph[style=dotted];
+    };
+};
+}

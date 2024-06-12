@@ -1,0 +1,39 @@
+digraph G {
+concentrate=true;
+splines="ortho";
+rankdir="LR";
+subgraph legend{
+    rank = min;
+    label = "legend";
+    Legend [shape=none, margin=0, label = <
+        <table cellspacing="0" cellpadding="0" border="1"><tr><td>Code2flow Legend</td></tr><tr><td>
+        <table cellspacing="0">
+        <tr><td>Regular function</td><td width="50px" bgcolor='#cccccc'></td></tr>
+        <tr><td>Trunk function (nothing calls this)</td><td bgcolor='#966F33'></td></tr>
+        <tr><td>Leaf function (this calls nothing else)</td><td bgcolor='#6db33f'></td></tr>
+        <tr><td>Function call</td><td><font color='black'>&#8594;</font></td></tr>
+        </table></td></tr></table>
+        >];
+}node_a40ef9d6 [label="0: (global)()" name="jaccard_coefficients::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_03cc216e [label="59: calculate_iou()" name="jaccard_coefficients::calculate_iou" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_7984ac35 [label="93: filter_entities()" name="jaccard_coefficients::filter_entities" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_423e6bed [label="42: find_correct_outputs()" name="jaccard_coefficients::find_correct_outputs" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_3ebfdde4 [label="77: load_mapping()" name="jaccard_coefficients::load_mapping" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_bacb8bbe [label="26: read_file()" name="jaccard_coefficients::read_file" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_a40ef9d6 -> node_03cc216e [color="#D55E00" penwidth="2"];
+node_a40ef9d6 -> node_7984ac35 [color="#D55E00" penwidth="2"];
+node_a40ef9d6 -> node_423e6bed [color="#D55E00" penwidth="2"];
+node_a40ef9d6 -> node_423e6bed [color="#D55E00" penwidth="2"];
+node_a40ef9d6 -> node_3ebfdde4 [color="#D55E00" penwidth="2"];
+node_a40ef9d6 -> node_bacb8bbe [color="#D55E00" penwidth="2"];
+node_a40ef9d6 -> node_bacb8bbe [color="#D55E00" penwidth="2"];
+node_a40ef9d6 -> node_bacb8bbe [color="#D55E00" penwidth="2"];
+node_a40ef9d6 -> node_bacb8bbe [color="#D55E00" penwidth="2"];
+subgraph cluster_1067899e {
+    node_bacb8bbe node_423e6bed node_03cc216e node_3ebfdde4 node_7984ac35 node_a40ef9d6;
+    label="File: jaccard_coefficients";
+    name="jaccard_coefficients";
+    style="filled";
+    graph[style=dotted];
+};
+}

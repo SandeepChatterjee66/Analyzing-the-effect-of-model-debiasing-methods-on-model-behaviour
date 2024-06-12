@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NLI.Model_analysis.Data_representation package &mdash; Analyzing the effects of debiasing on model behaviour  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="NLI.Model_analysis.Error_analysis package" href="NLI.Model_analysis.Error_analysis.html" />
+    <link rel="prev" title="NLI.Model_analysis.Data_distribution package" href="NLI.Model_analysis.Data_distribution.html" />
+    <link href="_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Analyzing the effects of debiasing on model behaviour
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Model Analysis</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Entity_classification.html">Entity_classification package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="NLI.html">NLI package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="NLI.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="NLI.generate_embeddings.html">NLI.generate_embeddings package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="NLI.Model_analysis.html">NLI.Model_analysis package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="NLI.html#module-NLI">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Paraphrase_identification.html">Paraphrase_identification package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Analyzing the effects of debiasing on model behaviour</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Model Analysis</a></li>
+          <li class="breadcrumb-item"><a href="NLI.html">NLI package</a></li>
+          <li class="breadcrumb-item"><a href="NLI.Model_analysis.html">NLI.Model_analysis package</a></li>
+      <li class="breadcrumb-item active">NLI.Model_analysis.Data_representation package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/NLI.Model_analysis.Data_representation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nli-model-analysis-data-representation-package">
+<h1>NLI.Model_analysis.Data_representation package<a class="headerlink" href="#nli-model-analysis-data-representation-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-NLI.Model_analysis.Data_representation.jaccard">
+<span id="nli-model-analysis-data-representation-jaccard-module"></span><h2>NLI.Model_analysis.Data_representation.jaccard module<a class="headerlink" href="#module-NLI.Model_analysis.Data_representation.jaccard" title="Permalink to this heading"></a></h2>
+<p>This script evaluates the similarity between two sets of embeddings using the K-nearest neighbors (KNN) approach.</p>
+<p>Usage</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">evaluate_similarity</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">file1</span> <span class="o">&lt;</span><span class="n">path_to_file1</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">file2</span> <span class="o">&lt;</span><span class="n">path_to_file2</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">file1</span><span class="p">:</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">first</span> <span class="nb">set</span> <span class="n">of</span> <span class="n">embeddings</span> <span class="n">file</span><span class="o">.</span>
+
+<span class="o">--</span><span class="n">file2</span><span class="p">:</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">second</span> <span class="nb">set</span> <span class="n">of</span> <span class="n">embeddings</span> <span class="n">file</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_representation.jaccard.find_distance_func">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_representation.jaccard.</span></span><span class="sig-name descname"><span class="pre">find_distance_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_representation/jaccard.html#find_distance_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_representation.jaccard.find_distance_func" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the cosine distance matrix between two sets of embeddings.</p>
+<p>Parameters:
+- tensor1 (numpy.ndarray): Numpy array containing the embeddings of the first model.
+- tensor2 (numpy.ndarray): Numpy array containing the embeddings of the second model.</p>
+<p>Returns:
+- distance_matrix (numpy.ndarray): 2D numpy array representing the cosine distance matrix.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_representation.jaccard.get_ood_count_func">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_representation.jaccard.</span></span><span class="sig-name descname"><span class="pre">get_ood_count_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">th</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_representation/jaccard.html#get_ood_count_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_representation.jaccard.get_ood_count_func" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the count of out-of-distribution (OOD) points based on a threshold.</p>
+<p>Parameters:
+- tensor (numpy.ndarray): Numpy array containing the k-th values from each row.
+- th (float): Threshold value to determine OOD points.
+- val (int): Total number of values considered in the computation.</p>
+<p>Returns:
+- count_per_row (numpy.ndarray): Numpy array containing the count of OOD points per row.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_representation.jaccard.main">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_representation.jaccard.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_representation/jaccard.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_representation.jaccard.main" title="Permalink to this definition"></a></dt>
+<dd><p>Script Workflow:</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>Read Data:</dt><dd><ul class="simple">
+<li><p>Reads the embeddings from the provided files.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Normalize Embeddings:</dt><dd><ul class="simple">
+<li><p>Normalizes the embeddings to ensure consistency in magnitude.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Compute Distance Matrix:</dt><dd><ul class="simple">
+<li><p>Calculates the cosine distance matrix between the embeddings from both models.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>K-nearest Neighbors (KNN):</dt><dd><ul class="simple">
+<li><p>Performs KNN search to find the nearest neighbors for each embedding in both models.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Similarity Calculation:</dt><dd><ul class="simple">
+<li><p>Calculates the similarity between the nearest neighbors of the two models for each embedding.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Output:</dt><dd><ul class="simple">
+<li><p>Prints the similarity score for each specified value of k.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_representation.jaccard.normalize_embedding_func">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_representation.jaccard.</span></span><span class="sig-name descname"><span class="pre">normalize_embedding_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_representation/jaccard.html#normalize_embedding_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_representation.jaccard.normalize_embedding_func" title="Permalink to this definition"></a></dt>
+<dd><p>Normalize embeddings to ensure consistency in magnitude.</p>
+<p>Parameters:
+- tensor (numpy.ndarray): Numpy array containing the embeddings.</p>
+<p>Returns:
+- result_tensor (numpy.ndarray): Normalized embeddings.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_representation.jaccard.pick_kth_value_func">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_representation.jaccard.</span></span><span class="sig-name descname"><span class="pre">pick_kth_value_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_representation/jaccard.html#pick_kth_value_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_representation.jaccard.pick_kth_value_func" title="Permalink to this definition"></a></dt>
+<dd><p>Pick the k-th value from each row of the distance matrix.</p>
+<p>Parameters:
+- distance_matrix (numpy.ndarray): 2D numpy array representing the cosine distance matrix.
+- k (int): Index of the value to be picked.</p>
+<p>Returns:
+- tensor (numpy.ndarray): Numpy array containing the k-th values from each row.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_representation.jaccard.read_data_func">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_representation.jaccard.</span></span><span class="sig-name descname"><span class="pre">read_data_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_representation/jaccard.html#read_data_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_representation.jaccard.read_data_func" title="Permalink to this definition"></a></dt>
+<dd><p>Read embeddings from the specified dataset file.</p>
+<p>Parameters:
+- dataset_name (str): Path to the dataset file containing embeddings.</p>
+<p>Returns:
+- tensor (numpy.ndarray): Numpy array containing the embeddings.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_representation.jaccard.select_threshold_func">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_representation.jaccard.</span></span><span class="sig-name descname"><span class="pre">select_threshold_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_representation/jaccard.html#select_threshold_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_representation.jaccard.select_threshold_func" title="Permalink to this definition"></a></dt>
+<dd><p>Select a threshold value based on the specified percentile of the values.</p>
+<p>Parameters:
+- tensor (numpy.ndarray): Numpy array containing the k-th values from each row.
+- percent (int): Percentile value (0-100).</p>
+<p>Returns:
+- threshold (float): Threshold value selected based on the specified percentile.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NLI.Model_analysis.Data_representation.jaccard.sort_distance_matrix_func">
+<span class="sig-prename descclassname"><span class="pre">NLI.Model_analysis.Data_representation.jaccard.</span></span><span class="sig-name descname"><span class="pre">sort_distance_matrix_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NLI/Model_analysis/Data_representation/jaccard.html#sort_distance_matrix_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NLI.Model_analysis.Data_representation.jaccard.sort_distance_matrix_func" title="Permalink to this definition"></a></dt>
+<dd><p>Sort the distance matrix along each row.</p>
+<p>Parameters:
+- distance_matrix (numpy.ndarray): 2D numpy array representing the cosine distance matrix.</p>
+<p>Returns:
+- sorted_distance_matrix (numpy.ndarray): 2D numpy array with sorted distances along each row.</p>
+</dd></dl>
+
+</section>
+<section id="module-NLI.Model_analysis.Data_representation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-NLI.Model_analysis.Data_representation" title="Permalink to this heading"></a></h2>
+<p>This module is used to obtain similarity between data representation of the model from KNN set of embeddings</p>
+<blockquote>
+<div><p>Files:</p>
+<blockquote>
+<div><p><strong>run.sh</strong>: Bash script file to generate score file using all the embeddings.</p>
+</div></blockquote>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="NLI.Model_analysis.Data_distribution.html" class="btn btn-neutral float-left" title="NLI.Model_analysis.Data_distribution package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="NLI.Model_analysis.Error_analysis.html" class="btn btn-neutral float-right" title="NLI.Model_analysis.Error_analysis package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aviral Singh and Sandeep Chatterjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
