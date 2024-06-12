@@ -1,4 +1,4 @@
-# Enriching-the-out-of-distribution-detection-methods-using-neighbourhood-information
+# Analyzing the effects of debiasing on the model behaviour
 
 * Datasets can be downloaded from:
 1. Entity Classification  
