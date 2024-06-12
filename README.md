@@ -1,6 +1,6 @@
 # Enriching-the-out-of-distribution-detection-methods-using-neighbourhood-information
 
-Datasets can be downloaded from:
+* Datasets can be downloaded from:
 1. Entity Classification  
    MedMentions - https://github.com/chanzuckerberg/MedMentions  
    BC5CDR - https://biocreative.bioinformatics.udel.edu/resources/biocreative-v/proceedings-biocreative5/  
@@ -14,10 +14,10 @@ Datasets can be downloaded from:
    PAWS - https://github.com/google-research-datasets/paws  
 
 
-For viewing the the documentation open the "index.html" file within the "documentation" folder on the browser.
+* For viewing the the documentation open the "index.html" file within the "documentation" folder on the browser.
 
 
-Within the folders Entity_classification, NLI and Paraphrase_idetification:
+* Within the folders Entity_classification, NLI and Paraphrase_idetification:
 
    Steps to execute the code:
    1) Generate the embeddings for Vanilla, Learning from Failure, Feature Sieve and Disentagled Feature Augmentation methods -
@@ -28,6 +28,6 @@ Within the folders Entity_classification, NLI and Paraphrase_idetification:
    3) After copying the embddings, generate the results for Data Distribution by first executing "run_all.sh" in "Model_analysis/Data_distribution" folder. This will detect the OOD points in the dataset. Then we execute "run_iou.sh" in the same folder to get the Jaccard index results.
    4) For getting the results for Data Representation and Error Analysis we need to execute "run.sh" files in the folder "Model_analysis/Data_representation" and "Model_analysis/Error_analysis" repectively.
 
-   Code execution flow :
+  * Code execution flow :
    
          generate_embeddings/resources/preprocess_datasets/run.sh(only for Entity classification) -> generate_embeddings/[Debiasing_method]/run.sh -> generate_embeddings/[Debiasing_method]/embeddings.sh -> manually copy the embeddings file in resources folder -> Model_analysis/Data_distribution/run_all.sh -> Model_analysis/Data_distribution/run_iou.sh -> Model_analysis/Data_representation/run.sh -> Model_analysis/Error_analysis/run.sh
