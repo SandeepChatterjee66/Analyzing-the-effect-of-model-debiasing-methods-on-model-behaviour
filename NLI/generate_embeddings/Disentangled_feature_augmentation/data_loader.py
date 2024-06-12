@@ -281,6 +281,25 @@ def load_snli(file_path,tokenizer):
             label = parts[0]
             sentence1 = parts[-9]
             sentence2 = parts[-8]
+            
+            if len(parts) == 10:
+                sentence1 = parts[-5]
+                sentence2 = parts[-4]
+                # print(sentence1)
+                # print(sentence2)
+                # print(parts)
+                # break
+            elif len(parts) == 12:
+                sentence1 = parts[-7]
+                sentence2 = parts[-6]
+                
+            elif len(parts) == 13:
+                sentence1 = parts[-8]
+                sentence2 = parts[-7]
+                
+            elif len(parts) == 14:
+                sentence1 = parts[-9]
+                sentence2 = parts[-8]
 
             if label == 'contradiction' or label == 'entailment' or label == 'neutral':
                 target_label_list.append(label)
@@ -289,6 +308,6 @@ def load_snli(file_path,tokenizer):
 
     print(len(sentence1_list))
     path = file_path.split('.')
-    np.savetxt('./snli_1.0/' + path[-2] + '_groundtruth.txt', target_label_list, '%s')
+    np.savetxt('./snli_2.0/' + path[-2] + '_groundtruth.txt', target_label_list, '%s')
     data = mnli_dataset(sentence1_list, sentence2_list, target_label_list, tokenizer, MAX_LEN)
     return data
