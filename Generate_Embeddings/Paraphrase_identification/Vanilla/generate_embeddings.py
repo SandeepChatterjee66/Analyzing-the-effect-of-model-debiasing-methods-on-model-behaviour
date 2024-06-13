@@ -39,7 +39,10 @@ from transformers.modeling_outputs import TokenClassifierOutput
 import warnings
 from sklearn.model_selection import train_test_split
 from datasets import load_dataset
-from Generate_Embeddings.Paraphrase_identification.Vanilla.data_loader import *
+
+from data_loader import *
+
+# from Generate_Embeddings.Paraphrase_identification.Vanilla.data_loader import *
 
 # Ignore all warnings
 warnings.filterwarnings("ignore")

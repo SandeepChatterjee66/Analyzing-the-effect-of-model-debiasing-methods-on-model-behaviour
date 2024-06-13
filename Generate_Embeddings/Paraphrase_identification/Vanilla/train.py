@@ -32,7 +32,9 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoConfig, AutoModelForTokenClassification, AutoModel, BertPreTrainedModel
 from torch import cuda
 from torch.utils.data import ConcatDataset
-from Generate_Embeddings.Paraphrase_identification.Vanilla.data_loader import *
+
+from data_loader import *
+# from Generate_Embeddings.Paraphrase_identification.Vanilla.data_loader import *
 from torch.utils.data import random_split
 
 MAX_LEN = 512
