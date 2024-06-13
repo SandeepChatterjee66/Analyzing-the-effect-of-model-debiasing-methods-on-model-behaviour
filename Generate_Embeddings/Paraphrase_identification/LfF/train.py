@@ -29,9 +29,15 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoConfig, AutoModelForTokenClassification, AutoModel, BertPreTrainedModel
 from torch import cuda
 from torch.utils.data import ConcatDataset
-from Generate_Embeddings.Paraphrase_identification.LfF.data_loader import load_qqp, load_paws
-from Generate_Embeddings.Paraphrase_identification.LfF.test import inference
-from Generate_Embeddings.Paraphrase_identification.LfF.util import EMA
+
+from data_loader import load_qqp, load_paws
+from test import inference
+from util import EMA
+
+# from Generate_Embeddings.Paraphrase_identification.LfF.data_loader import load_qqp, load_paws
+# from Generate_Embeddings.Paraphrase_identification.LfF.test import inference
+# from Generate_Embeddings.Paraphrase_identification.LfF.util import EMA
+
 import numpy as np
 
 input_path = './'
