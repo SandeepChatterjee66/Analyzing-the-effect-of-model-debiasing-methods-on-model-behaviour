@@ -42,13 +42,14 @@ import torch.nn.functional as F
 from torchcrf import CRF
 from transformers.modeling_outputs import TokenClassifierOutput
 import warnings
-# from data_loader import load_data
-# from train import MainModel as Model
-# from cross_eval import cross_eval
 
-from Generate_Embeddings.Entity_classification.Feature_sieve.data_loader import load_data
-from Generate_Embeddings.Entity_classification.Feature_sieve.train import MainModel as Model
-from Generate_Embeddings.Entity_classification.Feature_sieve.cross_eval import cross_eval
+from data_loader import load_data
+from train import MainModel as Model
+from cross_eval import cross_eval
+
+# from Generate_Embeddings.Entity_classification.Feature_sieve.data_loader import load_data
+# from Generate_Embeddings.Entity_classification.Feature_sieve.train import MainModel as Model
+# from Generate_Embeddings.Entity_classification.Feature_sieve.cross_eval import cross_eval
 
 input_path = './'
 output_path = 'resources'
