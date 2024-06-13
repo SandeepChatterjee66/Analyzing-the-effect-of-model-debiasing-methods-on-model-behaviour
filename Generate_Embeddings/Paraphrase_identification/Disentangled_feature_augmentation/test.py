@@ -27,7 +27,9 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoConfig, AutoModelForTokenClassification, AutoModel, BertPreTrainedModel
 from torch import cuda
 from torch.utils.data import ConcatDataset
-from Generate_Embeddings.Paraphrase_identification.Disentangled_feature_augmentation.data_loader import load_paws
+
+from data_loader import load_qqp, load_paws
+# from Generate_Embeddings.Paraphrase_identification.Disentangled_feature_augmentation.data_loader import load_qqp, load_paws
 import numpy
 
 input_path = './'
