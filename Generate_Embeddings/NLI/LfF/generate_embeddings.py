@@ -28,9 +28,12 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from transformers import AutoTokenizer, AutoConfig, AutoModel, BertPreTrainedModel
 from tqdm import tqdm
-from Generate_Embeddings.NLI.LfF.data_loader import load_mnli
-from Generate_Embeddings.NLI.LfF.data_loader import load_hans
-from Generate_Embeddings.NLI.LfF.data_loader import load_snli
+
+from data_loader import load_mnli, load_snli, load_hans
+# from Generate_Embeddings.NLI.LfF.data_loader import load_mnli
+# from Generate_Embeddings.NLI.LfF.data_loader import load_hans
+# from Generate_Embeddings.NLI.LfF.data_loader import load_snli
+
 from typing import List
 
 # Ignore all warnings

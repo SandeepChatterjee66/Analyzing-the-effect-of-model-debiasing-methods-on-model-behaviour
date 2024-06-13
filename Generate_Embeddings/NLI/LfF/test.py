@@ -31,9 +31,11 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoConfig, AutoModelForTokenClassification, AutoModel, BertPreTrainedModel
 from torch import cuda
 from torch.utils.data import ConcatDataset
-from Generate_Embeddings.NLI.LfF.data_loader import load_mnli
-from Generate_Embeddings.NLI.LfF.data_loader import load_hans
-from Generate_Embeddings.NLI.LfF.data_loader import load_snli
+
+from data_loader import load_mnli, load_snli, load_hans
+# from Generate_Embeddings.NLI.LfF.data_loader import load_mnli
+# from Generate_Embeddings.NLI.LfF.data_loader import load_hans
+# from Generate_Embeddings.NLI.LfF.data_loader import load_snli
 
 
 
