@@ -20,10 +20,11 @@ from torch import cuda
 import torch.nn.functional as F
 from seqeval.metrics import classification_report
 import torch.nn as nn
-# from train import MyModel
-# from data_loader import *
-from Generate_Embeddings.Entity_classification.LfF.train import MyModel
-from Generate_Embeddings.Entity_classification.LfF.data_loader import *
+
+from train import MyModel
+from data_loader import *
+# from Generate_Embeddings.Entity_classification.LfF.train import MyModel
+# from Generate_Embeddings.Entity_classification.LfF.data_loader import *
 
 BATCH_SIZE = 36
 input_path = './'

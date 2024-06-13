@@ -39,8 +39,11 @@ from transformers.modeling_outputs import TokenClassifierOutput
 import warnings
 from sklearn.model_selection import train_test_split
 from datasets import load_dataset
-from Generate_Embeddings.Entity_classification.LfF.data_loader import load_data
-from Generate_Embeddings.Entity_classification.LfF.data_loader import load_mapping
+
+from data_loader import load_data, load_mapping
+
+# from Generate_Embeddings.Entity_classification.LfF.data_loader import load_data
+# from Generate_Embeddings.Entity_classification.LfF.data_loader import load_mapping
 
 # Ignore all warnings
 warnings.filterwarnings("ignore")
