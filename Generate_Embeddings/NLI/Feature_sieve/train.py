@@ -31,11 +31,16 @@ from transformers import AutoTokenizer, AutoConfig, AutoModelForTokenClassificat
 
 from torch import cuda
 from torch.utils.data import ConcatDataset
-from Generate_Embeddings.NLI.Feature_sieve.data_loader import load_mnli
-from Generate_Embeddings.NLI.Feature_sieve.data_loader import load_hans
-from Generate_Embeddings.NLI.Feature_sieve.data_loader import load_snli
-from Generate_Embeddings.NLI.Feature_sieve.test import inference
-from Generate_Embeddings.NLI.Feature_sieve.test import read_dataset
+
+from data_loader import load_mnli, load_hans, load_snli
+from test import read_dataset, inference
+
+# from Generate_Embeddings.NLI.Feature_sieve.data_loader import load_mnli
+# from Generate_Embeddings.NLI.Feature_sieve.data_loader import load_hans
+# from Generate_Embeddings.NLI.Feature_sieve.data_loader import load_snli
+
+# from Generate_Embeddings.NLI.Feature_sieve.test import inference
+# from Generate_Embeddings.NLI.Feature_sieve.test import read_dataset
 
 
 input_path = './'  # Directory where input data is located
