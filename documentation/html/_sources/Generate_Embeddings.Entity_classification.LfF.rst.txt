@@ -1,0 +1,61 @@
+Generate\_Embeddings.Entity\_classification.LfF package
+=======================================================
+
+Submodules
+----------
+
+Generate\_Embeddings.Entity\_classification.LfF.cross\_eval module
+------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.LfF.cross_eval
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Entity\_classification.LfF.data\_loader module
+-------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.LfF.data_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Entity\_classification.LfF.generate\_embeddings module
+---------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.LfF.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Entity\_classification.LfF.test module
+-----------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.LfF.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Entity\_classification.LfF.train module
+------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.LfF.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Entity\_classification.LfF.util module
+-----------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.LfF.util
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.LfF
+   :members:
+   :undoc-members:
+   :show-inheritance:

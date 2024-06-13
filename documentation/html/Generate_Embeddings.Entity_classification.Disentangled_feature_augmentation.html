@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation package &mdash; Effects of Debiasing on Model Behaviour  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Generate_Embeddings.Entity_classification.Feature_sieve package" href="Generate_Embeddings.Entity_classification.Feature_sieve.html" />
+    <link rel="prev" title="Generate_Embeddings.Entity_classification package" href="Generate_Embeddings.Entity_classification.html" />
+    <link href="_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Effects of Debiasing on Model Behaviour
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Model Analysis</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="Generate_Embeddings.html">Generate_Embeddings package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="Generate_Embeddings.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="Generate_Embeddings.Entity_classification.html">Generate_Embeddings.Entity_classification package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Generate_Embeddings.NLI.html">Generate_Embeddings.NLI package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Generate_Embeddings.Paraphrase_identification.html">Generate_Embeddings.Paraphrase_identification package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Generate_Embeddings.html#module-Generate_Embeddings">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Model_Analysis.html">Model_Analysis package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Effects of Debiasing on Model Behaviour</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Model Analysis</a></li>
+          <li class="breadcrumb-item"><a href="Generate_Embeddings.html">Generate_Embeddings package</a></li>
+          <li class="breadcrumb-item"><a href="Generate_Embeddings.Entity_classification.html">Generate_Embeddings.Entity_classification package</a></li>
+      <li class="breadcrumb-item active">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generate-embeddings-entity-classification-disentangled-feature-augmentation-package">
+<h1>Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation package<a class="headerlink" href="#generate-embeddings-entity-classification-disentangled-feature-augmentation-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval">
+<span id="generate-embeddings-entity-classification-disentangled-feature-augmentation-cross-eval-module"></span><h2>Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval module<a class="headerlink" href="#module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval" title="Permalink to this heading"></a></h2>
+<p>This module provides functions for reading training labels, finding new labels and targets,
+performing inference, and conducting cross-evaluation for named entity recognition tasks
+in biomedical datasets.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.cross_eval">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.</span></span><span class="sig-name descname"><span class="pre">cross_eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/cross_eval.html#cross_eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.cross_eval" title="Permalink to this definition"></a></dt>
+<dd><p>Conducts cross-evaluation between training and testing datasets and returns evaluation metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>train_dataset</strong> (<em>str</em>) – Name of the training dataset.</p></li>
+<li><p><strong>test_dataset</strong> (<em>str</em>) – Name of the testing dataset.</p></li>
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The trained model to use for evaluation.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.AutoTokenizer</em>) – Tokenizer for processing text.</p></li>
+<li><p><strong>mapping_file</strong> (<em>str</em>) – Path to the mapping file.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to perform computations on.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing test accuracy, predicted labels, weights, and probabilities.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.find_new_labels_MM_BC5">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.</span></span><span class="sig-name descname"><span class="pre">find_new_labels_MM_BC5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id2label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label2id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/cross_eval.html#find_new_labels_MM_BC5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.find_new_labels_MM_BC5" title="Permalink to this definition"></a></dt>
+<dd><p>Maps predicted labels to new labels based on a given mapping and computes accuracy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id2label</strong> (<em>dict</em>) – Mapping from ID to label.</p></li>
+<li><p><strong>label2id</strong> (<em>dict</em>) – Mapping from label to ID.</p></li>
+<li><p><strong>mapping</strong> (<em>dict</em>) – Mapping from one label set to another.</p></li>
+<li><p><strong>targets</strong> (<em>torch.Tensor</em>) – Ground truth target labels.</p></li>
+<li><p><strong>predicted_labels</strong> (<em>torch.Tensor</em>) – Predicted labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing a list of new labels and the test accuracy.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.find_new_target">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.</span></span><span class="sig-name descname"><span class="pre">find_new_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id2label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label2id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/cross_eval.html#find_new_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.find_new_target" title="Permalink to this definition"></a></dt>
+<dd><p>Converts targets to a new format based on the provided mapping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id2label</strong> (<em>dict</em>) – Mapping from ID to label.</p></li>
+<li><p><strong>label2id</strong> (<em>dict</em>) – Mapping from label to ID.</p></li>
+<li><p><strong>mapping</strong> (<em>dict</em>) – Mapping from one label set to another.</p></li>
+<li><p><strong>targets</strong> (<em>torch.Tensor</em>) – Ground truth target labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of new target labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.inference_MM_BC5">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.</span></span><span class="sig-name descname"><span class="pre">inference_MM_BC5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id2label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label2id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id2label_train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/cross_eval.html#inference_MM_BC5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.inference_MM_BC5" title="Permalink to this definition"></a></dt>
+<dd><p>Performs inference on the given dataset and returns accuracy, predicted labels, weights, and probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>train_dataset</strong> (<em>str</em>) – Name of the training dataset.</p></li>
+<li><p><strong>test_dataset</strong> (<em>str</em>) – Name of the testing dataset.</p></li>
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The trained model to use for inference.</p></li>
+<li><p><strong>dataloader</strong> (<em>DataLoader</em>) – DataLoader for the test dataset.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformer tokenizer object</em>) – Tokenizer for processing text.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to perform computations on.</p></li>
+<li><p><strong>id2label</strong> (<em>dict</em>) – Mapping from ID to label.</p></li>
+<li><p><strong>label2id</strong> (<em>dict</em>) – Mapping from label to ID.</p></li>
+<li><p><strong>mapping</strong> (<em>dict</em>) – Mapping from one label set to another.</p></li>
+<li><p><strong>id2label_train</strong> (<em>dict</em><em>, </em><em>optional</em>) – Mapping from ID to label for training set. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing test accuracy, predicted labels, weights, and probabilities.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.read_train_labels">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.</span></span><span class="sig-name descname"><span class="pre">read_train_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/cross_eval.html#read_train_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.cross_eval.read_train_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Reads training labels from the specified dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataset_name</strong> (<em>str</em>) – Name of the dataset to read labels from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of labels read from the dataset.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader">
+<span id="generate-embeddings-entity-classification-disentangled-feature-augmentation-data-loader-module"></span><h2>Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader module<a class="headerlink" href="#module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader" title="Permalink to this heading"></a></h2>
+<p>This script contains classes and functions for loading and processing datasets
+for entity classification tasks.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.IdToLabelAndLabeltoId">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.</span></span><span class="sig-name descname"><span class="pre">IdToLabelAndLabeltoId</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/data_loader.html#IdToLabelAndLabeltoId"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.IdToLabelAndLabeltoId" title="Permalink to this definition"></a></dt>
+<dd><p>Create mappings from label to ID and ID to label for the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>label_list</strong> (<em>list</em>) – List of all unique labels in the dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing two dictionaries, id2label and label2id.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.dataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.</span></span><span class="sig-name descname"><span class="pre">dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label2id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id2label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/data_loader.html#dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.load_data">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cross_eval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/data_loader.html#load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.load_data" title="Permalink to this definition"></a></dt>
+<dd><p>Load and preprocess data for training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_name</strong> (<em>str</em>) – Name of the dataset.</p></li>
+<li><p><strong>data</strong> (<em>str</em>) – Name of the data file (can be train, devel or test).</p></li>
+<li><p><strong>tokenizer</strong> – Tokenizer object used for tokenization.</p></li>
+<li><p><strong>cross_eval</strong> (<em>bool</em>) – Flag indicating if cross evaluation is to be performed(needed when train and test dataset are different. default = False).</p></li>
+<li><p><strong>mapping</strong> (<em>dict</em>) – Optional mapping dictionary(needed if classes are different in the train and test dataset).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing id2label, label2id, dataset object, and labels list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.load_mapping">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/data_loader.html#load_mapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.load_mapping" title="Permalink to this definition"></a></dt>
+<dd><p>Load mapping(needed when the model is trained on MedMentions and the test dataset is BC5CDR or NCBI disease) from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mapping_file</strong> (<em>str</em>) – Path to the mapping file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the mapping(MedMentions to BC5CDR or MedMentions to NCBI-disease).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.read_data">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.</span></span><span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/data_loader.html#read_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.read_data" title="Permalink to this definition"></a></dt>
+<dd><p>Read and parse the dataset to extract sentences and their labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_name</strong> (<em>str</em>) – Name of the dataset(can be MedMentions, BC5CDR, NCBI_disease).</p></li>
+<li><p><strong>data</strong> (<em>str</em>) – Name of the data file (can be train, devel or test)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing lists of sentences, labels, and all_labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.tokenize_and_preserve_labels">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.</span></span><span class="sig-name descname"><span class="pre">tokenize_and_preserve_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/data_loader.html#tokenize_and_preserve_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.tokenize_and_preserve_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Tokenize sentences while preserving the original labels for each token.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sentence</strong> (<em>list</em>) – List of tokens in a sentence.</p></li>
+<li><p><strong>text_labels</strong> (<em>list</em>) – List of labels (B-&lt;CLASS&gt;, I, O) corresponding to each token in the sentence.</p></li>
+<li><p><strong>tokenizer</strong> – Tokenizer object used for tokenization.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the tokenized sentence and the corresponding labels after tokenization.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings">
+<span id="generate-embeddings-entity-classification-disentangled-feature-augmentation-generate-embeddings-module"></span><h2>Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings module<a class="headerlink" href="#module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings" title="Permalink to this heading"></a></h2>
+<p>This script is designed to perform token classification tasks using a pre-trained BioBERT model. It includes functionalities to read datasets, generate embeddings, and save them to text files. The script also supports cross-dataset evaluation and handles different datasets like BC5CDR and MedMentions.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">&lt;</span><span class="n">path_to_script</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">train_dataset_name</span> <span class="o">&lt;</span><span class="n">train_dataset</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">test_dataset_name</span> <span class="o">&lt;</span><span class="n">test_dataset</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">model_directory</span> <span class="o">&lt;</span><span class="n">model_directory</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">tokenizer_directory</span> <span class="o">&lt;</span><span class="n">tokenizer_directory</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mapping_file</span> <span class="o">&lt;</span><span class="n">mapping_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output_file</span> <span class="o">&lt;</span><span class="n">output_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">train_file</span> <span class="o">&lt;</span><span class="n">train_file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">train_dataset_name</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">training</span> <span class="n">dataset</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="s1">&#39;BC5CDR&#39;</span><span class="p">,</span> <span class="s1">&#39;MedMentions&#39;</span><span class="p">)</span><span class="o">.</span>
+<span class="o">--</span><span class="n">test_dataset_name</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">test</span> <span class="n">dataset</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="s1">&#39;BC5CDR&#39;</span><span class="p">,</span> <span class="s1">&#39;MedMentions&#39;</span><span class="p">)</span><span class="o">.</span>
+<span class="o">--</span><span class="n">model_directory</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">the</span> <span class="n">pre</span><span class="o">-</span><span class="n">trained</span> <span class="n">model</span><span class="o">.</span>
+<span class="o">--</span><span class="n">tokenizer_directory</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">the</span> <span class="n">tokenizer</span><span class="o">.</span>
+<span class="o">--</span><span class="n">mapping_file</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">mapping</span> <span class="n">file</span> <span class="k">for</span> <span class="n">cross</span><span class="o">-</span><span class="n">dataset</span> <span class="n">evaluation</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span><span class="o">.</span>
+<span class="o">--</span><span class="n">output_file</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">output</span> <span class="n">file</span> <span class="n">where</span> <span class="n">embeddings</span> <span class="ow">or</span> <span class="n">results</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span><span class="o">.</span>
+<span class="o">--</span><span class="n">train_file</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">Indicates</span> <span class="n">whether</span> <span class="n">the</span> <span class="nb">input</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">training</span> <span class="n">file</span> <span class="p">(</span><span class="n">use</span> <span class="s1">&#39;True&#39;</span> <span class="ow">or</span> <span class="s1">&#39;False&#39;</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.MainModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">MainModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/generate_embeddings.html#MainModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.MainModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BertPreTrainedModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.MainModel.features">
+<span class="sig-name descname"><span class="pre">features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/generate_embeddings.html#MainModel.features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.MainModel.features" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts features from the input ids and attention mask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ids</strong> (<em>torch.Tensor</em>) – Input tensor containing token ids.</p></li>
+<li><p><strong>attention_mask</strong> (<em>torch.Tensor</em>) – Attention mask for the input ids.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Concatenated feature tensor.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.MainModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.MainModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.generate_embeddings">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">generate_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/generate_embeddings.html#generate_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.generate_embeddings" title="Permalink to this definition"></a></dt>
+<dd><p>Generates embeddings using the model and saves them to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.MainModel" title="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.MainModel"><em>MainModel</em></a>) – The model used to generate embeddings.</p></li>
+<li><p><strong>dataloader</strong> (<em>DataLoader</em>) – DataLoader providing the input data.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to run the model on (‘cuda’ or ‘cpu’).</p></li>
+<li><p><strong>output_file_path</strong> (<em>str</em>) – Path to the output file where embeddings will be saved.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of generated embeddings.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.main">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/generate_embeddings.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.main" title="Permalink to this definition"></a></dt>
+<dd><p>Main function to execute the script.</p>
+<p>Parses command-line arguments, loads the data, generates embeddings,
+and saves the embeddings to specified output files.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.save_embeddings_to_text_file">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">save_embeddings_to_text_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embeddings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/generate_embeddings.html#save_embeddings_to_text_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.generate_embeddings.save_embeddings_to_text_file" title="Permalink to this definition"></a></dt>
+<dd><p>Saves embeddings to a specified text file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>embeddings</strong> (<em>list</em>) – List of embeddings to save.</p></li>
+<li><p><strong>output_file_path</strong> (<em>str</em>) – Path to the output text file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test">
+<span id="generate-embeddings-entity-classification-disentangled-feature-augmentation-test-module"></span><h2>Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test module<a class="headerlink" href="#module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test" title="Permalink to this heading"></a></h2>
+<p>This script is designed to perform inference using a pre-trained transformer model for token classification tasks. The script evaluates the model on test datasets, either within the same dataset or across different datasets, and generates prediction files, weights, and probability distributions for the predicted labels.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">&lt;</span><span class="n">path_to_script</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">train_dataset_name</span> <span class="o">&lt;</span><span class="n">train_dataset</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">test_dataset_name</span> <span class="o">&lt;</span><span class="n">test_dataset</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">model_directory</span> <span class="o">&lt;</span><span class="n">model_directory</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">tokenizer_directory</span> <span class="o">&lt;</span><span class="n">tokenizer_directory</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mapping_file</span> <span class="o">&lt;</span><span class="n">mapping_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output_file</span> <span class="o">&lt;</span><span class="n">output_file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">train_dataset_name</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">training</span> <span class="n">dataset</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="s1">&#39;BC5CDR&#39;</span><span class="p">,</span> <span class="s1">&#39;MedMentions&#39;</span><span class="p">)</span><span class="o">.</span>
+<span class="o">--</span><span class="n">test_dataset_name</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">test</span> <span class="n">dataset</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="s1">&#39;BC5CDR&#39;</span><span class="p">,</span> <span class="s1">&#39;MedMentions&#39;</span><span class="p">)</span><span class="o">.</span>
+<span class="o">--</span><span class="n">model_directory</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">the</span> <span class="n">pre</span><span class="o">-</span><span class="n">trained</span> <span class="n">model</span><span class="o">.</span>
+<span class="o">--</span><span class="n">tokenizer_directory</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">the</span> <span class="n">tokenizer</span><span class="o">.</span>
+<span class="o">--</span><span class="n">mapping_file</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">file</span> <span class="n">path</span> <span class="k">for</span> <span class="n">the</span> <span class="n">mapping</span> <span class="n">file</span> <span class="n">used</span> <span class="ow">in</span> <span class="n">cross</span><span class="o">-</span><span class="n">dataset</span> <span class="n">evaluation</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span><span class="o">.</span>
+<span class="o">--</span><span class="n">output_file</span> <span class="p">(</span> <span class="nb">str</span> <span class="p">)</span> <span class="p">:</span> <span class="n">The</span> <span class="n">file</span> <span class="n">path</span> <span class="k">for</span> <span class="n">the</span> <span class="n">output</span> <span class="n">prediction</span> <span class="n">file</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Details::</dt><dd><ul class="simple">
+<li><p>The script initializes the tokenizer and model using the directories provided.</p></li>
+<li><p>It determines the number of labels based on the training dataset.</p></li>
+<li><p>Depending on whether the training and test datasets are the same or different, it performs inference using either a standard evaluation or a cross-evaluation.</p></li>
+<li><p>The results are saved in specified output files, including predictions, weights, and probabilities.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test.generate_prediction_file">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test.</span></span><span class="sig-name descname"><span class="pre">generate_prediction_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_lst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/test.html#generate_prediction_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test.generate_prediction_file" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a prediction file from the list of predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pred_lst</strong> (<em>list</em>) – List of predicted labels.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – Path to the output file where predictions will be written.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test.inference">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test.</span></span><span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id2label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/test.html#inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test.inference" title="Permalink to this definition"></a></dt>
+<dd><p>Performs inference on the given model and dataloader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The model to evaluate.</p></li>
+<li><p><strong>dataloader</strong> (<em>torch.utils.data.DataLoader</em>) – DataLoader containing the data to evaluate.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – Tokenizer used for data preprocessing.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – Device to perform computations on (CPU or GPU).</p></li>
+<li><p><strong>id2label</strong> (<em>dict</em>) – Dictionary mapping label IDs to label names.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Contains test accuracy, list of predicted labels, weights, and probabilities.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test.main">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/test.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.test.main" title="Permalink to this definition"></a></dt>
+<dd><p>Main function to run the evaluation process.</p>
+<p>This function performs the following steps:
+1. Parse command line arguments to get dataset names, model and tokenizer directories, mapping file, and output file.
+2. Determine the number of labels based on the training dataset name.
+3. Load the tokenizer and model from the specified directories.
+4. Perform inference on the test dataset.
+5. Generate prediction files for the predictions, weights, and probabilities.
+6. Log the total execution time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>--train_dataset_name</strong> (<em>str</em>) – Name of the training dataset.</p></li>
+<li><p><strong>--test_dataset_name</strong> (<em>str</em>) – Name of the test dataset.</p></li>
+<li><p><strong>--model_directory</strong> (<em>str</em>) – Directory where the trained model is stored.</p></li>
+<li><p><strong>--tokenizer_directory</strong> (<em>str</em>) – Directory where the tokenizer is stored.</p></li>
+<li><p><strong>--mapping_file</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the mapping file.</p></li>
+<li><p><strong>--output_file</strong> (<em>str</em>) – Path to the output file for predictions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train">
+<span id="generate-embeddings-entity-classification-disentangled-feature-augmentation-train-module"></span><h2>Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train module<a class="headerlink" href="#module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train" title="Permalink to this heading"></a></h2>
+<p>This script trains a BERT-based model for Named Entity Recognition (NER) using the Huggingface library.
+It defines custom loss functions, data loaders, training, and validation functions, and supports model saving
+and early stopping.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">train</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">dataset_name</span> <span class="o">&lt;</span><span class="n">DATASET_NAME</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output_model_directory</span> <span class="o">&lt;</span><span class="n">OUTPUT_MODEL_DIR</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output_tokenizer_directory</span> <span class="o">&lt;</span><span class="n">OUTPUT_TOKENIZER_DIR</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">dataset_name</span><span class="p">:</span> <span class="n">Name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">dataset</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">the</span> <span class="s1">&#39;questions.csv&#39;</span> <span class="n">file</span> <span class="k">for</span> <span class="n">training</span><span class="o">.</span>
+<span class="o">--</span><span class="n">output_model_directory</span><span class="p">:</span> <span class="n">Directory</span> <span class="n">where</span> <span class="n">the</span> <span class="n">trained</span> <span class="n">model</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span><span class="o">.</span>
+<span class="o">--</span><span class="n">output_tokenizer_directory</span><span class="p">:</span> <span class="n">Directory</span> <span class="n">where</span> <span class="n">the</span> <span class="n">tokenizer</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.GeneralizedCELoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.</span></span><span class="sig-name descname"><span class="pre">GeneralizedCELoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.7</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/train.html#GeneralizedCELoss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.GeneralizedCELoss" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Generalized Cross Entropy Loss with custom weighting.</p>
+<p>This loss function modifies the gradient of the cross entropy loss based on the probability
+distribution of the logits and a parameter <cite>q</cite>. The loss weighting helps in handling noisy labels
+in the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> (<em>float</em>) – A parameter that controls the weighting of the loss. Default value is 0.7.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.GeneralizedCELoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/train.html#GeneralizedCELoss.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.GeneralizedCELoss.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the Generalized Cross Entropy Loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logits</strong> (<em>torch.Tensor</em>) – The predicted logits from the model of shape (batch_size, num_classes).</p></li>
+<li><p><strong>targets</strong> (<em>torch.Tensor</em>) – The true labels of shape (batch_size).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The computed loss.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NameError</strong> – If the mean of the probability distribution or gathered probabilities is NaN.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.GeneralizedCELoss.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.GeneralizedCELoss.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.MainModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.</span></span><span class="sig-name descname"><span class="pre">MainModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/train.html#MainModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.MainModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BertPreTrainedModel</span></code></p>
+<p>Custom BERT-based model for token classification.</p>
+<p>This model utilizes two instances of the BioBERT model, processes their outputs through
+linear layers, and combines the results for classification tasks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>transformers.PretrainedConfig</em>) – Configuration object with model parameters.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.MainModel.features">
+<span class="sig-name descname"><span class="pre">features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/train.html#MainModel.features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.MainModel.features" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts features from the input_ids using both instances of the BioBERT model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ids</strong> (<em>torch.Tensor</em>) – Input token IDs.</p></li>
+<li><p><strong>attention_mask</strong> (<em>torch.Tensor</em>) – Attention mask for the input tokens.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Last hidden states from both BioBERT models.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.MainModel.linear">
+<span class="sig-name descname"><span class="pre">linear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z_conflict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_align</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/train.html#MainModel.linear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.MainModel.linear" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the extracted features through fully connected layers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z_conflict</strong> (<em>torch.Tensor</em>) – Concatenated hidden states for conflict resolution.</p></li>
+<li><p><strong>z_align</strong> (<em>torch.Tensor</em>) – Concatenated hidden states for alignment.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Outputs from the fully connected layers.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.MainModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.MainModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.main">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/train.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.main" title="Permalink to this definition"></a></dt>
+<dd><p>Main function to train a model on a specified dataset.</p>
+<p>This function performs the following steps:
+1. Parse command line arguments to get dataset name, model output directory, and tokenizer output directory.
+2. Prepare output directories for model and tokenizer.
+3. Log the dataset name and output paths to a file.
+4. Determine the number of labels based on the dataset name.
+5. Load the tokenizer and data for training and validation.
+6. Initialize the model, optimizer, scheduler, and other necessary components.
+7. Train the model for a specified number of epochs with early stopping.
+8. Save the trained model and tokenizer to the specified directories.
+9. Log the total training time to a file and print it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>--dataset_name</strong> (<em>str</em>) – Name of the dataset to be used for training.</p></li>
+<li><p><strong>--output_model_directory</strong> (<em>str</em>) – Directory to save the trained model.</p></li>
+<li><p><strong>--output_tokenizer_directory</strong> (<em>str</em>) – Directory to save the tokenizer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.train">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheduler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_loss_ema_d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_loss_ema_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/train.html#train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.train" title="Permalink to this definition"></a></dt>
+<dd><p>Trains the model on the given dataset.</p>
+<p>This function performs the training of the model by iterating over the dataloader, computing the loss,
+performing backpropagation, and updating the model parameters. It also calculates and logs the training loss
+and accuracy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The model to be trained.</p></li>
+<li><p><strong>dataloader</strong> (<em>torch.utils.data.DataLoader</em>) – The DataLoader for the training dataset.</p></li>
+<li><p><strong>optimizer</strong> (<em>torch.optim.Optimizer</em>) – The optimizer used for training.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – The device on which the model and data are loaded.</p></li>
+<li><p><strong>swap</strong> (<em>bool</em>) – Whether to perform the swapping operation during training.</p></li>
+<li><p><strong>scheduler</strong> (<em>torch.optim.lr_scheduler._LRScheduler</em>) – Learning rate scheduler.</p></li>
+<li><p><strong>sample_loss_ema_d</strong> (<em>Entity_classification.generate_embeddings.Disentangled_feature_augmentation.util.EMA</em>) – Exponential moving average for the loss of the conflict samples.</p></li>
+<li><p><strong>sample_loss_ema_b</strong> (<em>Entity_classification.generate_embeddings.Disentangled_feature_augmentation.util.EMA</em>) – Exponential moving average for the loss of the align samples.</p></li>
+<li><p><strong>dataset_name</strong> (<em>str</em>) – The name of the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.valid">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.</span></span><span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/train.html#valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train.valid" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the model on the validation dataset.</p>
+<p>This function performs a forward pass through the model for each batch in the validation dataloader,
+calculates the loss and accuracy, and logs the results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The model to be evaluated.</p></li>
+<li><p><strong>dataloader</strong> (<em>torch.utils.data.DataLoader</em>) – The DataLoader for the validation dataset.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – The device on which the model and data are loaded.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Average loss and accuracy over the validation dataset.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.util">
+<span id="generate-embeddings-entity-classification-disentangled-feature-augmentation-util-module"></span><h2>Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.util module<a class="headerlink" href="#module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.util" title="Permalink to this heading"></a></h2>
+<p>This class implements Exponential Moving Average (EMA) for updating parameters.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ema</span> <span class="o">=</span> <span class="n">EMA</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">ema</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">curve</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iter_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">ema</span><span class="o">.</span><span class="n">max_loss</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">label</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span> <span class="n">The</span> <span class="n">label</span> <span class="n">tensor</span><span class="o">.</span>
+<span class="n">num_classes</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">optional</span><span class="p">):</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">classes</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="kc">None</span><span class="o">.</span>
+<span class="n">alpha</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">optional</span><span class="p">):</span> <span class="n">The</span> <span class="n">smoothing</span> <span class="n">factor</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="mf">0.9</span><span class="o">.</span>
+<span class="n">data</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span> <span class="n">The</span> <span class="n">data</span> <span class="n">tensor</span><span class="o">.</span>
+<span class="n">index</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span> <span class="n">The</span> <span class="n">index</span> <span class="n">tensor</span><span class="o">.</span>
+<span class="n">curve</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">optional</span><span class="p">):</span> <span class="n">The</span> <span class="n">curve</span> <span class="n">tensor</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="kc">None</span><span class="o">.</span>
+<span class="n">iter_range</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">optional</span><span class="p">):</span> <span class="n">The</span> <span class="nb">range</span> <span class="n">of</span> <span class="n">iterations</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="kc">None</span><span class="o">.</span>
+<span class="n">step</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">optional</span><span class="p">):</span> <span class="n">The</span> <span class="n">step</span> <span class="n">size</span><span class="o">.</span> <span class="n">Defaults</span> <span class="n">to</span> <span class="kc">None</span><span class="o">.</span>
+<span class="n">Modified</span> <span class="kn">from</span> <span class="nn">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">alinlab</span><span class="o">/</span><span class="n">LfF</span><span class="o">/</span><span class="n">blob</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">util</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.util.EMA">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.util.</span></span><span class="sig-name descname"><span class="pre">EMA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/util.html#EMA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.util.EMA" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.util.EMA.max_loss">
+<span class="sig-name descname"><span class="pre">max_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/util.html#EMA.max_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.util.EMA.max_loss" title="Permalink to this definition"></a></dt>
+<dd><p>Get the maximum loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>label</strong> – The label.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The maximum loss.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.util.EMA.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/Entity_classification/Disentangled_feature_augmentation/util.html#EMA.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.util.EMA.update" title="Permalink to this definition"></a></dt>
+<dd><p>Update the parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>torch.Tensor</em>) – The data tensor.</p></li>
+<li><p><strong>index</strong> (<em>torch.Tensor</em>) – The index tensor.</p></li>
+<li><p><strong>curve</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The curve tensor. Defaults to None.</p></li>
+<li><p><strong>iter_range</strong> (<em>int</em><em>, </em><em>optional</em>) – The range of iterations. Defaults to None.</p></li>
+<li><p><strong>step</strong> (<em>int</em><em>, </em><em>optional</em>) – The step size. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation" title="Permalink to this heading"></a></h2>
+<p>Module to train the model for Entity classification task and generate the embeddings.</p>
+<p>Dirs:</p>
+<blockquote>
+<div><p><strong>preprocess_datasets</strong>: Directory containing code to preprocess the datasets.</p>
+<p><strong>MedMentions</strong>: Directory containing preprocessed MedMentions dataset.</p>
+<p><strong>BC5CDR</strong>: Directory containing preprocessed BC5CDR dataset.</p>
+<p><strong>NCBI_disease</strong>: Directory containing preprocessed NCBI disease.</p>
+</div></blockquote>
+<p>Files:</p>
+<blockquote>
+<div><p><strong>train.py</strong> : File containing code to train the model.</p>
+<p><strong>test.py</strong> : File containing code to test the model on test dataset and save the predictions and softmax scores.</p>
+<p><strong>generate_embeddings.py</strong>: File containing code to generate the embeddings.</p>
+<p><strong>run.sh</strong> : Bash script to run training and testing files.</p>
+<p><strong>embeddings.sh</strong> : Bash script to generate the embeddings.</p>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Generate_Embeddings.Entity_classification.html" class="btn btn-neutral float-left" title="Generate_Embeddings.Entity_classification package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Generate_Embeddings.Entity_classification.Feature_sieve.html" class="btn btn-neutral float-right" title="Generate_Embeddings.Entity_classification.Feature_sieve package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aviral Singh and Sandeep Chatterjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

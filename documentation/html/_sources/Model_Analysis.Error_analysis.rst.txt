@@ -1,0 +1,21 @@
+Model\_Analysis.Error\_analysis package
+=======================================
+
+Submodules
+----------
+
+Model\_Analysis.Error\_analysis.jaccard\_coefficients module
+------------------------------------------------------------
+
+.. automodule:: Model_Analysis.Error_analysis.jaccard_coefficients
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Model_Analysis.Error_analysis
+   :members:
+   :undoc-members:
+   :show-inheritance:

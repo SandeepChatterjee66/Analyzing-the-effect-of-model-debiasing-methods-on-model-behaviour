@@ -1,0 +1,21 @@
+Model\_Analysis.Data\_representation package
+============================================
+
+Submodules
+----------
+
+Model\_Analysis.Data\_representation.jaccard module
+---------------------------------------------------
+
+.. automodule:: Model_Analysis.Data_representation.jaccard
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Model_Analysis.Data_representation
+   :members:
+   :undoc-members:
+   :show-inheritance:

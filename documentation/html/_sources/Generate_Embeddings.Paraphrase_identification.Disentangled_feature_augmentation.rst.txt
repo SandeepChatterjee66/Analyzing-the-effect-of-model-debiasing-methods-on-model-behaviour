@@ -1,0 +1,53 @@
+Generate\_Embeddings.Paraphrase\_identification.Disentangled\_feature\_augmentation package
+===========================================================================================
+
+Submodules
+----------
+
+Generate\_Embeddings.Paraphrase\_identification.Disentangled\_feature\_augmentation.data\_loader module
+-------------------------------------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Disentangled_feature_augmentation.data_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.Disentangled\_feature\_augmentation.generate\_embeddings module
+---------------------------------------------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Disentangled_feature_augmentation.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.Disentangled\_feature\_augmentation.test module
+-----------------------------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Disentangled_feature_augmentation.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.Disentangled\_feature\_augmentation.train module
+------------------------------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Disentangled_feature_augmentation.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.Disentangled\_feature\_augmentation.util module
+-----------------------------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Disentangled_feature_augmentation.util
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Disentangled_feature_augmentation
+   :members:
+   :undoc-members:
+   :show-inheritance:

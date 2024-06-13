@@ -1,0 +1,45 @@
+Generate\_Embeddings.Paraphrase\_identification.Vanilla package
+===============================================================
+
+Submodules
+----------
+
+Generate\_Embeddings.Paraphrase\_identification.Vanilla.data\_loader module
+---------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Vanilla.data_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.Vanilla.generate\_embeddings module
+-----------------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Vanilla.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.Vanilla.test module
+-------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Vanilla.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.Vanilla.train module
+--------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Vanilla.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.Vanilla
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,53 @@
+Generate\_Embeddings.NLI.LfF package
+====================================
+
+Submodules
+----------
+
+Generate\_Embeddings.NLI.LfF.data\_loader module
+------------------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.LfF.data_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.NLI.LfF.generate\_embeddings module
+--------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.LfF.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.NLI.LfF.test module
+----------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.LfF.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.NLI.LfF.train module
+-----------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.LfF.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.NLI.LfF.util module
+----------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.LfF.util
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.NLI.LfF
+   :members:
+   :undoc-members:
+   :show-inheritance:

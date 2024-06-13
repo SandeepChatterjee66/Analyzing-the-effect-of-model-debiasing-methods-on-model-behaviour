@@ -1,0 +1,20 @@
+Model\_Analysis package
+=======================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   Model_Analysis.Data_distribution
+   Model_Analysis.Data_representation
+   Model_Analysis.Error_analysis
+
+Module contents
+---------------
+
+.. automodule:: Model_Analysis
+   :members:
+   :undoc-members:
+   :show-inheritance:

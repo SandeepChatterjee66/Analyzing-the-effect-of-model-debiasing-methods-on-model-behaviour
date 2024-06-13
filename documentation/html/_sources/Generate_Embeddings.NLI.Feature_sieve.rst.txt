@@ -1,0 +1,45 @@
+Generate\_Embeddings.NLI.Feature\_sieve package
+===============================================
+
+Submodules
+----------
+
+Generate\_Embeddings.NLI.Feature\_sieve.data\_loader module
+-----------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.Feature_sieve.data_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.NLI.Feature\_sieve.generate\_embeddings module
+-------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.Feature_sieve.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.NLI.Feature\_sieve.test module
+---------------------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.Feature_sieve.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.NLI.Feature\_sieve.train module
+----------------------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.Feature_sieve.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.NLI.Feature_sieve
+   :members:
+   :undoc-members:
+   :show-inheritance:

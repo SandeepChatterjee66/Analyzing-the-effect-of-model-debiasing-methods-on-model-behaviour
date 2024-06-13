@@ -1,0 +1,18 @@
+Generate\_Embeddings.Entity\_classification.resources package
+=============================================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   Generate_Embeddings.Entity_classification.resources.preprocess_datasets
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.resources
+   :members:
+   :undoc-members:
+   :show-inheritance:

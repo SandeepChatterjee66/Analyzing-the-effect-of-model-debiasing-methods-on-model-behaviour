@@ -1,0 +1,29 @@
+Model\_Analysis.Data\_distribution package
+==========================================
+
+Submodules
+----------
+
+Model\_Analysis.Data\_distribution.evaluate module
+--------------------------------------------------
+
+.. automodule:: Model_Analysis.Data_distribution.evaluate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Model\_Analysis.Data\_distribution.ood module
+---------------------------------------------
+
+.. automodule:: Model_Analysis.Data_distribution.ood
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Model_Analysis.Data_distribution
+   :members:
+   :undoc-members:
+   :show-inheritance:

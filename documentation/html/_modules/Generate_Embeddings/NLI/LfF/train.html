@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate_Embeddings.NLI.LfF.train &mdash; Effects of Debiasing on Model Behaviour  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Effects of Debiasing on Model Behaviour
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">Model Analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Effects of Debiasing on Model Behaviour</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Generate_Embeddings.NLI.LfF.train</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Generate_Embeddings.NLI.LfF.train</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script trains a BERT-based model for Natural Language Inference(NLI) task using the Huggingface library.</span>
+<span class="sd">It defines custom loss functions, data loaders, training, and validation functions, and supports model saving </span>
+<span class="sd">and early stopping.</span>
+
+<span class="sd">Usage::</span>
+
+<span class="sd">    python train.py --dataset_name &lt;DATASET_NAME&gt; --output_model_directory &lt;OUTPUT_MODEL_DIR&gt; --output_tokenizer_directory &lt;OUTPUT_TOKENIZER_DIR&gt;</span>
+
+<span class="sd">Arguments::</span>
+
+<span class="sd">    --dataset_name: Name of the dataset directory containing the &#39;questions.csv&#39; file for training.</span>
+<span class="sd">    --output_model_directory: Directory where the trained model will be saved.</span>
+<span class="sd">    --output_tokenizer_directory: Directory where the tokenizer will be saved.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">ToTensor</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">gc</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoConfig</span><span class="p">,</span> <span class="n">AutoModelForTokenClassification</span><span class="p">,</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">BertPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">cuda</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">ConcatDataset</span>
+<span class="kn">from</span> <span class="nn">Generate_Embeddings.NLI.LfF.data_loader</span> <span class="kn">import</span> <span class="n">load_mnli</span>
+<span class="kn">from</span> <span class="nn">Generate_Embeddings.NLI.LfF.data_loader</span> <span class="kn">import</span> <span class="n">load_hans</span>
+<span class="kn">from</span> <span class="nn">Generate_Embeddings.NLI.LfF.data_loader</span> <span class="kn">import</span> <span class="n">load_snli</span>
+<span class="kn">from</span> <span class="nn">Generate_Embeddings.NLI.LfF.test</span> <span class="kn">import</span> <span class="n">inference</span>
+<span class="kn">from</span> <span class="nn">Generate_Embeddings.NLI.LfF.test</span> <span class="kn">import</span> <span class="n">read_dataset</span>
+<span class="kn">from</span> <span class="nn">Generate_Embeddings.NLI.LfF.util</span> <span class="kn">import</span> <span class="n">EMA</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="s1">&#39;resources&#39;</span>
+<span class="n">log_soft</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">log_softmax</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;torch.version.cuda&quot;</span><span class="p">,</span><span class="n">torch</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">cuda</span><span class="p">)</span>
+<span class="n">MAX_LEN</span> <span class="o">=</span> <span class="mi">512</span> <span class="c1"># suitable for all datasets</span>
+<span class="n">MAX_GRAD_NORM</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">LEARNING_RATE</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">weight_decay</span> <span class="o">=</span> <span class="mf">0.001</span>
+<span class="n">step_size</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">num_labels</span> <span class="o">=</span> <span class="mi">3</span>
+
+<div class="viewcode-block" id="GeneralizedCELoss"><a class="viewcode-back" href="../../../../Generate_Embeddings.NLI.LfF.html#Generate_Embeddings.NLI.LfF.train.GeneralizedCELoss">[docs]</a><span class="k">class</span> <span class="nc">GeneralizedCELoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generalized Cross Entropy Loss.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        q (float, optional): Exponent parameter. Defaults to 0.7.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GeneralizedCELoss</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">q</span>
+             
+<div class="viewcode-block" id="GeneralizedCELoss.forward"><a class="viewcode-back" href="../../../../Generate_Embeddings.NLI.LfF.html#Generate_Embeddings.NLI.LfF.train.GeneralizedCELoss.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logits</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Forward pass of the loss function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            logits (torch.Tensor): The predicted logits.</span>
+<span class="sd">            targets (torch.Tensor): The ground truth labels.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The computed loss value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">&#39;GCE_p&#39;</span><span class="p">)</span>
+        <span class="n">Yg</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">Yg</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">&#39;GCE_Yg&#39;</span><span class="p">)</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">Yg</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">))</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span>
+        
+        <span class="k">return</span> <span class="n">loss</span></div></div>
+
+<div class="viewcode-block" id="MainModel"><a class="viewcode-back" href="../../../../Generate_Embeddings.NLI.LfF.html#Generate_Embeddings.NLI.LfF.train.MainModel">[docs]</a><span class="k">class</span> <span class="nc">MainModel</span><span class="p">(</span><span class="n">BertPreTrainedModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main Model class for NLI task.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config (AutoConfig): The configuration object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MainModel</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">num_labels</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;********************************************************&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;number of labels&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_l</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_b</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">o_l_l</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">768</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">o_l_b</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">768</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_labels</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MainModel.features"><a class="viewcode-back" href="../../../../Generate_Embeddings.NLI.LfF.html#Generate_Embeddings.NLI.LfF.train.MainModel.features">[docs]</a>    <span class="k">def</span> <span class="nf">features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">,</span> <span class="n">token_type_ids</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extracts features from the input.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input_ids (torch.Tensor): The input token IDs.</span>
+<span class="sd">            attention_mask (torch.Tensor): The attention mask.</span>
+<span class="sd">            token_type_ids (torch.Tensor): The token type IDs.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The features extracted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">z_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_l</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="p">,</span> <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span><span class="p">)</span>
+        <span class="n">z_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_b</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="p">,</span> <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">z_l</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:],</span> <span class="n">z_b</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span> </div>
+        <span class="c1"># to extract representations of the first token (often the [CLS] token in BERT-based models) from</span>
+        <span class="c1"># the last hidden state.torch.FloatTensor of shape (batch_size, sequence_length, hidden_size)</span>
+        <span class="c1"># hidden_size (int, optional, defaults to 768) — Dimensionality of the encoder layers and the pooler layer.</span>
+    
+<div class="viewcode-block" id="MainModel.linear"><a class="viewcode-back" href="../../../../Generate_Embeddings.NLI.LfF.html#Generate_Embeddings.NLI.LfF.train.MainModel.linear">[docs]</a>    <span class="k">def</span> <span class="nf">linear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z_conflict</span><span class="p">,</span> <span class="n">z_align</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs linear transformation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            z_conflict (torch.Tensor): Features for the conflict.</span>
+<span class="sd">            z_align (torch.Tensor): Features for the alignment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The linear transformed outputs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">output1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">o_l_l</span><span class="p">(</span><span class="n">z_conflict</span><span class="p">)</span>
+        <span class="n">output2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">o_l_b</span><span class="p">(</span><span class="n">z_align</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output1</span><span class="p">,</span><span class="n">output2</span></div></div>
+
+    
+        
+<div class="viewcode-block" id="valid"><a class="viewcode-back" href="../../../../Generate_Embeddings.NLI.LfF.html#Generate_Embeddings.NLI.LfF.train.valid">[docs]</a><span class="k">def</span> <span class="nf">valid</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs validation on the model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (torch.nn.Module): The model to validate.</span>
+<span class="sd">        dataloader (torch.utils.data.DataLoader): DataLoader for validation data.</span>
+<span class="sd">        device (str): Device to run the validation on.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing the validation loss and accuracy.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">eval_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">eval_accuracy</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">nb_eval_steps</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+        <span class="n">indexes</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;token_type_ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+        <span class="n">nb_eval_steps</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">z_l</span><span class="p">,</span> <span class="n">z_b</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">features</span><span class="p">(</span><span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">token_type_ids</span><span class="o">=</span><span class="n">token_type_ids</span><span class="p">)</span>
+            <span class="n">pred</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">z_conflict</span><span class="o">=</span><span class="n">z_l</span><span class="p">,</span> <span class="n">z_align</span><span class="o">=</span><span class="n">z_b</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">eval_loss</span> <span class="o">+=</span> <span class="n">loss</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">tmp_eval_accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">targets</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">predicted_labels</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+            <span class="n">eval_accuracy</span> <span class="o">+=</span> <span class="n">tmp_eval_accuracy</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Validation accuracy for epoch: </span><span class="si">{</span><span class="n">eval_accuracy</span><span class="o">/</span><span class="n">nb_eval_steps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;live.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Validation Loss for epoch: </span><span class="si">{</span><span class="n">eval_loss</span><span class="o">/</span><span class="n">nb_eval_steps</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Validation accuracy for epoch: </span><span class="si">{</span><span class="n">eval_accuracy</span><span class="o">/</span><span class="n">nb_eval_steps</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">eval_loss</span><span class="o">/</span><span class="n">nb_eval_steps</span><span class="p">,</span> <span class="n">eval_accuracy</span><span class="o">/</span><span class="n">nb_eval_steps</span> </div>
+
+
+
+<div class="viewcode-block" id="train"><a class="viewcode-back" href="../../../../Generate_Embeddings.NLI.LfF.html#Generate_Embeddings.NLI.LfF.train.train">[docs]</a><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">scheduler</span><span class="p">,</span> <span class="n">sample_loss_ema_d</span><span class="p">,</span> <span class="n">sample_loss_ema_b</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Trains the model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (torch.nn.Module): The model to train.</span>
+<span class="sd">        dataloader (torch.utils.data.DataLoader): DataLoader for training data.</span>
+<span class="sd">        optimizer (torch.optim.Optimizer): Optimizer for training.</span>
+<span class="sd">        device (str): Device to run the training on.</span>
+<span class="sd">        scheduler: Learning rate scheduler.</span>
+<span class="sd">        sample_loss_ema_d: Exponential Moving Average (EMA) for sample loss (conflict).</span>
+<span class="sd">        sample_loss_ema_b: Exponential Moving Average (EMA) for sample loss (align).</span>
+<span class="sd">        dataset_name (str): Name of the dataset.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tr_loss</span><span class="p">,</span> <span class="n">total_tr_accuracy_main</span><span class="p">,</span> <span class="n">total_tr_accuracy_main_swap</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="n">total_tr_accuracy_bias</span><span class="p">,</span> <span class="n">total_tr_accuracy_bias_swap</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="n">bias_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">nb_tr_steps</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">bias_criterion</span> <span class="o">=</span> <span class="n">GeneralizedCELoss</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;mask&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;token_type_ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+        <span class="n">z_l</span><span class="p">,</span> <span class="n">z_b</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">features</span><span class="p">(</span><span class="n">input_ids</span><span class="o">=</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">token_type_ids</span><span class="o">=</span><span class="n">token_type_ids</span><span class="p">)</span>
+        <span class="n">pred_conflict</span><span class="p">,</span> <span class="n">pred_align</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">z_conflict</span><span class="o">=</span><span class="n">z_l</span><span class="p">,</span> <span class="n">z_align</span><span class="o">=</span><span class="n">z_b</span><span class="p">)</span>
+        <span class="n">loss_dis_conflict</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred_conflict</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+        <span class="n">loss_dis_align</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred_align</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+
+        <span class="n">sample_loss_ema_d</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">loss_dis_conflict</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="n">sample_loss_ema_b</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">loss_dis_align</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
+        <span class="n">loss_dis_conflict</span> <span class="o">=</span> <span class="n">sample_loss_ema_d</span><span class="o">.</span><span class="n">parameter</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">loss_dis_align</span> <span class="o">=</span> <span class="n">sample_loss_ema_b</span><span class="o">.</span><span class="n">parameter</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_labels</span><span class="p">):</span>
+            <span class="n">class_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">targets</span> <span class="o">==</span> <span class="n">c</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">max_loss_conflict</span> <span class="o">=</span> <span class="n">sample_loss_ema_d</span><span class="o">.</span><span class="n">max_loss</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">max_loss_align</span> <span class="o">=</span> <span class="n">sample_loss_ema_b</span><span class="o">.</span><span class="n">max_loss</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">loss_dis_conflict</span><span class="p">[</span><span class="n">class_index</span><span class="p">]</span> <span class="o">/=</span> <span class="n">max_loss_conflict</span>
+            <span class="n">loss_dis_align</span><span class="p">[</span><span class="n">class_index</span><span class="p">]</span> <span class="o">/=</span> <span class="n">max_loss_align</span>
+
+        <span class="n">loss_weight</span> <span class="o">=</span> <span class="n">loss_dis_align</span> <span class="o">/</span> <span class="p">(</span><span class="n">loss_dis_align</span> <span class="o">+</span> <span class="n">loss_dis_conflict</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+        
+        <span class="n">loss_dis_conflict</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred_conflict</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">tr_loss</span> <span class="o">+=</span> <span class="n">loss_dis_conflict</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        
+        <span class="n">loss_dis_conflict</span> <span class="o">=</span> <span class="n">loss_dis_conflict</span> <span class="o">*</span> <span class="n">loss_weight</span>
+        <span class="n">loss_dis_align</span> <span class="o">=</span> <span class="n">bias_criterion</span><span class="p">(</span><span class="n">pred_align</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">loss_dis</span> <span class="o">=</span> <span class="n">loss_dis_conflict</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="n">loss_dis_align</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_dis</span>
+
+        <span class="n">nb_tr_steps</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">pred_conflict</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">pred_conflict</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">pred_align</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">pred_align</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+ 
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">predicted_labels_conflict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pred_conflict</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">tr_accuracy_main</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">targets</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">predicted_labels_conflict</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
+        <span class="n">predicted_labels_align</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pred_align</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">tr_accuracy_bias</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">targets</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">predicted_labels_align</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+            
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;accuracy.csv&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">newline</span> <span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">tr_accuracy_main</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">tr_accuracy_bias</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">total_tr_accuracy_main</span> <span class="o">+=</span> <span class="n">tr_accuracy_main</span>
+        <span class="n">total_tr_accuracy_bias</span> <span class="o">+=</span> <span class="n">tr_accuracy_bias</span>
+
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Step </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Main model loss: </span><span class="si">{</span><span class="n">tr_loss</span><span class="o">/</span><span class="n">nb_tr_steps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Main Model Accuracy : </span><span class="si">{</span><span class="n">total_tr_accuracy_main</span><span class="o">/</span><span class="n">nb_tr_steps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Bias model Accuracy : </span><span class="si">{</span><span class="n">total_tr_accuracy_bias</span><span class="o">/</span><span class="n">nb_tr_steps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;live.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+                <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Main Model Loss at </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s1"> steps : </span><span class="si">{</span><span class="n">tr_loss</span><span class="o">/</span><span class="n">nb_tr_steps</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Main Model Accuracy : </span><span class="si">{</span><span class="n">total_tr_accuracy_main</span><span class="o">/</span><span class="n">nb_tr_steps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Bias model Accuracy : </span><span class="si">{</span><span class="n">total_tr_accuracy_bias</span><span class="o">/</span><span class="n">nb_tr_steps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">clip_grad_norm_</span><span class="p">(</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
+            <span class="n">max_norm</span><span class="o">=</span><span class="mi">10</span>
+        <span class="p">)</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>  <span class="c1"># Step with the scheduler after backward pass.</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Main model loss for the epoch: </span><span class="si">{</span><span class="n">tr_loss</span><span class="o">/</span><span class="n">nb_tr_steps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Training accuracy of main model for epoch: </span><span class="si">{</span><span class="n">total_tr_accuracy_main</span><span class="o">/</span><span class="n">nb_tr_steps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;live.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Training Accuracy of main model for epoch: </span><span class="si">{</span><span class="n">total_tr_accuracy_main</span><span class="o">/</span><span class="n">nb_tr_steps</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Training Loss of main model for epoch: </span><span class="si">{</span><span class="n">tr_loss</span><span class="o">/</span><span class="n">nb_tr_steps</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../../Generate_Embeddings.NLI.LfF.html#Generate_Embeddings.NLI.LfF.train.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main function to execute the training process.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training model :&quot;</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--dataset_name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--output_model_directory&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--output_tokenizer_directory&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">output_model_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_model_directory</span><span class="p">)</span>
+    <span class="n">output_tokenizer_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_tokenizer_directory</span><span class="p">)</span>
+
+    <span class="n">best_output_model_path</span> <span class="o">=</span> <span class="n">output_model_path</span> <span class="o">+</span> <span class="s1">&#39;/BestModel&#39;</span>    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_model_path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_model_path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">)</span>
+
+    <span class="n">train_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;../resources&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_name</span> <span class="o">+</span> <span class="s1">&#39;_train.txt&#39;</span><span class="p">)</span>
+
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">label2id</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">load_mnli</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">train_file_path</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="n">num_labels</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">MainModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">LEARNING_RATE</span><span class="p">)</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">StepLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+
+    <span class="n">eval_data</span> <span class="o">=</span> <span class="n">read_dataset</span><span class="p">(</span><span class="s1">&#39;..resources/multinli_1.0/val.pkl&#39;</span><span class="p">)</span>
+
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">label2id</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
+
+    <span class="n">sample_loss_ema_b</span> <span class="o">=</span> <span class="n">EMA</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">num_labels</span><span class="p">)</span>
+    <span class="n">sample_loss_ema_d</span> <span class="o">=</span> <span class="n">EMA</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">num_labels</span><span class="p">)</span>
+    <span class="n">hans_data</span> <span class="o">=</span> <span class="n">load_hans</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s1">&#39;./HANS/hans1.txt&#39;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">)</span>
+    <span class="n">hans_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">hans_data</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+    <span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+    <span class="n">eval_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">eval_data</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+    <span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">max_acc</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">patience</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">best_model</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="n">best_tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;live.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch : </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">scheduler</span><span class="p">,</span> <span class="n">sample_loss_ema_d</span><span class="p">,</span> <span class="n">sample_loss_ema_b</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">)</span>
+        <span class="n">validation_loss</span><span class="p">,</span> <span class="n">eval_acc</span> <span class="o">=</span> <span class="n">valid</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">eval_dataloader</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">hans_acc</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">inference</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">hans_dataloader</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s1">&#39;hans&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Validation loss: </span><span class="si">{</span><span class="n">validation_loss</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Validation accuracy for epoch: </span><span class="si">{</span><span class="n">eval_acc</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">HANS accuracy: </span><span class="si">{</span><span class="n">hans_acc</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;live.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Validation Loss : </span><span class="si">{</span><span class="n">validation_loss</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Validation accuracy for epoch: </span><span class="si">{</span><span class="n">eval_acc</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">HANS accuracy: </span><span class="si">{</span><span class="n">hans_acc</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">eval_acc</span> <span class="o">&gt;</span> <span class="n">max_acc</span><span class="p">:</span>
+            <span class="n">max_acc</span> <span class="o">=</span> <span class="n">eval_acc</span>
+            <span class="n">patience</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">best_model</span> <span class="o">=</span> <span class="n">model</span>
+            <span class="n">best_tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
+            <span class="n">best_model</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">)</span>
+            <span class="n">best_tokenizer</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">patience</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">patience</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Early stopping at epoch : &quot;</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
+                <span class="n">best_model</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">)</span>
+                <span class="n">best_tokenizer</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">)</span>
+                <span class="n">patience</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">break</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">output_model_path</span><span class="p">)</span>
+        <span class="n">tokenizer</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">output_tokenizer_path</span><span class="p">)</span>
+    
+    <span class="n">model</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">output_model_path</span><span class="p">)</span>
+    <span class="n">tokenizer</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">output_tokenizer_path</span><span class="p">)</span>
+
+    <span class="n">best_model</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">)</span>
+    <span class="n">best_tokenizer</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">best_output_model_path</span><span class="p">)</span>
+
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">total_time</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;live.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total training time : </span><span class="si">{</span><span class="n">total_time</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total training time : </span><span class="si">{</span><span class="n">total_time</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aviral Singh and Sandeep Chatterjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

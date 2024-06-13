@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate_Embeddings.NLI.Vanilla package &mdash; Effects of Debiasing on Model Behaviour  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Generate_Embeddings.Paraphrase_identification package" href="Generate_Embeddings.Paraphrase_identification.html" />
+    <link rel="prev" title="Generate_Embeddings.NLI.LfF package" href="Generate_Embeddings.NLI.LfF.html" />
+    <link href="_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Effects of Debiasing on Model Behaviour
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Model Analysis</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="Generate_Embeddings.html">Generate_Embeddings package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="Generate_Embeddings.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="Generate_Embeddings.Entity_classification.html">Generate_Embeddings.Entity_classification package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="Generate_Embeddings.NLI.html">Generate_Embeddings.NLI package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Generate_Embeddings.Paraphrase_identification.html">Generate_Embeddings.Paraphrase_identification package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Generate_Embeddings.html#module-Generate_Embeddings">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Model_Analysis.html">Model_Analysis package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Effects of Debiasing on Model Behaviour</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Model Analysis</a></li>
+          <li class="breadcrumb-item"><a href="Generate_Embeddings.html">Generate_Embeddings package</a></li>
+          <li class="breadcrumb-item"><a href="Generate_Embeddings.NLI.html">Generate_Embeddings.NLI package</a></li>
+      <li class="breadcrumb-item active">Generate_Embeddings.NLI.Vanilla package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Generate_Embeddings.NLI.Vanilla.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generate-embeddings-nli-vanilla-package">
+<h1>Generate_Embeddings.NLI.Vanilla package<a class="headerlink" href="#generate-embeddings-nli-vanilla-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-Generate_Embeddings.NLI.Vanilla.data_loader">
+<span id="generate-embeddings-nli-vanilla-data-loader-module"></span><h2>Generate_Embeddings.NLI.Vanilla.data_loader module<a class="headerlink" href="#module-Generate_Embeddings.NLI.Vanilla.data_loader" title="Permalink to this heading"></a></h2>
+<p>This script contains classes and functions for loading and processing datasets
+for question pair classification tasks.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.data_loader.hans_dataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.data_loader.</span></span><span class="sig-name descname"><span class="pre">hans_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_len</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/data_loader.html#hans_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.data_loader.hans_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<p>Dataset class for the HANS dataset.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.data_loader.load_hans">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_hans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/data_loader.html#load_hans"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.data_loader.load_hans" title="Permalink to this definition"></a></dt>
+<dd><p>Loads the HANS dataset from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – Path to the HANS dataset file.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – The tokenizer to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded HANS dataset object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.data_loader.load_mnli">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_mnli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/data_loader.html#load_mnli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.data_loader.load_mnli" title="Permalink to this definition"></a></dt>
+<dd><p>Loads the MNLI dataset from a file and return the dataset object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – Path to the MNLI dataset file.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – The tokenizer to use.</p></li>
+<li><p><strong>type</strong> (<em>bool</em>) – Boolean indicating the type of MNLI data(train or dev) (type = True for train).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded MNLI dataset object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.data_loader.load_snli">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_snli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/data_loader.html#load_snli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.data_loader.load_snli" title="Permalink to this definition"></a></dt>
+<dd><p>Loads the SNLI dataset from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – Path to the SNLI dataset file.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – The tokenizer to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded SNLI dataset object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.data_loader.mnli_dataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.data_loader.</span></span><span class="sig-name descname"><span class="pre">mnli_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_len</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/data_loader.html#mnli_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.data_loader.mnli_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<p>Dataset class for the Multi-Genre Natural Language Inference (MNLI) dataset.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.data_loader.tokenize_sent">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.data_loader.</span></span><span class="sig-name descname"><span class="pre">tokenize_sent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/data_loader.html#tokenize_sent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.data_loader.tokenize_sent" title="Permalink to this definition"></a></dt>
+<dd><p>Tokenizes a given sentence using the provided tokenizer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sentence</strong> (<em>str</em>) – The sentence to tokenize.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – The tokenizer to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tokenized words.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Generate_Embeddings.NLI.Vanilla.generate_embeddings">
+<span id="generate-embeddings-nli-vanilla-generate-embeddings-module"></span><h2>Generate_Embeddings.NLI.Vanilla.generate_embeddings module<a class="headerlink" href="#module-Generate_Embeddings.NLI.Vanilla.generate_embeddings" title="Permalink to this heading"></a></h2>
+<p>This script is designed to generate embeddings
+from the model, and save these embeddings to text files.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">generate_embeddings</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">input_model_path</span> <span class="o">&lt;</span><span class="n">path_to_pretrained_model</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mnli_path</span> <span class="o">&lt;</span><span class="n">path_to_mnli_train_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mnli_val_path</span> <span class="o">&lt;</span><span class="n">path_to_mnli_val</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">hans_test_path</span> <span class="o">&lt;</span><span class="n">hans_dataset_path</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Arguments</span><span class="p">::</span>
+
+<span class="o">--</span><span class="n">input_model_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">pretrained</span> <span class="n">model</span> <span class="n">directory</span><span class="o">.</span>
+<span class="o">--</span><span class="n">mnli_train_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">MNLI</span> <span class="n">train</span> <span class="n">dataset</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">mnli_val_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">MNLI</span> <span class="n">validation</span> <span class="n">dataset</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">hans_test_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">HANS</span> <span class="n">test</span> <span class="n">file</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.generate_embeddings.MainModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">MainModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/generate_embeddings.html#MainModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.generate_embeddings.MainModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BertPreTrainedModel</span></code></p>
+<p>Main Model class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.generate_embeddings.MainModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_type_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/generate_embeddings.html#MainModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.generate_embeddings.MainModel.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Forward pass for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ids</strong> (<em>torch.Tensor</em>) – Input IDs of a batch.</p></li>
+<li><p><strong>attention_mask</strong> (<em>torch.Tensor</em>) – Attention mask of a batch.</p></li>
+<li><p><strong>token_type_ids</strong> (<em>torch.Tensor</em>) – Token type IDs.</p></li>
+<li><p><strong>labels</strong> (<em>torch.Tensor</em>) – Target labels of a batch.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to run the model on(gpu or cpu).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Embeddings corresponding the [CLS] token of the finla layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>output (torch.Tensor)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.generate_embeddings.MainModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.generate_embeddings.MainModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.generate_embeddings.generate_embeddings">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">generate_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/generate_embeddings.html#generate_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.generate_embeddings.generate_embeddings" title="Permalink to this definition"></a></dt>
+<dd><p>Generate and save embeddings using the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference internal" href="#Generate_Embeddings.NLI.Vanilla.generate_embeddings.MainModel" title="Generate_Embeddings.NLI.Vanilla.generate_embeddings.MainModel"><em>MainModel</em></a>) – The trained model.</p></li>
+<li><p><strong>dataloader</strong> (<em>DataLoader</em>) – DataLoader for the data.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to use (‘cuda’ or ‘cpu’).</p></li>
+<li><p><strong>output_file_path</strong> (<em>str</em>) – Path to the output file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of embeddings.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.generate_embeddings.main">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/generate_embeddings.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.generate_embeddings.main" title="Permalink to this definition"></a></dt>
+<dd><p>Main function to train and evaluate the model.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.generate_embeddings.read_dataset">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">read_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/generate_embeddings.html#read_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.generate_embeddings.read_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a dataset object from a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_path</strong> (<em>str</em>) – Path to the pickle file containing the dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dataset loaded from the pickle file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.generate_embeddings.save_embeddings_to_text_file">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.generate_embeddings.</span></span><span class="sig-name descname"><span class="pre">save_embeddings_to_text_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embeddings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/generate_embeddings.html#save_embeddings_to_text_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.generate_embeddings.save_embeddings_to_text_file" title="Permalink to this definition"></a></dt>
+<dd><p>Save embeddings to a text file. Appends the embeddings to the existing file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>embeddings</strong> (<em>list</em>) – List of embeddings for each batch.</p></li>
+<li><p><strong>output_file_path</strong> (<em>str</em>) – Path to the output file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Generate_Embeddings.NLI.Vanilla.test">
+<span id="generate-embeddings-nli-vanilla-test-module"></span><h2>Generate_Embeddings.NLI.Vanilla.test module<a class="headerlink" href="#module-Generate_Embeddings.NLI.Vanilla.test" title="Permalink to this heading"></a></h2>
+<p>This script test the model trained for Natural Language Inference(NLI) task. It saves the prediction file and the softmax score file</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">input_model_path</span> <span class="o">&lt;</span><span class="n">path_to_pretrained_model</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mnli_path</span> <span class="o">&lt;</span><span class="n">path_to_mnli_train_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">mnli_val_path</span> <span class="o">&lt;</span><span class="n">path_to_mnli_val</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">hans_test_path</span> <span class="o">&lt;</span><span class="n">hans_dataset_path</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">input_model_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">pretrained</span> <span class="n">model</span> <span class="n">directory</span><span class="o">.</span>
+<span class="o">--</span><span class="n">mnli_train_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">MNLI</span> <span class="n">train</span> <span class="n">dataset</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">mnli_val_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">MNLI</span> <span class="n">validation</span> <span class="n">dataset</span> <span class="n">file</span><span class="o">.</span>
+<span class="o">--</span><span class="n">hans_test_path</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">HANS</span> <span class="n">test</span> <span class="n">file</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.LossFunction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.test.</span></span><span class="sig-name descname"><span class="pre">LossFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/test.html#LossFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.LossFunction" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Custom loss function class for the model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.LossFunction.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probability</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/test.html#LossFunction.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.LossFunction.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the negative log likelihood loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>probability</strong> (<em>torch.Tensor</em>) – The probabilities for the predictions.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Computed loss.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.LossFunction.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.LossFunction.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.MainModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.test.</span></span><span class="sig-name descname"><span class="pre">MainModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/test.html#MainModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.MainModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BertPreTrainedModel</span></code></p>
+<p>Main model class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.MainModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_type_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/test.html#MainModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.MainModel.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Forward pass for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ids</strong> (<em>torch.Tensor</em>) – Input IDs of a batch.</p></li>
+<li><p><strong>attention_mask</strong> (<em>torch.Tensor</em>) – Attention mask of a batch.</p></li>
+<li><p><strong>token_type_ids</strong> (<em>torch.Tensor</em>) – Token type IDs.</p></li>
+<li><p><strong>labels</strong> (<em>torch.Tensor</em>) – Target labels of a batch.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to run the model on(gpu or cpu).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Loss and probabilities.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.MainModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.MainModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.generate_prediction_file">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.test.</span></span><span class="sig-name descname"><span class="pre">generate_prediction_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_lst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/test.html#generate_prediction_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.generate_prediction_file" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a file containing predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pred_lst</strong> (<em>list</em>) – List of predicted labels.</p></li>
+<li><p><strong>output_file_path</strong> (<em>str</em>) – Path to the output file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.generate_prob_file">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.test.</span></span><span class="sig-name descname"><span class="pre">generate_prob_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob_lst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob_output_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/test.html#generate_prob_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.generate_prob_file" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a file containing prediction probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prob_lst</strong> (<em>list</em>) – List of probabilities for each prediction.</p></li>
+<li><p><strong>output_file_path</strong> (<em>str</em>) – Path to the output file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.inference">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.test.</span></span><span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mnli'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/test.html#inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.inference" title="Permalink to this definition"></a></dt>
+<dd><p>Perform inference on the provided data using the given model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – The trained model.</p></li>
+<li><p><strong>dataloader</strong> (<em>torch.utils.data.DataLoader</em>) – DataLoader for the dataset.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – Tokenizer for processing text data.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to perform computation (‘cuda’ or ‘cpu’).</p></li>
+<li><p><strong>data</strong> (<em>str</em>) – Dataset used for testing. Default is ‘mnli’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Test accuracy, list of predicted labels, list of probabilities.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.main">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.test.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/test.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.main" title="Permalink to this definition"></a></dt>
+<dd><p>Main function to run the model training and inference pipeline.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.test.read_dataset">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.test.</span></span><span class="sig-name descname"><span class="pre">read_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/test.html#read_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.test.read_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a dataset object from a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_path</strong> (<em>str</em>) – Path to the pickle file containing the dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dataset loaded from the pickle file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Generate_Embeddings.NLI.Vanilla.train">
+<span id="generate-embeddings-nli-vanilla-train-module"></span><h2>Generate_Embeddings.NLI.Vanilla.train module<a class="headerlink" href="#module-Generate_Embeddings.NLI.Vanilla.train" title="Permalink to this heading"></a></h2>
+<p>This script trains a BERT-based model for Natural Language Inference(NLI) task using the Huggingface library.
+It defines custom loss functions, data loaders, training, and validation functions, and supports model saving
+and early stopping.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">train</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">dataset_name</span> <span class="o">&lt;</span><span class="n">DATASET_NAME</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output_model_directory</span> <span class="o">&lt;</span><span class="n">OUTPUT_MODEL_DIR</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output_tokenizer_directory</span> <span class="o">&lt;</span><span class="n">OUTPUT_TOKENIZER_DIR</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">dataset_name</span><span class="p">:</span> <span class="n">Name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">dataset</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">the</span> <span class="s1">&#39;questions.csv&#39;</span> <span class="n">file</span> <span class="k">for</span> <span class="n">training</span><span class="o">.</span>
+<span class="o">--</span><span class="n">output_model_directory</span><span class="p">:</span> <span class="n">Directory</span> <span class="n">where</span> <span class="n">the</span> <span class="n">trained</span> <span class="n">model</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span><span class="o">.</span>
+<span class="o">--</span><span class="n">output_tokenizer_directory</span><span class="p">:</span> <span class="n">Directory</span> <span class="n">where</span> <span class="n">the</span> <span class="n">tokenizer</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.LossFunction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.train.</span></span><span class="sig-name descname"><span class="pre">LossFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/train.html#LossFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.LossFunction" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Custom loss function class for the model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.LossFunction.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probability</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/train.html#LossFunction.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.LossFunction.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the negative log likelihood loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>probability</strong> (<em>torch.Tensor</em>) – The probabilities for the predictions.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Computed loss.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.LossFunction.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.LossFunction.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.MainModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.train.</span></span><span class="sig-name descname"><span class="pre">MainModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/train.html#MainModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.MainModel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BertPreTrainedModel</span></code></p>
+<p>Main model class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.MainModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_type_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/train.html#MainModel.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.MainModel.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Forward pass for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ids</strong> (<em>torch.Tensor</em>) – Input IDs of a batch.</p></li>
+<li><p><strong>attention_mask</strong> (<em>torch.Tensor</em>) – Attention mask of a batch.</p></li>
+<li><p><strong>token_type_ids</strong> (<em>torch.Tensor</em>) – Token type IDs.</p></li>
+<li><p><strong>labels</strong> (<em>torch.Tensor</em>) – Target labels of a batch.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to run the model on(gpu or cpu).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Loss and probabilities.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.MainModel.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.MainModel.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.main">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.train.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/train.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.main" title="Permalink to this definition"></a></dt>
+<dd><p>Main function to train and validate the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.read_dataset">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.train.</span></span><span class="sig-name descname"><span class="pre">read_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/train.html#read_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.read_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a dataset object from a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_path</strong> (<em>str</em>) – Path to the pickle file containing the dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dataset loaded from the pickle file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.save_dataset">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.train.</span></span><span class="sig-name descname"><span class="pre">save_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/train.html#save_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.save_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Saves a dataset to a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – The dataset to save.</p></li>
+<li><p><strong>data_path</strong> (<em>str</em>) – Path to the pickle file to save the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.train">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.train.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/train.html#train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.train" title="Permalink to this definition"></a></dt>
+<dd><p>Function to train the model for one epoch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – The model that is to be trained.</p></li>
+<li><p><strong>dataloader</strong> (<em>DataLoader</em>) – DataLoader for training data.</p></li>
+<li><p><strong>optimizer</strong> (<em>torch.optim.Optimizer</em>) – Optimizer for training.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to run the model on.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Generate_Embeddings.NLI.Vanilla.train.valid">
+<span class="sig-prename descclassname"><span class="pre">Generate_Embeddings.NLI.Vanilla.train.</span></span><span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Generate_Embeddings/NLI/Vanilla/train.html#valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Generate_Embeddings.NLI.Vanilla.train.valid" title="Permalink to this definition"></a></dt>
+<dd><p>Validate the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – The model to validate.</p></li>
+<li><p><strong>dataloader</strong> (<em>DataLoader</em>) – DataLoader for validation data.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to run the model on.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Validation loss and accuracy.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Generate_Embeddings.NLI.Vanilla">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Generate_Embeddings.NLI.Vanilla" title="Permalink to this heading"></a></h2>
+<p>Module to train the model for Natural Language Inference(NLI) task and generate the embeddings.</p>
+<dl>
+<dt>Dirs:</dt><dd><p><strong>multinli_1.0</strong> : Directory containing MNLI dataset.</p>
+<p><strong>HANS</strong> : Directory containing HANS dataset.</p>
+<p><strong>snli_1.0</strong> : Directory containing SNLI dataset.</p>
+</dd>
+<dt>Files:</dt><dd><p><strong>train.py</strong> : File containing code to train the model.</p>
+<p><strong>test.py</strong> : File containing code to test the model on test dataset and save the predictions and softmax scores.</p>
+<p><strong>generate_embeddings.py</strong>: File containing code to generate the embeddings.</p>
+<p><strong>run.sh</strong> : Bash script to run training and testing files.</p>
+<p><strong>embeddings.sh</strong> : Bash script to generate the embeddings.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Generate_Embeddings.NLI.LfF.html" class="btn btn-neutral float-left" title="Generate_Embeddings.NLI.LfF package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Generate_Embeddings.Paraphrase_identification.html" class="btn btn-neutral float-right" title="Generate_Embeddings.Paraphrase_identification package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aviral Singh and Sandeep Chatterjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

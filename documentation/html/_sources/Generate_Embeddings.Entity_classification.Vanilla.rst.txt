@@ -1,0 +1,53 @@
+Generate\_Embeddings.Entity\_classification.Vanilla package
+===========================================================
+
+Submodules
+----------
+
+Generate\_Embeddings.Entity\_classification.Vanilla.cross\_eval module
+----------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.Vanilla.cross_eval
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Entity\_classification.Vanilla.data\_loader module
+-----------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.Vanilla.data_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Entity\_classification.Vanilla.generate\_embeddings module
+-------------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.Vanilla.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Entity\_classification.Vanilla.test module
+---------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.Vanilla.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Entity\_classification.Vanilla.train module
+----------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.Vanilla.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.Vanilla
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,21 @@
+Generate\_Embeddings.Entity\_classification.resources.preprocess\_datasets package
+==================================================================================
+
+Submodules
+----------
+
+Generate\_Embeddings.Entity\_classification.resources.preprocess\_datasets.preprocess module
+--------------------------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.resources.preprocess_datasets.preprocess
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.Entity_classification.resources.preprocess_datasets
+   :members:
+   :undoc-members:
+   :show-inheritance:

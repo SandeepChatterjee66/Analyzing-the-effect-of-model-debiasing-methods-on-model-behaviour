@@ -1,0 +1,45 @@
+Generate\_Embeddings.NLI.Vanilla package
+========================================
+
+Submodules
+----------
+
+Generate\_Embeddings.NLI.Vanilla.data\_loader module
+----------------------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.Vanilla.data_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.NLI.Vanilla.generate\_embeddings module
+------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.Vanilla.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.NLI.Vanilla.test module
+--------------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.Vanilla.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.NLI.Vanilla.train module
+---------------------------------------------
+
+.. automodule:: Generate_Embeddings.NLI.Vanilla.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.NLI.Vanilla
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,10 +1,10 @@
-.. Analyzing the effects of debiasing on model behaviour documentation master file, created by
-   sphinx-quickstart on Mon Jun 10 13:38:04 2024.
+.. Effects of Debiasing on Model Behaviour documentation master file, created by
+   sphinx-quickstart on Thu Jun 13 03:31:14 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Analyzing the effects of debiasing on model behaviour's documentation!
-=================================================================================
+Welcome to Effects of Debiasing on Model Behaviour's documentation!
+===================================================================
 
 .. toctree::
    :maxdepth: 5

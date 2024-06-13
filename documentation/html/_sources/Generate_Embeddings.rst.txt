@@ -1,0 +1,20 @@
+Generate\_Embeddings package
+============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   Generate_Embeddings.Entity_classification
+   Generate_Embeddings.NLI
+   Generate_Embeddings.Paraphrase_identification
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:

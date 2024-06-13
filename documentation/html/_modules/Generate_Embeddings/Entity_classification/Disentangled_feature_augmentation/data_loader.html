@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader &mdash; Effects of Debiasing on Model Behaviour  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Effects of Debiasing on Model Behaviour
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">Model Analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Effects of Debiasing on Model Behaviour</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script contains classes and functions for loading and processing datasets</span>
+<span class="sd">for entity classification tasks.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">reduction</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoConfig</span><span class="p">,</span> <span class="n">AutoModelForTokenClassification</span><span class="p">,</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">BertPreTrainedModel</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">cuda</span>
+<span class="kn">from</span> <span class="nn">seqeval.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span> <span class="k">as</span> <span class="n">config</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torchcrf</span> <span class="kn">import</span> <span class="n">CRF</span>
+<span class="kn">from</span> <span class="nn">transformers.modeling_outputs</span> <span class="kn">import</span> <span class="n">TokenClassifierOutput</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
+
+<span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+<span class="n">MAX_LEN</span> <span class="o">=</span> <span class="mi">512</span>   <span class="c1"># suitable for all datasets</span>
+
+<div class="viewcode-block" id="read_data"><a class="viewcode-back" href="../../../../Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.html#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.read_data">[docs]</a><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read and parse the dataset to extract sentences and their labels.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">    </span>
+<span class="sd">        dataset_name (str): Name of the dataset(can be MedMentions, BC5CDR, NCBI_disease).</span>
+<span class="sd">        data (str): Name of the data file (can be train, devel or test)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing lists of sentences, labels, and all_labels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">+</span> <span class="s1">&#39;.txt&#39;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;../resources&#39;</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">token_lst</span><span class="p">,</span> <span class="n">label_lst</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">all_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token_lst</span><span class="p">)</span>
+                <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label_lst</span><span class="p">)</span>
+                <span class="n">token_lst</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">label_lst</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">continue</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">token_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="n">label_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="n">label_path</span> <span class="o">=</span> <span class="s1">&#39;labels.txt&#39;</span>
+    <span class="n">label_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">label_path</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">label_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">all_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">dataset_name</span> <span class="o">==</span> <span class="s1">&#39;MedMentions&#39;</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_labels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">128</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sentences</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">all_labels</span></div>
+
+
+<div class="viewcode-block" id="tokenize_and_preserve_labels"><a class="viewcode-back" href="../../../../Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.html#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.tokenize_and_preserve_labels">[docs]</a><span class="k">def</span> <span class="nf">tokenize_and_preserve_labels</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span> <span class="n">text_labels</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tokenize sentences while preserving the original labels for each token.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sentence (list): List of tokens in a sentence.</span>
+<span class="sd">        text_labels (list): List of labels (B-&lt;CLASS&gt;, I, O) corresponding to each token in the sentence.</span>
+<span class="sd">        tokenizer: Tokenizer object used for tokenization.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing the tokenized sentence and the corresponding labels after tokenization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tokenized_sentence</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span> <span class="n">text_labels</span><span class="p">):</span>
+        <span class="n">tokenized_word</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tokenized_word</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">tokenized_word</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+        <span class="n">n_subwords</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenized_word</span><span class="p">)</span>
+        <span class="n">tokenized_sentence</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tokenized_word</span><span class="p">)</span>
+        <span class="c1"># add same label of word to other subwords</span>
+        <span class="k">if</span> <span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">label</span><span class="p">])</span>
+            <span class="n">new_label</span> <span class="o">=</span> <span class="s1">&#39;I&#39;</span> <span class="o">+</span> <span class="n">label</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">new_label</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_subwords</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">label</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_subwords</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">tokenized_sentence</span><span class="p">,</span> <span class="n">labels</span> </div>
+
+
+<div class="viewcode-block" id="IdToLabelAndLabeltoId"><a class="viewcode-back" href="../../../../Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.html#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.IdToLabelAndLabeltoId">[docs]</a><span class="k">def</span> <span class="nf">IdToLabelAndLabeltoId</span><span class="p">(</span><span class="n">label_list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create mappings from label to ID and ID to label for the dataset.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        label_list (list): List of all unique labels in the dataset.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing two dictionaries, id2label and label2id.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">label_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">label_list</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+    <span class="c1"># sorting as applying set operation does not maintain the order</span>
+    <span class="n">label_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">id2label</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">label_list</span><span class="p">):</span>
+        <span class="n">id2label</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+    <span class="n">label2id</span> <span class="o">=</span> <span class="p">{</span> <span class="n">id2label</span><span class="p">[</span><span class="nb">id</span><span class="p">]:</span> <span class="nb">id</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">id2label</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">id2label</span><span class="p">,</span><span class="n">label2id</span></div>
+
+
+<div class="viewcode-block" id="dataset"><a class="viewcode-back" href="../../../../Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.html#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.dataset">[docs]</a><span class="k">class</span> <span class="nc">dataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sentence_list</span><span class="p">,</span> <span class="n">labels_list</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">max_len</span><span class="p">,</span> <span class="n">label2id</span><span class="p">,</span> <span class="n">id2label</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Custom dataset class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sentence_list (list): List of tokenized sentences.</span>
+<span class="sd">            labels_list (list): List of labels corresponding to each token in the sentence.</span>
+<span class="sd">            tokenizer: Tokenizer object used for tokenization.</span>
+<span class="sd">            max_len (int): Maximum length of tokens.</span>
+<span class="sd">            label2id (dict): Dictionary mapping labels to IDs.</span>
+<span class="sd">            id2label (dict): Dictionary mapping IDs to labels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sentence</span> <span class="o">=</span> <span class="n">sentence_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">labels_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_len</span> <span class="o">=</span> <span class="n">max_len</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">label2id</span> <span class="o">=</span> <span class="n">label2id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id2label</span> <span class="o">=</span> <span class="n">id2label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maximum_across_all</span> <span class="o">=</span> <span class="mi">0</span> 
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a single data point from the dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (int): Index of the data point.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing index, token IDs, attention mask, and target labels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># step 1: tokenize sentence and adapt labels</span>
+        <span class="n">sentence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentence</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">label2id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label2id</span>
+        <span class="n">tokenized_sentence</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;[CLS]&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sentence</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;[SEP]&#39;</span><span class="p">]</span>
+        
+        <span class="c1"># step 3: truncating or padding</span>
+        <span class="n">max_len</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_len</span>
+        <span class="c1">#print(tokenized_sentence)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_len</span><span class="p">:</span>
+            <span class="c1">#truncate</span>
+            <span class="n">tokenized_sentence</span> <span class="o">=</span> <span class="n">tokenized_sentence</span><span class="p">[:</span><span class="n">max_len</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># pad</span>
+            <span class="n">tokenized_sentence</span> <span class="o">=</span> <span class="n">tokenized_sentence</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;[PAD]&#39;</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_len</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">))]</span>
+
+        <span class="c1"># step 4: obtain attention mask</span>
+        <span class="n">attn_mask</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">tok</span> <span class="o">!=</span> <span class="s1">&#39;[PAD]&#39;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">tokenized_sentence</span><span class="p">]</span>
+
+        <span class="c1"># step 5: convert tokens to input ids</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">convert_tokens_to_ids</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">)</span>
+        <span class="n">label_id</span> <span class="o">=</span> <span class="n">label2id</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">target</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span>
+            <span class="s1">&#39;ids&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+            <span class="s1">&#39;mask&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">attn_mask</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span>
+            <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">len</span></div>
+
+<div class="viewcode-block" id="load_mapping"><a class="viewcode-back" href="../../../../Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.html#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.load_mapping">[docs]</a><span class="k">def</span> <span class="nf">load_mapping</span><span class="p">(</span><span class="n">mapping_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load mapping(needed when the model is trained on MedMentions and the test dataset is BC5CDR or NCBI disease) from a file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mapping_file (str): Path to the mapping file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: A dictionary containing the mapping(MedMentions to BC5CDR or MedMentions to NCBI-disease).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">mapping_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">mapping</span><span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mapping</span></div>
+
+
+<div class="viewcode-block" id="load_data"><a class="viewcode-back" href="../../../../Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.html#Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader.load_data">[docs]</a><span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">cross_eval</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">mapping</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load and preprocess data for training.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dataset_name (str): Name of the dataset.</span>
+<span class="sd">        data (str): Name of the data file (can be train, devel or test).</span>
+<span class="sd">        tokenizer: Tokenizer object used for tokenization.</span>
+<span class="sd">        cross_eval (bool): Flag indicating if cross evaluation is to be performed(needed when train and test dataset are different. default = False).</span>
+<span class="sd">        mapping (dict): Optional mapping dictionary(needed if classes are different in the train and test dataset).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing id2label, label2id, dataset object, and labels list.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sentences</span><span class="p">,</span><span class="n">labels</span><span class="p">,</span> <span class="n">all_labels</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">sentence_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">labels_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sentence</span><span class="p">,</span><span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span><span class="n">labels</span><span class="p">):</span>
+        <span class="n">entity_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tokenized_sentence</span><span class="p">,</span><span class="n">tokenized_label</span> <span class="o">=</span> <span class="n">tokenize_and_preserve_labels</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">512</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tokenized_label</span><span class="p">)):</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">tokenized_label</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;B&#39;</span><span class="p">):</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">entity_class</span> <span class="o">=</span> <span class="n">tokenized_label</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">:]</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenized_label</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tokenized_label</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">):</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">cross_eval</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">dataset_name</span> <span class="o">==</span> <span class="s1">&#39;MedMentions&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">entity_class</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">entity_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">entity_class</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">entity_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">entity_class</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entity_list</span><span class="p">:</span>
+            <span class="n">new_sent</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">510</span><span class="p">):</span>
+                <span class="n">entity_len</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">entity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">prefix_len</span> <span class="o">=</span> <span class="p">(</span><span class="mi">510</span> <span class="o">-</span> <span class="n">entity_len</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+                <span class="n">suffix_len</span> <span class="o">=</span> <span class="n">prefix_len</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">prefix_len</span> <span class="o">&lt;</span> <span class="n">entity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">suffix_len</span> <span class="o">&lt;</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">)</span> <span class="o">-</span> <span class="n">entity</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">prefix_len</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">suffix_len</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">prefix_len</span> <span class="o">&gt;=</span> <span class="n">entity</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">suffix_len</span> <span class="o">+=</span> <span class="p">(</span><span class="n">prefix_len</span> <span class="o">-</span> <span class="n">entity</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">suffix_len</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">suffix_len</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">)</span> <span class="o">-</span> <span class="n">entity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">):</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">)</span>
+                    <span class="n">prefix_len</span> <span class="o">+=</span> <span class="p">(</span><span class="n">suffix_len</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">)</span> <span class="o">+</span> <span class="n">entity</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">entity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">prefix_len</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="n">end</span><span class="p">):</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">entity</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="n">new_sent</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;[ENTITY_START]&#39;</span><span class="p">)</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">entity</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="n">new_sent</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;[ENTITY_END]&#39;</span><span class="p">)</span>
+                <span class="n">new_sent</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tokenized_sentence</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">entity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenized_label</span><span class="p">)):</span>
+                <span class="n">new_sent</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;[ENTITY_END]&#39;</span><span class="p">)</span>
+            <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_sent</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">512</span><span class="p">)</span>
+            <span class="n">sentence_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_sent</span><span class="p">)</span>
+            <span class="n">labels_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entity</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentence_list</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_list</span><span class="p">))</span>
+  
+    <span class="n">id2label</span><span class="p">,</span><span class="n">label2id</span> <span class="o">=</span> <span class="n">IdToLabelAndLabeltoId</span><span class="p">(</span><span class="n">all_labels</span><span class="p">)</span>
+    <span class="n">data</span>  <span class="o">=</span> <span class="n">dataset</span><span class="p">(</span><span class="n">sentence_list</span><span class="o">=</span><span class="n">sentence_list</span><span class="p">,</span> <span class="n">labels_list</span><span class="o">=</span><span class="n">labels_list</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>\
+                          <span class="n">max_len</span><span class="o">=</span><span class="n">MAX_LEN</span><span class="p">,</span> <span class="n">id2label</span><span class="o">=</span><span class="n">id2label</span><span class="p">,</span> <span class="n">label2id</span><span class="o">=</span><span class="n">label2id</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Sentence with more than 512 tokens : </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">Total sentences : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">id2label</span><span class="p">,</span> <span class="n">label2id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">labels_list</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aviral Singh and Sandeep Chatterjee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

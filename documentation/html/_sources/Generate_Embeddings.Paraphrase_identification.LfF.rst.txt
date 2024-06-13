@@ -1,0 +1,53 @@
+Generate\_Embeddings.Paraphrase\_identification.LfF package
+===========================================================
+
+Submodules
+----------
+
+Generate\_Embeddings.Paraphrase\_identification.LfF.data\_loader module
+-----------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.LfF.data_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.LfF.generate\_embeddings module
+-------------------------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.LfF.generate_embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.LfF.test module
+---------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.LfF.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.LfF.train module
+----------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.LfF.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generate\_Embeddings.Paraphrase\_identification.LfF.util module
+---------------------------------------------------------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.LfF.util
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification.LfF
+   :members:
+   :undoc-members:
+   :show-inheritance:

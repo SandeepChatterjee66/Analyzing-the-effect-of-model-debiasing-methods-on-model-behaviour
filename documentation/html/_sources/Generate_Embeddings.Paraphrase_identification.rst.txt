@@ -1,0 +1,21 @@
+Generate\_Embeddings.Paraphrase\_identification package
+=======================================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   Generate_Embeddings.Paraphrase_identification.Disentangled_feature_augmentation
+   Generate_Embeddings.Paraphrase_identification.Feature_sieve
+   Generate_Embeddings.Paraphrase_identification.LfF
+   Generate_Embeddings.Paraphrase_identification.Vanilla
+
+Module contents
+---------------
+
+.. automodule:: Generate_Embeddings.Paraphrase_identification
+   :members:
+   :undoc-members:
+   :show-inheritance:
