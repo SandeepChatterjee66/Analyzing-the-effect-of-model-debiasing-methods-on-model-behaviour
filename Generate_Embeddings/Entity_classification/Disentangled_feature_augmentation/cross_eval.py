@@ -21,8 +21,11 @@ from torch import cuda
 import torch.nn.functional as F
 from seqeval.metrics import classification_report
 import torch.nn as nn
-from Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train import *
-from Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader import *
+from train import *
+from data_loader import *
+
+# from Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.train import *
+# from Generate_Embeddings.Entity_classification.Disentangled_feature_augmentation.data_loader import *
 
 BATCH_SIZE = 36
 input_path = './'

@@ -37,9 +37,14 @@ from torch import cuda
 import torch.nn.functional as F
 from seqeval.metrics import classification_report
 import torch.nn as nn
-from Generate_Embeddings.Entity_classification.LfF.train import MyModel
-from Generate_Embeddings.Entity_classification.LfF.data_loader import load_data
-from Generate_Embeddings.Entity_classification.LfF.cross_eval import cross_eval
+
+from train import MyModel
+from data_loader import load_data
+from cross_eval import cross_eval
+
+# from Generate_Embeddings.Entity_classification.LfF.train import MyModel
+# from Generate_Embeddings.Entity_classification.LfF.data_loader import load_data
+# from Generate_Embeddings.Entity_classification.LfF.cross_eval import cross_eval
 
 input_path = './'
 output_path = 'resources'

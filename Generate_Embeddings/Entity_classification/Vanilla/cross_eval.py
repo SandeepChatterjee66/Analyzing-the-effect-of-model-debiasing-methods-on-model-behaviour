@@ -20,11 +20,12 @@ from torch import cuda
 import torch.nn.functional as F
 from seqeval.metrics import classification_report
 import torch.nn as nn
-# from train import MainModel
-# from data_loader import *
 
-from Generate_Embeddings.Entity_classification.Vanilla.train import MainModel
-from Generate_Embeddings.Entity_classification.Vanilla.data_loader import *
+from train import MainModel
+from data_loader import *
+
+# from Generate_Embeddings.Entity_classification.Vanilla.train import MainModel
+# from Generate_Embeddings.Entity_classification.Vanilla.data_loader import *
 
 BATCH_SIZE = 36
 input_path = './'

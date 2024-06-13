@@ -34,10 +34,12 @@ from torchcrf import CRF
 from transformers.modeling_outputs import TokenClassifierOutput
 import warnings
 from sklearn.model_selection import train_test_split
-# from data_loader import load_data
-# from util import EMA
-from Generate_Embeddings.Entity_classification.LfF.data_loader import load_data
-from Generate_Embeddings.Entity_classification.LfF.util import EMA
+
+from data_loader import load_data
+from util import EMA
+
+# from Generate_Embeddings.Entity_classification.LfF.data_loader import load_data
+# from Generate_Embeddings.Entity_classification.LfF.util import EMA
 
 #to create an environment "conda create -n myenv python=3.9"
 # Ignore all warnings
