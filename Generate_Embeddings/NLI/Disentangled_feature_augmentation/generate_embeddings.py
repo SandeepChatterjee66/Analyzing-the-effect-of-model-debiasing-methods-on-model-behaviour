@@ -40,12 +40,18 @@ from transformers.modeling_outputs import TokenClassifierOutput
 import warnings
 from sklearn.model_selection import train_test_split
 from datasets import load_dataset
-from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_mnli
-from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_hans
-from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_snli
-from Generate_Embeddings.NLI.Disentangled_feature_augmentation.test import read_dataset
+
+
+from data_loader import load_mnli, load_hans, load_snli
+
+# from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_mnli
+# from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_hans
+# from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_snli
 # Ignore all warnings
 warnings.filterwarnings("ignore")
+
+
+
 
 
 input_path = './'
@@ -117,7 +123,19 @@ def save_embeddings_to_text_file(embeddings, output_file_path):
                 else:
                     file.write(f'{emb}\n')
 
-
+def read_dataset(data_path):
+    """
+    Reads a dataset object from a pickle file.
+    
+    Args:
+        data_path (str): Path to the pickle file containing the dataset.
+        
+    Returns:
+        data: The dataset loaded from the pickle file.
+    """
+    with open(data_path, 'rb') as inp:
+        data = pickle.load(inp)
+    return data
 
 def generate_embeddings(model, dataloader, device, output_file_path):
     """

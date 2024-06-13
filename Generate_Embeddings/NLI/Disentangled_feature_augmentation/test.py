@@ -30,7 +30,9 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoConfig, AutoModelForTokenClassification, AutoModel, BertPreTrainedModel
 from torch import cuda
 from torch.utils.data import ConcatDataset
-from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import *
+
+from data_loader import *
+#from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import *
 
 input_path = './'
 input_model_path = './best_model'

@@ -36,13 +36,23 @@ from transformers.modeling_outputs import TokenClassifierOutput
 import warnings
 from sklearn.model_selection import train_test_split
 from torch.utils.data import ConcatDataset
-from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_mnli
-from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_hans
-from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_snli
-from Generate_Embeddings.NLI.Disentangled_feature_augmentation.test import inference
-from Generate_Embeddings.NLI.Disentangled_feature_augmentation.test import read_dataset
+
+from data_loader import load_mnli
+from data_loader import load_hans
+from data_loader import load_snli
+from test import inference
+from test import read_dataset
 
 from Generate_Embeddings.NLI.Disentangled_feature_augmentation.util import EMA
+
+
+# from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_mnli
+# from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_hans
+# from Generate_Embeddings.NLI.Disentangled_feature_augmentation.data_loader import load_snli
+# from Generate_Embeddings.NLI.Disentangled_feature_augmentation.test import inference
+# from Generate_Embeddings.NLI.Disentangled_feature_augmentation.test import read_dataset
+
+# from Generate_Embeddings.NLI.Disentangled_feature_augmentation.util import EMA
 
 # Ignore all warnings
 warnings.filterwarnings("ignore")
