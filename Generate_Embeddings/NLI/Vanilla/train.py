@@ -32,9 +32,12 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoConfig, AutoModelForTokenClassification, AutoModel, BertPreTrainedModel
 from torch import cuda
 from torch.utils.data import ConcatDataset
-from Generate_Embeddings.NLI.Vanilla.data_loader import load_mnli
-from Generate_Embeddings.NLI.Vanilla.data_loader import load_hans
-from Generate_Embeddings.NLI.Vanilla.data_loader import load_snli
+
+from data_loader import load_mnli, load_hans, load_snli
+
+# from Generate_Embeddings.NLI.Vanilla.data_loader import load_mnli
+# from Generate_Embeddings.NLI.Vanilla.data_loader import load_hans
+# from Generate_Embeddings.NLI.Vanilla.data_loader import load_snli
 from torch.utils.data import random_split
 
 MAX_LEN = 512
