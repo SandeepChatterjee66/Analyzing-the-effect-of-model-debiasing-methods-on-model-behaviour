@@ -28,8 +28,12 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoConfig, AutoModelForTokenClassification, AutoModel, BertPreTrainedModel
 from torch import cuda
 from torch.utils.data import ConcatDataset
-from Generate_Embeddings.Paraphrase_identification.Feature_sieve.data_loader import load_qqp
-from Generate_Embeddings.Paraphrase_identification.Feature_sieve.data_loader import load_paws
+
+from data_loader import load_qqp
+from data_loader import load_paws
+
+# from Generate_Embeddings.Paraphrase_identification.Feature_sieve.data_loader import load_qqp
+# from Generate_Embeddings.Paraphrase_identification.Feature_sieve.data_loader import load_paws
 
 input_path = './'
 input_model_path = './best_model'
